@@ -7,8 +7,8 @@ const USERS: User[] = [
     { 
         id: 1, 
         name: 'André', 
-        // Referência visual: Homem negro, cabelo cacheado, estilo urbano (Baco Exu do Blues vibe)
-        avatar: 'https://images.unsplash.com/photo-1618077360395-f3068be8e001?q=80&w=200&auto=format&fit=crop' 
+        // Referência visual: Homem negro, cabelo cacheado, estilo urbano
+        avatar: 'https://images.unsplash.com/photo-1531384441138-2736e62e0919?q=80&w=200&auto=format&fit=crop' 
     },
     { 
         id: 2, 
@@ -22,9 +22,9 @@ export const getUsers = (): User[] => {
     return USERS;
 };
 
-// Changed key to v10 to force a reset and clear old items
+// Changed key to v12 to force a reset and clear old items
 export const getUserData = (userId: number): UserData | null => {
-    const data = localStorage.getItem(`userData_v10_${userId}`);
+    const data = localStorage.getItem(`userData_v12_${userId}`);
     if (!data) return null;
     
     try {
@@ -37,7 +37,7 @@ export const getUserData = (userId: number): UserData | null => {
 
 export const saveUserData = (userId: number, data: UserData): void => {
     try {
-        localStorage.setItem(`userData_v10_${userId}`, JSON.stringify(data));
+        localStorage.setItem(`userData_v12_${userId}`, JSON.stringify(data));
     } catch (error) {
         console.error(`Erro ao salvar dados do usuário ${userId}:`, error);
     }
