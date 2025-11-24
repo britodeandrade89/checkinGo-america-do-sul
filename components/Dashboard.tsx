@@ -1,11 +1,11 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { Itinerary } from '../types';
 import Destinations from './Destinations';
 import ItineraryDetailsModal from './ItineraryDetailsModal';
 import AiAssistant from './AiAssistant';
 import MyTrips from './MyTrips';
-import { CompassIcon, BookOpenIcon, SparklesIcon, DownloadIcon, LogoIcon, LogoutIcon } from './icons';
+import { CompassIcon, BookOpenIcon, SparklesIcon, DownloadIcon, LogoIcon, LogoutIcon, BellIcon, SearchIcon } from './icons';
 import { useAuth } from '../contexts/AuthContext';
 
 interface DashboardProps {
@@ -13,168 +13,165 @@ interface DashboardProps {
   onInstallSuccess: () => void;
 }
 
-const pageTitles = {
-    destinations: {
-        icon: <LogoIcon className="h-12 w-12 mx-auto" />,
-        title: "Explorar Roteiros",
-        subtitle: "Inspire-se com nossos roteiros e veja uma estimativa de custos com base nas suas passagens salvas."
-    },
-    itineraries: {
-        icon: <LogoIcon className="h-12 w-12 mx-auto" />,
-        title: "Minhas Viagens",
-        subtitle: "Aqui estão todas as suas viagens, agrupadas por destino para facilitar o planejamento."
-    },
-    'ai-assistant': {
-        icon: <LogoIcon className="h-12 w-12 mx-auto" />,
-        title: "Assistente de Viagem IA",
-        subtitle: "Peça roteiros, dicas de preços, hotéis, distâncias e o que mais sua imaginação permitir."
-    }
-};
-
 const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSuccess }) => {
     const { currentUser, logout } = useAuth();
-    const [activeTab, setActiveTab] = useState<'itineraries' | 'destinations' | 'ai-assistant'>('destinations');
+    const [activeTab, setActiveTab] = useState<'home' | 'assistant'>('home');
+    const [isScrolled, setIsScrolled] = useState(false);
     const [selectedItinerary, setSelectedItinerary] = useState<Itinerary | null>(null);
 
-    const currentTitle = pageTitles[activeTab];
+    // Efeito para navbar mudar de cor ao rolar (igual Netflix)
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Hero Content dinâmico (simulado)
+    const heroContent = {
+        title: "Foz do Iguaçu",
+        subtitle: "Uma das 7 maravilhas naturais do mundo espera por você.",
+        image: "https://images.unsplash.com/photo-1583409608604-d7c37d87ccf2?q=80&w=1920&auto=format&fit=crop",
+        match: "98% de Match"
+    };
 
     const handleInstallClick = () => {
-        if (!installPromptEvent) {
-            return;
-        }
+        if (!installPromptEvent) return;
         installPromptEvent.prompt();
         installPromptEvent.userChoice.then(choiceResult => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('Usuário aceitou a instalação');
-                onInstallSuccess();
-            } else {
-                console.log('Usuário recusou a instalação');
-            }
+            if (choiceResult.outcome === 'accepted') onInstallSuccess();
         });
     };
 
-    const renderContent = () => {
-        switch (activeTab) {
-            case 'destinations':
-                return <Destinations />;
-            case 'ai-assistant':
-                return <AiAssistant />;
-            case 'itineraries':
-            default:
-                return <MyTrips onSelectItinerary={setSelectedItinerary} />;
-        }
-    };
-
-    const TabButton: React.FC<{ tabName: 'itineraries' | 'destinations' | 'ai-assistant'; label: string; icon: React.ReactNode }> = ({ tabName, label, icon }) => (
-        <button
-            onClick={() => setActiveTab(tabName)}
-            className={`flex-1 lg:flex-initial flex justify-center items-center space-x-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 text-sm ${
-                activeTab === tabName
-                    ? 'bg-white text-blue-800 shadow-lg'
-                    : 'text-white hover:bg-white/30'
-            }`}
-        >
-            {icon}
-            <span className="hidden sm:inline">{label}</span>
-        </button>
-    );
-    
-    const MobileTabButton: React.FC<{ tabName: 'itineraries' | 'destinations' | 'ai-assistant'; label: string; icon: React.ReactNode }> = ({ tabName, label, icon }) => (
-        <button
-            onClick={() => setActiveTab(tabName)}
-            className={`flex-1 flex flex-col items-center space-y-1 py-2 rounded-lg font-semibold transition-all duration-300 text-xs ${
-                activeTab === tabName
-                    ? 'bg-white text-blue-800 shadow-lg'
-                    : 'text-white hover:bg-white/30'
-            }`}
-        >
-            {icon}
-            <span>{label}</span>
-        </button>
-    );
-
     return (
-        <div className="bg-slate-50 min-h-screen flex flex-col">
-            <div className="flex-grow">
-                <div className="bg-gradient-to-b from-blue-800 via-blue-500 to-slate-50 pb-20 relative overflow-hidden">
-                    {/* Cloud Shapes */}
-                    <div className="absolute -top-10 -left-20 w-80 h-80 bg-white/5 rounded-full filter blur-3xl opacity-50"></div>
-                    <div className="absolute -bottom-20 -right-10 w-96 h-96 bg-white/5 rounded-full filter blur-3xl opacity-40"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full filter blur-3xl opacity-20"></div>
+        <div className="bg-[#141414] min-h-screen font-sans text-white selection:bg-red-600 selection:text-white">
+            {/* Navbar Fixa */}
+            <nav className={`fixed top-0 w-full z-50 transition-all duration-500 px-4 md:px-12 py-4 flex items-center justify-between ${isScrolled ? 'bg-[#141414]' : 'bg-gradient-to-b from-black/80 to-transparent'}`}>
+                <div className="flex items-center space-x-8">
+                    <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setActiveTab('home')}>
+                        <LogoIcon className="h-8 w-8" />
+                        <span className="text-xl font-extrabold tracking-tight hidden md:block">Check-in,<span className="text-lime-400">GO!</span></span>
+                    </div>
+                    <div className="hidden md:flex space-x-6 text-sm font-medium text-gray-300">
+                        <button onClick={() => setActiveTab('home')} className={`hover:text-white transition ${activeTab === 'home' ? 'text-white font-bold' : ''}`}>Início</button>
+                        <button onClick={() => setActiveTab('assistant')} className={`hover:text-white transition ${activeTab === 'assistant' ? 'text-white font-bold' : ''}`}>Assistente IA</button>
+                        <button className="hover:text-white transition">Minha Lista</button>
+                    </div>
+                </div>
 
-                    <div className="relative z-10">
-                        <header className="bg-transparent sticky top-0 z-20">
-                           <nav className="px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-                                {/* Branding Area */}
-                                <div className="flex items-center space-x-3">
-                                    <LogoIcon className="h-12 w-auto" />
-                                    <div className="hidden sm:block">
-                                        <h1 className="text-2xl font-extrabold text-white drop-shadow-lg">
-                                            Check-in,<span className="text-lime-400">GO!</span>
-                                        </h1>
-                                        <p className="text-xs text-white/80 -mt-1">Olá, {currentUser?.name}!</p>
-                                    </div>
-                                </div>
-                                
-                                {/* Tabs in the middle for larger screens */}
-                                <div className="hidden lg:flex items-stretch space-x-1 bg-black/10 p-1 rounded-xl shadow-inner backdrop-blur-sm">
-                                    <TabButton tabName="destinations" label="Explorar Roteiros" icon={<CompassIcon className="h-5 w-5" />} />
-                                    <TabButton tabName="itineraries" label="Minhas Viagens" icon={<BookOpenIcon className="h-5 w-5" />} />
-                                    <TabButton tabName="ai-assistant" label="Assistente IA" icon={<SparklesIcon className="h-5 w-5" />} />
-                                </div>
+                <div className="flex items-center space-x-6 text-gray-300">
+                    <button className="hover:text-white"><SearchIcon className="h-6 w-6" /></button>
+                    <button className="hover:text-white hidden sm:block"><BellIcon className="h-6 w-6" /></button>
+                    
+                    {installPromptEvent && (
+                        <button onClick={handleInstallClick} className="hover:text-white" title="Instalar App">
+                            <DownloadIcon className="h-6 w-6" />
+                        </button>
+                    )}
 
-                                {/* Controls on the right */}
-                                <div className="flex items-center space-x-2">
-                                    {installPromptEvent && (
-                                        <button
-                                            onClick={handleInstallClick}
-                                            className="flex items-center justify-center space-x-2 px-3 py-2 rounded-xl font-semibold transition-all text-sm bg-white/90 text-slate-800 hover:bg-white hover:shadow-lg hover:scale-105"
-                                        >
-                                            <DownloadIcon className="h-5 w-5" />
-                                            <span className="hidden md:inline">Instalar</span>
-                                        </button>
-                                    )}
-                                    <button
-                                        onClick={logout}
-                                        className="flex items-center justify-center space-x-2 px-3 py-2 rounded-xl font-semibold transition-all text-sm bg-red-500/80 text-white hover:bg-red-500 hover:shadow-lg hover:scale-105"
-                                    >
-                                        <LogoutIcon className="h-5 w-5" />
-                                        <span className="hidden md:inline">Sair</span>
-                                    </button>
-                                </div>
-                            </nav>
-
-                             {/* Tabs below for smaller screens */}
-                            <div className="lg:hidden px-4 mt-4">
-                                <div className="flex items-stretch space-x-1 bg-black/10 p-1 rounded-xl shadow-inner backdrop-blur-sm">
-                                    <MobileTabButton tabName="destinations" label="Explorar" icon={<CompassIcon className="h-5 w-5 mx-auto"/>} />
-                                    <MobileTabButton tabName="itineraries" label="Viagens" icon={<BookOpenIcon className="h-5 w-5 mx-auto"/>} />
-                                    <MobileTabButton tabName="ai-assistant" label="Assistente" icon={<SparklesIcon className="h-5 w-5 mx-auto"/>} />
-                                </div>
-                            </div>
-                        </header>
-                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-8 text-center text-white">
-                            {currentTitle.icon}
-                            <h2 className="text-4xl font-extrabold mt-4">{currentTitle.title}</h2>
-                            <p 
-                                className="max-w-2xl mx-auto mt-2 text-lg font-medium" 
-                                style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}
-                            >
-                                {currentTitle.subtitle}
-                            </p>
+                    <div className="flex items-center space-x-2 cursor-pointer group relative">
+                        <img 
+                            src={currentUser?.avatar} 
+                            alt="Perfil" 
+                            className="h-8 w-8 rounded-md border border-transparent group-hover:border-white transition-all"
+                        />
+                        <div className="absolute right-0 top-8 w-32 bg-black/90 border border-gray-700 rounded shadow-xl py-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity">
+                            <button onClick={logout} className="flex items-center w-full px-4 py-2 text-sm hover:underline text-gray-300 hover:text-white">
+                                <LogoutIcon className="h-4 w-4 mr-2" /> Sair
+                            </button>
                         </div>
                     </div>
                 </div>
-                
-                <main className="container mx-auto p-4 sm:p-6 lg:p-8 -mt-16">
-                   {renderContent()}
-                </main>
-            </div>
+            </nav>
+
+            {/* Conteúdo Principal */}
+            {activeTab === 'home' ? (
+                <>
+                    {/* Hero Section */}
+                    <div className="relative h-[85vh] w-full">
+                        {/* Imagem de Fundo */}
+                        <div className="absolute inset-0">
+                            <img 
+                                src={heroContent.image} 
+                                alt="Hero Background" 
+                                className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-transparent to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent"></div>
+                        </div>
+
+                        {/* Conteúdo do Hero */}
+                        <div className="absolute bottom-0 left-0 w-full p-4 md:p-12 pb-24 md:pb-32 space-y-4 max-w-2xl">
+                            <h1 className="text-5xl md:text-7xl font-black text-white drop-shadow-2xl leading-tight">
+                                {heroContent.title}
+                            </h1>
+                            <div className="flex items-center space-x-4 text-sm md:text-base font-semibold">
+                                <span className="text-green-400">{heroContent.match}</span>
+                                <span className="text-gray-300">2026</span>
+                                <span className="border border-gray-500 px-1 rounded text-xs text-gray-300">HD</span>
+                                <span className="text-gray-300">Aventura • Natureza</span>
+                            </div>
+                            <p className="text-gray-200 text-lg md:text-xl drop-shadow-md line-clamp-3">
+                                {heroContent.subtitle} Prepare-se para uma jornada inesquecível pelas cataratas, parques e fronteiras. O roteiro perfeito para começar o ano.
+                            </p>
+                            
+                            <div className="flex items-center space-x-4 mt-6">
+                                <button className="flex items-center bg-white text-black px-6 md:px-8 py-2 md:py-3 rounded font-bold hover:bg-opacity-80 transition">
+                                    <svg className="h-6 w-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    Continuar Planejamento
+                                </button>
+                                <button className="flex items-center bg-gray-500/70 text-white px-6 md:px-8 py-2 md:py-3 rounded font-bold hover:bg-gray-500/50 transition backdrop-blur-sm">
+                                    <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    Mais Informações
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Rails de Conteúdo (Deslocado para cima para sobrepor o gradiente) */}
+                    <div className="relative z-10 -mt-20 space-y-12 pb-20 px-4 md:px-12">
+                        {/* Rail 1: Explorar Roteiros (Dashboard antigo) */}
+                        <section>
+                            <h3 className="text-xl md:text-2xl font-semibold text-gray-100 mb-4 hover:text-white cursor-pointer flex items-center group">
+                                Explorar Roteiros Disponíveis 
+                                <span className="hidden group-hover:inline-block ml-2 text-sm text-cyan-400 opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 group-hover:translate-x-2">Ver tudo &gt;</span>
+                            </h3>
+                            <Destinations />
+                        </section>
+
+                        {/* Rail 2: Minhas Viagens (Itens Salvos) */}
+                        <section>
+                            <h3 className="text-xl md:text-2xl font-semibold text-gray-100 mb-4">Minha Lista de Viagens</h3>
+                            <MyTrips onSelectItinerary={setSelectedItinerary} />
+                        </section>
+                    </div>
+                </>
+            ) : (
+                <div className="pt-24 px-4 md:px-12 pb-12 min-h-screen">
+                    <h2 className="text-3xl font-bold mb-8">Assistente de Viagem IA</h2>
+                    <AiAssistant />
+                </div>
+            )}
             
-            <footer className="w-full text-center p-4 bg-slate-100 border-t border-slate-200 text-xs text-slate-500 space-y-1 flex-shrink-0">
-                <p>Todos os direitos reservados a André Brito &reg;</p>
-                <p>Desenvolvido por: André Brito</p>
-                <p>Versão 1.0</p>
+            {/* Footer estilo Netflix */}
+            <footer className="max-w-5xl mx-auto py-12 px-4 text-gray-500 text-sm">
+                <div className="flex items-center space-x-4 mb-6">
+                    <div className="text-2xl text-gray-400"><i className="fab fa-facebook-f"></i></div>
+                    <div className="text-2xl text-gray-400"><i className="fab fa-instagram"></i></div>
+                    <div className="text-2xl text-gray-400"><i className="fab fa-twitter"></i></div>
+                    <div className="text-2xl text-gray-400"><i className="fab fa-youtube"></i></div>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <a href="#" className="hover:underline">Sobre o Check-in, GO!</a>
+                    <a href="#" className="hover:underline">Central de Ajuda</a>
+                    <a href="#" className="hover:underline">Termos de Uso</a>
+                    <a href="#" className="hover:underline">Privacidade</a>
+                </div>
+                <button className="border border-gray-500 px-4 py-1 text-gray-400 hover:text-white mb-4 text-xs">
+                    Código do Serviço
+                </button>
+                <p>&copy; 2025 Check-in, GO! Inc. - Desenvolvido por André Brito</p>
             </footer>
 
             <ItineraryDetailsModal itinerary={selectedItinerary} onClose={() => setSelectedItinerary(null)} />

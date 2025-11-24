@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { Destination, AccommodationOption } from './types';
 import { 
@@ -11,11 +12,13 @@ export const destinations: Destination[] = [
     {
         id: 41,
         title: "Opção 1: Rota via Assunção",
-        category: "Mochilão",
+        category: "Mochilão América do Sul",
         places: ['Rio', 'Foz', 'Assunção', 'Buenos Aires'],
         description: 'Roteiro completo passando pelo Paraguai na ida.',
         themeColor: '#0ea5e9', // Sky Blue
         icon: React.createElement(ParaguayFlagIcon),
+        // Imagem de Assunção/Pantheon
+        imageUrl: 'https://images.unsplash.com/photo-1622186636766-3652d884b86d?q=80&w=1920&auto=format&fit=crop', 
         carTrips: [],
         accommodations: [],
         additionalCosts: [
@@ -27,11 +30,13 @@ export const destinations: Destination[] = [
     {
         id: 42,
         title: "Opção 2: Rota Direta (Iguazú)",
-        category: "Mochilão",
+        category: "Mochilão América do Sul",
         places: ['Rio', 'Foz', 'Puerto Iguazú', 'Buenos Aires'],
         description: 'Roteiro focado em Argentina via Puerto Iguazú.',
         themeColor: '#eab308', // Yellow
         icon: React.createElement(TripleFrontierIcon),
+        // Imagem das Cataratas
+        imageUrl: 'https://images.unsplash.com/photo-1583409608604-d7c37d87ccf2?q=80&w=1920&auto=format&fit=crop',
         carTrips: [],
         accommodations: [],
         additionalCosts: [

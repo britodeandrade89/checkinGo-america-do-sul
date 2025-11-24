@@ -29,6 +29,7 @@ export interface User {
   id: number;
   name: string;
   avatar: string;
+  pin?: string; // Added PIN for login simulation
 }
 
 export interface UserData {
@@ -165,6 +166,7 @@ export interface Destination {
   description: string;
   themeColor: string;
   icon: React.ReactElement;
+  imageUrl?: string; // Added for Netflix-style cards
   carTrips?: CarTripLeg[];
   // START: Added properties to support detailed trip planning within MyTrips.
   accommodations?: AccommodationOption[];
@@ -258,7 +260,7 @@ export interface BestTripCombination {
 }
 
 export interface GroupedTrip {
-    destination: Destination | { title: string; themeColor?: string, icon?: React.ReactElement };
+    destination: Destination | { title: string; themeColor?: string, icon?: React.ReactElement, imageUrl?: string };
     itineraries: Itinerary[];
     carTrips?: CarTripLeg[];
 }
