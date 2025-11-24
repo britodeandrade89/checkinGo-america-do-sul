@@ -12,8 +12,9 @@ export const getUsers = (): User[] => {
     return USERS;
 };
 
+// Changed key to v4 to force a reset and remove old Paraty data from local storage
 export const getUserData = (userId: number): UserData | null => {
-    const data = localStorage.getItem(`userData_${userId}`);
+    const data = localStorage.getItem(`userData_v4_${userId}`);
     if (!data) return null;
     
     try {
@@ -26,7 +27,7 @@ export const getUserData = (userId: number): UserData | null => {
 
 export const saveUserData = (userId: number, data: UserData): void => {
     try {
-        localStorage.setItem(`userData_${userId}`, JSON.stringify(data));
+        localStorage.setItem(`userData_v4_${userId}`, JSON.stringify(data));
     } catch (error) {
         console.error(`Erro ao salvar dados do usuário ${userId}:`, error);
     }

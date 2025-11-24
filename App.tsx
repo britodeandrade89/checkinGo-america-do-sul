@@ -31,7 +31,7 @@ const AppContent: React.FC = () => {
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
+      const registerSW = () => {
         // A robust way to construct the service worker URL to avoid cross-origin issues in sandboxed environments.
         const swPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + 'sw.js';
         const swUrl = new URL(swPath, window.location.origin).href;
@@ -41,9 +41,17 @@ const AppContent: React.FC = () => {
             console.log('Service Worker registered with scope:', registration.scope);
           })
           .catch(err => {
-            console.error('Falha no registro do Service Worker:', err);
+            // Em ambientes de desenvolvimento ou iframes, o SW pode falhar. Logamos como aviso.
+            console.warn('Falha no registro do Service Worker (pode ser ignorado em ambiente de desenvolvimento):', err);
           });
-      });
+      };
+
+      if (document.readyState === 'complete') {
+        registerSW();
+      } else {
+        window.addEventListener('load', registerSW);
+        return () => window.removeEventListener('load', registerSW);
+      }
     }
   }, []);
 

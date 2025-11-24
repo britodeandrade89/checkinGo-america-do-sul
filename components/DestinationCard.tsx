@@ -1,3 +1,4 @@
+
 import React from 'react';
 // FIX: Changed import to pull TripOption and BestTripCombination from the centralized types file, resolving the module export error.
 import type { Destination, Itinerary, AccommodationOption, TripOption, BestTripCombination } from '../types';
@@ -118,7 +119,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, tripOpti
                 </div>
               </div>
             ))
-          ) : carTrips ? (
+          ) : carTrips && carTrips.length > 0 ? (
             <div>
               <div className="flex items-center text-sm text-slate-600 font-semibold mb-2">
                 <CarIcon className="h-4 w-4 mr-2 flex-shrink-0 text-[var(--theme-color)]" />

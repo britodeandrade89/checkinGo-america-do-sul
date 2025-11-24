@@ -16,6 +16,7 @@ import {
     ZupperLogoIcon,
     KiwiLogoIcon,
     FlybondiLogoIcon,
+    JetSmartLogoIcon,
 } from './components/icons';
 
 export const initialItineraries: Itinerary[] = [
@@ -86,6 +87,37 @@ export const initialItineraries: Itinerary[] = [
     }
   },
   {
+    id: 107,
+    title: 'JetSmart: Buenos Aires → Rio (Opção 13/Jan)',
+    subtitle: 'Mochilão Volta · Pack SMART (Bagagem Inclusa)',
+    savedDate: '2024-05-21 16:00',
+    totalPrice: 1406.46,
+    sourceUrl: 'https://booking.jetsmart.com/V2/Flight',
+    events: [
+        {
+            type: 'flight',
+            startTime: '12:54',
+            endTime: '15:50',
+            startDate: '13/01/2026',
+            endDate: '13/01/2026',
+            startLocation: 'EZE',
+            endLocation: 'GIG',
+            duration: '2h 56m',
+            details: 'Voo JetSmart · Pack SMART',
+            company: { name: 'JetSmart', logo: React.createElement(JetSmartLogoIcon) },
+            warning: 'Saída de Ezeiza (EZE)'
+        }
+    ],
+    baggage: {
+        personal: { status: 'Inclusa', details: 'Item pessoal (10kg)' },
+        carryOn: { status: 'Inclusa', details: 'Bagagem de mão inclusa' },
+        checked: { status: 'Inclusa', details: 'Bagagem despachada (23kg)' }
+    },
+    monitoring: {
+        enabled: false
+    }
+  },
+  {
     id: 103,
     title: 'Flybondi: Buenos Aires → Rio (André)',
     subtitle: 'Mochilão Volta (Opção 1 - 17/Jan) · Apenas Mochila',
@@ -148,81 +180,65 @@ export const initialItineraries: Itinerary[] = [
     }
   },
   {
-    id: 28,
-    title: 'Pousada Sakura Rio Mar',
-    subtitle: '2 diárias em Ilha Grande (Abraão)',
-    savedDate: '2024-07-29 21:00',
-    totalPrice: 648.00,
-    sourceUrl: 'https://www.booking.com/hotel/br/bella-tulip.pt-br.html',
+    id: 105,
+    title: 'JetSmart: Buenos Aires → Rio (Opção 21/Jan)',
+    subtitle: 'Mochilão Volta · Tarifa Base',
+    savedDate: '2024-05-21 15:30',
+    totalPrice: 645.00,
+    sourceUrl: 'https://jetsmart.com/br/pt/',
     events: [
         {
-            type: 'accommodation',
-            startTime: '14:00',
-            endTime: '12:00',
-            startDate: '20/12/2025',
-            endDate: '22/12/2025',
-            startLocation: 'Ilha Grande',
-            endLocation: 'Pousada Sakura Rio Mar',
-            duration: '2 noites',
-            details: '2 adultos',
-            company: { name: 'Booking.com', logo: React.createElement(BookingLogoIcon) },
+            type: 'flight',
+            startTime: '11:15',
+            endTime: '14:25',
+            startDate: '21/01/2026',
+            endDate: '21/01/2026',
+            startLocation: 'AEP',
+            endLocation: 'GIG',
+            duration: '3h 10m',
+            details: 'Voo JetSmart (Cotação)',
+            company: { name: 'JetSmart', logo: React.createElement(JetSmartLogoIcon) },
+            warning: 'Bagagem não inclusa (Preço não informado)'
         }
-    ]
+    ],
+    baggage: {
+        personal: { status: 'Inclusa', details: 'Mochila pequena' },
+        carryOn: { status: 'Taxa Adicional', details: 'Preço sob consulta' },
+        checked: { status: 'Taxa Adicional', details: 'Preço sob consulta' }
+    },
+    monitoring: {
+        enabled: false
+    }
   },
   {
-    id: 27,
-    title: 'CCR Barcas: Mangaratiba → Ilha Grande',
-    subtitle: 'Passagem só de ida',
-    savedDate: '2024-07-28 12:00',
-    totalPrice: 20.50,
-    sourceUrl: 'http://barcasrio.com.br/linhas_horarios/mangaratiba-ilha-grande/',
+    id: 106,
+    title: 'JetSmart: Buenos Aires → Rio (Opção 28/Jan)',
+    subtitle: 'Mochilão Volta · Tarifa Base (Mais Barato)',
+    savedDate: '2024-05-21 15:35',
+    totalPrice: 590.00,
+    sourceUrl: 'https://jetsmart.com/br/pt/',
     events: [
-      {
-        type: 'ship',
-        startTime: '08:00',
-        endTime: '09:50',
-        startDate: '20/12',
-        endDate: '20/12',
-        startLocation: 'Porto de Mangaratiba',
-        endLocation: 'Vila do Abraão, Ilha Grande',
-        duration: '1h 50m',
-        details: 'Operando normalmente',
-        company: { name: 'CCR Barcas', logo: React.createElement(CCRBarcasLogoIcon) },
-      }
-    ]
-  },
-  {
-    id: 26,
-    title: 'ClickBus: Rio de Janeiro → Paraty',
-    subtitle: 'Ida e Volta · Semi-Leito · 1 passageiro',
-    savedDate: '2024-07-28 10:00',
-    totalPrice: 215.80,
-    sourceUrl: 'https://www.clickbus.com.br/',
-    events: [
-      {
-        type: 'bus',
-        startTime: '08:00',
-        endTime: '12:30',
-        startDate: '20/12',
-        endDate: '20/12',
-        startLocation: 'Rodoviária Novo Rio',
-        endLocation: 'Rodoviária de Paraty',
-        duration: '4h 30m',
-        details: 'Viação Costa Verde',
-        company: { name: 'ClickBus', logo: React.createElement(ClickBusLogoIcon, { className: "h-8 w-auto" }) },
-      },
-      {
-        type: 'bus',
-        startTime: '14:00',
-        endTime: '18:30',
-        startDate: '24/12',
-        endDate: '24/12',
-        startLocation: 'Rodoviária de Paraty',
-        endLocation: 'Rodoviária Novo Rio',
-        duration: '4h 30m',
-        details: 'Viação Costa Verde',
-        company: { name: 'ClickBus', logo: React.createElement(ClickBusLogoIcon, { className: "h-8 w-auto" }) },
-      }
-    ]
+        {
+            type: 'flight',
+            startTime: '06:30',
+            endTime: '09:40',
+            startDate: '28/01/2026',
+            endDate: '28/01/2026',
+            startLocation: 'AEP',
+            endLocation: 'GIG',
+            duration: '3h 10m',
+            details: 'Voo JetSmart (Cotação)',
+            company: { name: 'JetSmart', logo: React.createElement(JetSmartLogoIcon) },
+            warning: 'Bagagem não inclusa (Preço não informado)'
+        }
+    ],
+    baggage: {
+        personal: { status: 'Inclusa', details: 'Mochila pequena' },
+        carryOn: { status: 'Taxa Adicional', details: 'Preço sob consulta' },
+        checked: { status: 'Taxa Adicional', details: 'Preço sob consulta' }
+    },
+    monitoring: {
+        enabled: false
+    }
   }
 ];
