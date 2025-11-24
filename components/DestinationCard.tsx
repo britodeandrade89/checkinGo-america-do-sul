@@ -20,20 +20,20 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, totalCos
     >
       {/* Header with theme color and icon */}
       <div 
-        className="p-5 relative text-white" 
+        className="p-4 relative text-white" 
         style={{ backgroundColor: themeColor }}
       >
         <div className="absolute top-2 right-2 text-white/20 transform-gpu group-hover:scale-110 transition-transform duration-300">
-          {React.cloneElement(icon, { className: 'h-24 w-24' })}
+          {React.cloneElement(icon, { className: 'h-20 w-20' })}
         </div>
         <h3 className="text-xl font-bold relative z-10 drop-shadow-sm flex items-baseline">
           <span>{destination.title}</span>
         </h3>
-        <p className="text-sm text-white/90 relative z-10 mt-1 h-10 drop-shadow-sm">{destination.description}</p>
+        <p className="text-sm text-white/90 relative z-10 mt-1 drop-shadow-sm">{destination.description}</p>
       </div>
 
       {/* Body with trip summary */}
-      <div className="p-5 flex-grow flex flex-col justify-center">
+      <div className="p-4 flex-grow flex flex-col justify-center">
         {totalCost > 0 ? (
           <div>
             <div className="flex justify-between items-baseline">

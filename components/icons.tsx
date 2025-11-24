@@ -469,11 +469,11 @@ export const MuseumIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
 
 export const ParaguayFlagIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg viewBox="0 0 90 60" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <rect width="90" height="60" fill="#d52b1e"/>
-      <rect width="90" height="40" fill="#ffffff"/>
-      <rect width="90" height="20" fill="#0038a8"/>
-    </svg>
+  <svg viewBox="0 0 90 60" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path d="M0 0 H 90 V 60 H 0 Z" stroke="currentColor" strokeWidth="4" />
+    <path d="M0 20 H 90" stroke="currentColor" strokeWidth="2" />
+    <path d="M0 40 H 90" stroke="currentColor" strokeWidth="2" />
+  </svg>
 );
 
 export const TripleFrontierIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (

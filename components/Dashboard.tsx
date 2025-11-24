@@ -75,6 +75,20 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
             }`}
         >
             {icon}
+            <span className="hidden sm:inline">{label}</span>
+        </button>
+    );
+    
+    const MobileTabButton: React.FC<{ tabName: 'itineraries' | 'destinations' | 'ai-assistant'; label: string; icon: React.ReactNode }> = ({ tabName, label, icon }) => (
+        <button
+            onClick={() => setActiveTab(tabName)}
+            className={`flex-1 flex flex-col items-center space-y-1 py-2 rounded-lg font-semibold transition-all duration-300 text-xs ${
+                activeTab === tabName
+                    ? 'bg-white text-blue-800 shadow-lg'
+                    : 'text-white hover:bg-white/30'
+            }`}
+        >
+            {icon}
             <span>{label}</span>
         </button>
     );
@@ -90,45 +104,54 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
 
                     <div className="relative z-10">
                         <header className="bg-transparent sticky top-0 z-20">
-                            <nav className="px-4 sm:px-6 lg:px-8 py-3 flex flex-col lg:flex-row lg:justify-between lg:items-center">
+                           <nav className="px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
                                 {/* Branding Area */}
-                                <div className="flex flex-col lg:flex-row items-center lg:space-x-3">
-                                    <LogoIcon className="h-16 w-auto lg:h-12" />
-                                    <div className="text-center lg:text-left mt-2 lg:mt-0">
-                                        <h1 className="text-5xl lg:text-6xl font-extrabold text-white drop-shadow-lg">
+                                <div className="flex items-center space-x-3">
+                                    <LogoIcon className="h-12 w-auto" />
+                                    <div className="hidden sm:block">
+                                        <h1 className="text-2xl font-extrabold text-white drop-shadow-lg">
                                             Check-in,<span className="text-lime-400">GO!</span>
                                         </h1>
-                                        <p className="text-sm text-white/80 mt-1">Olá, {currentUser?.name}! Eu planejo, você clica, finaliza e viaja!</p>
+                                        <p className="text-xs text-white/80 -mt-1">Olá, {currentUser?.name}!</p>
                                     </div>
                                 </div>
                                 
-                                {/* Controls Area */}
-                                <div className="w-full lg:w-auto flex flex-col lg:flex-row items-center mt-6 lg:mt-0 lg:space-x-4">
-                                    <div className="w-full lg:w-auto flex items-stretch lg:items-center space-x-1 bg-black/10 p-1 rounded-xl shadow-inner backdrop-blur-sm">
-                                        <TabButton tabName="destinations" label="Explorar Roteiros" icon={<CompassIcon className="h-5 w-5" />} />
-                                        <TabButton tabName="itineraries" label="Minhas Viagens" icon={<BookOpenIcon className="h-5 w-5" />} />
-                                        <TabButton tabName="ai-assistant" label="Assistente IA" icon={<SparklesIcon className="h-5 w-5" />} />
-                                    </div>
-                                    <div className="flex items-center space-x-2 w-full lg:w-auto mt-4 lg:mt-0">
-                                        {installPromptEvent && (
-                                            <button
-                                                onClick={handleInstallClick}
-                                                className="w-full flex-1 lg:w-auto flex items-center justify-center space-x-2 px-4 py-2 rounded-xl font-semibold transition-all text-sm bg-white/90 text-slate-800 hover:bg-white hover:shadow-lg hover:scale-105"
-                                            >
-                                                <DownloadIcon className="h-5 w-5" />
-                                                <span>Instalar</span>
-                                            </button>
-                                        )}
+                                {/* Tabs in the middle for larger screens */}
+                                <div className="hidden lg:flex items-stretch space-x-1 bg-black/10 p-1 rounded-xl shadow-inner backdrop-blur-sm">
+                                    <TabButton tabName="destinations" label="Explorar Roteiros" icon={<CompassIcon className="h-5 w-5" />} />
+                                    <TabButton tabName="itineraries" label="Minhas Viagens" icon={<BookOpenIcon className="h-5 w-5" />} />
+                                    <TabButton tabName="ai-assistant" label="Assistente IA" icon={<SparklesIcon className="h-5 w-5" />} />
+                                </div>
+
+                                {/* Controls on the right */}
+                                <div className="flex items-center space-x-2">
+                                    {installPromptEvent && (
                                         <button
-                                            onClick={logout}
-                                            className="w-full flex-1 lg:w-auto flex items-center justify-center space-x-2 px-4 py-2 rounded-xl font-semibold transition-all text-sm bg-red-500/80 text-white hover:bg-red-500 hover:shadow-lg hover:scale-105"
+                                            onClick={handleInstallClick}
+                                            className="flex items-center justify-center space-x-2 px-3 py-2 rounded-xl font-semibold transition-all text-sm bg-white/90 text-slate-800 hover:bg-white hover:shadow-lg hover:scale-105"
                                         >
-                                            <LogoutIcon className="h-5 w-5" />
-                                            <span>Sair</span>
+                                            <DownloadIcon className="h-5 w-5" />
+                                            <span className="hidden md:inline">Instalar</span>
                                         </button>
-                                    </div>
+                                    )}
+                                    <button
+                                        onClick={logout}
+                                        className="flex items-center justify-center space-x-2 px-3 py-2 rounded-xl font-semibold transition-all text-sm bg-red-500/80 text-white hover:bg-red-500 hover:shadow-lg hover:scale-105"
+                                    >
+                                        <LogoutIcon className="h-5 w-5" />
+                                        <span className="hidden md:inline">Sair</span>
+                                    </button>
                                 </div>
                             </nav>
+
+                             {/* Tabs below for smaller screens */}
+                            <div className="lg:hidden px-4 mt-4">
+                                <div className="flex items-stretch space-x-1 bg-black/10 p-1 rounded-xl shadow-inner backdrop-blur-sm">
+                                    <MobileTabButton tabName="destinations" label="Explorar" icon={<CompassIcon className="h-5 w-5 mx-auto"/>} />
+                                    <MobileTabButton tabName="itineraries" label="Viagens" icon={<BookOpenIcon className="h-5 w-5 mx-auto"/>} />
+                                    <MobileTabButton tabName="ai-assistant" label="Assistente" icon={<SparklesIcon className="h-5 w-5 mx-auto"/>} />
+                                </div>
+                            </div>
                         </header>
                         <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-8 text-center text-white">
                             {currentTitle.icon}
