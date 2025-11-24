@@ -1,116 +1,95 @@
 import React from 'react';
-import type { AccommodationOption } from '../types';
+import type { DetailedRoute, CityItinerary, DayPlan, Activity, BudgetTips } from '../types';
 import { detailedRoutes } from '../detailedRotes';
 import { 
     CloseIcon, 
     ChevronLeftIcon, 
     ChevronRightIcon, 
-    MapPinIcon, 
-    StarIcon,
-    ThumbsUpIcon,
-    ThumbsDownIcon,
-    WifiIcon,
-    ExternalLinkIcon
+    AlertTriangleIcon,
 } from './icons';
 
-interface DetailedItineraryViewProps {
-  selection: { id: number; startDate: string | null } | null;
-  onClose: () => void;
-  onNavigate: (direction: 'next' | 'prev') => void;
-}
-
-const AccommodationCard: React.FC<{ option: AccommodationOption }> = ({ option }) => {
-
-    return (
-        <div className="bg-white/90 backdrop-blur-md rounded-xl shadow-lg border border-slate-200 overflow-hidden">
-            <div className="p-5">
-                {/* Accommodation Header (Name and Rating) */}
-                <div className="flex justify-between items-start mb-4">
-                    <div>
-                        <h4 className="text-xl font-bold text-slate-800">{option.name}</h4>
-                        <div className="flex items-center space-x-1 mt-1 text-slate-600">
-                            <StarIcon className="h-5 w-5 text-yellow-500" />
-                            <span className="font-semibold">{option.rating > 0 ? option.rating.toFixed(1) : 'Novo'}</span>
-                            {option.rating > 0 && <span className="text-sm">({option.rating >= 9 ? 'Fantástico' : 'Muito bom'})</span>}
+const BudgetTipsCard: React.FC<{ tips: BudgetTips }> = ({ tips }) => (
+    <div className="bg-slate-100/80 p-4 rounded-xl border border-slate-200 mt-6">
+        <h4 className="font-bold text-slate-700 mb-3 text-base">Dicas de Bolso</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <h5 className="font-semibold text-sm text-slate-600 mb-2">{tips.transport.title}</h5>
+                <div className="space-y-2 text-xs">
+                    {tips.transport.options.map((opt, i) => (
+                        <div key={i}>
+                            <p className="font-semibold text-slate-800">{opt.type}: <span className="font-normal">{opt.cost}</span></p>
+                            <p className="text-slate-500">{opt.details}</p>
                         </div>
-                    </div>
+                    ))}
                 </div>
-
-                <div className="flex justify-between items-center mb-4 pb-4 border-b border-slate-200">
-                    <div>
-                        <p className="text-2xl font-bold text-slate-800">
-                            R$ {option.pricePerNight.toLocaleString('pt-BR')}
-                            <span className="text-sm font-normal text-slate-500"> / noite</span>
-                        </p>
-                         <p className="text-sm text-slate-500">
-                            Total: <span className="font-semibold text-slate-700">R$ {option.totalPrice.toLocaleString('pt-BR')}</span> para {option.nights} noites
-                        </p>
-                    </div>
-                    <a href={option.bookingUrl} target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-lg hover:shadow-lg hover:scale-105 transition-all text-sm flex items-center space-x-2">
-                        <span>Ver Fotos e Reservar</span>
-                        <ExternalLinkIcon className="h-4 w-4" />
-                    </a>
+            </div>
+             <div>
+                <h5 className="font-semibold text-sm text-slate-600 mb-2">{tips.food.title}</h5>
+                <div className="space-y-2 text-xs">
+                    {tips.food.options.map((opt, i) => (
+                        <div key={i}>
+                            <p className="font-semibold text-slate-800">{opt.type}: <span className="font-normal">{opt.cost}</span></p>
+                            <p className="text-slate-500">{opt.details}</p>
+                        </div>
+                    ))}
                 </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                    {/* Pros */}
-                    <div>
-                        <h5 className="font-semibold text-slate-800 mb-2 flex items-center"><ThumbsUpIcon className="h-5 w-5 mr-2 text-green-500"/> Prós</h5>
-                        <ul className="space-y-1.5 list-disc list-inside text-sm text-slate-600">
-                            {option.pros.map((pro, i) => <li key={i}>{pro}</li>)}
-                        </ul>
-                    </div>
-                    {/* Cons */}
-                    <div>
-                        <h5 className="font-semibold text-slate-800 mb-2 flex items-center"><ThumbsDownIcon className="h-5 w-5 mr-2 text-red-500"/> Contras</h5>
-                         <ul className="space-y-1.5 list-disc list-inside text-sm text-slate-600">
-                            {option.cons.map((con, i) => <li key={i}>{con}</li>)}
-                        </ul>
-                    </div>
-                </div>
-
-                <div className="mt-4 pt-4 border-t border-slate-200">
-                     <h5 className="font-semibold text-slate-800 mb-2">Localização e Comodidades</h5>
-                     <div className="text-sm text-slate-600 space-y-2">
-                        <p className="flex items-center"><MapPinIcon className="h-4 w-4 mr-2 text-slate-400"/> {option.distanceToCenter}</p>
-                        <p className="flex items-center"><WifiIcon className="h-4 w-4 mr-2 text-slate-400"/> {option.amenities.join(' · ')}</p>
-                     </div>
-                </div>
-
             </div>
         </div>
-    );
-};
+        {tips.general && (
+            <div className="mt-4 pt-4 border-t border-slate-200/80">
+                 <h5 className="font-semibold text-sm text-slate-600 mb-2 flex items-center"><AlertTriangleIcon className="h-4 w-4 mr-2 text-amber-500" /> {tips.general.title}</h5>
+                 <ul className="space-y-1.5 list-disc list-inside text-xs text-slate-600">
+                    {tips.general.tips.map((tip, i) => <li key={i}>{tip}</li>)}
+                </ul>
+            </div>
+        )}
+    </div>
+);
 
-const DetailedItineraryView: React.FC<DetailedItineraryViewProps> = ({ selection, onClose, onNavigate }) => {
+
+const ActivityRow: React.FC<{ activity: Activity }> = ({ activity }) => (
+    <div className="flex items-start space-x-3">
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white flex items-center justify-center border border-slate-200 text-slate-500">
+            {React.cloneElement(activity.icon, { className: 'h-5 w-5' })}
+        </div>
+        <div className="flex-1">
+            <p className="text-sm text-slate-800">
+                <span className="font-semibold text-slate-500">{activity.period}:</span> {activity.description}
+                {activity.cost_level === 'Grátis' && (
+                    <span className="ml-2 text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-full">Grátis</span>
+                )}
+            </p>
+            {activity.tip && <p className="text-xs text-slate-500 mt-1">Dica: {activity.tip}</p>}
+        </div>
+    </div>
+);
+
+const DayCard: React.FC<{ dayPlan: DayPlan }> = ({ dayPlan }) => (
+    <div className="relative">
+        <div className="absolute -left-[42px] top-1 h-5 w-5 rounded-full bg-cyan-500 ring-8 ring-white"></div>
+        <p className="font-bold text-slate-700 text-lg">{dayPlan.title}
+            <span className="font-normal text-slate-500 text-sm ml-2">- {dayPlan.date}</span>
+        </p>
+        <div className="mt-3 space-y-3">
+            {dayPlan.activities.map((activity, actIndex) => (
+                <ActivityRow key={actIndex} activity={activity} />
+            ))}
+        </div>
+    </div>
+);
+
+
+const DetailedItineraryView: React.FC<{ 
+    selection: { id: number } | null; 
+    onClose: () => void; 
+    onNavigate: (direction: 'next' | 'prev') => void; 
+}> = ({ selection, onClose, onNavigate }) => {
   if (!selection) {
     return null;
   }
 
-  const { id: destinationId, startDate } = selection;
+  const { id: destinationId } = selection;
   const routeData = detailedRoutes[destinationId];
-
-  // Group accommodations by city
-  const groupedAccommodations = routeData.accommodations?.reduce((acc, option) => {
-    (acc[option.city] = acc[option.city] || []).push(option);
-    return acc;
-  }, {} as Record<string, AccommodationOption[]>) || {};
-
-  // Get chronological city order from itinerary
-  const cityOrder = routeData.itinerary?.map(plan => plan.city) || [];
-  
-  const getTripDate = (baseDateStr: string | null, dayOffset: number): string => {
-    if (!baseDateStr) return 'Data a definir';
-    
-    const [day, month] = baseDateStr.split('/').map(Number);
-    // As viagens de Dezembro são em 2025, e as de Janeiro em 2026, conforme o travel_period.
-    const year = (month === 12) ? 2025 : 2026;
-
-    const date = new Date(year, month - 1, day);
-    date.setDate(date.getDate() + dayOffset);
-    
-    return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-  };
 
   return (
     <>
@@ -149,51 +128,14 @@ const DetailedItineraryView: React.FC<DetailedItineraryViewProps> = ({ selection
                        <h3 className="text-2xl font-extrabold text-cyan-700">{cityPlan.city}</h3>
                        <span className="text-sm font-semibold text-slate-600 bg-slate-200 px-2 py-0.5 rounded">{cityPlan.duration}</span>
                     </div>
-                    <div className="space-y-6 border-l-2 border-slate-200 ml-3 pl-8">
+                    <div className="space-y-6 border-l-2 border-slate-200 ml-4 pl-8">
                       {cityPlan.days.map((dayPlan, dayIndex) => (
-                        <div key={dayIndex} className="relative">
-                          <div className="absolute -left-[38px] top-1 h-3 w-3 rounded-full bg-cyan-500 ring-4 ring-white"></div>
-                          <p className="font-bold text-slate-700">{dayPlan.title} <span className="font-normal text-slate-500 text-sm">- {getTripDate(startDate, dayPlan.day - 1)}</span></p>
-                          <ul className="mt-2 space-y-1.5 list-disc list-inside text-slate-600">
-                            {dayPlan.activities.map((activity, actIndex) => (
-                              <li key={actIndex}>{activity}</li>
-                            ))}
-                          </ul>
-                        </div>
+                        <DayCard key={dayIndex} dayPlan={dayPlan} />
                       ))}
                     </div>
+                    <BudgetTipsCard tips={cityPlan.budgetTips} />
                   </section>
                 ))}
-
-                {routeData.accommodations && routeData.accommodations.length > 0 && (
-                  <section>
-                    <div className="flex items-baseline space-x-3 mb-4">
-                       <h3 className="text-2xl font-extrabold text-slate-800">Opções de Hospedagem</h3>
-                    </div>
-                    <div className="space-y-8">
-                      {cityOrder.map(city => {
-                        const cityAccommodations = groupedAccommodations[city];
-                        if (!cityAccommodations || cityAccommodations.length === 0) return null;
-
-                        // Sort by price ascending
-                        const sortedAccommodations = [...cityAccommodations].sort((a, b) => a.pricePerNight - b.pricePerNight);
-
-                        return (
-                          <div key={city}>
-                            <h4 className="text-xl font-bold text-white mb-6 -mx-6 px-6 py-3 bg-gradient-to-r from-slate-700 to-slate-800 shadow-md sticky top-[73px] z-10">
-                                Hospedagem em <span className="text-cyan-400">{city}</span>
-                            </h4>
-                            <div className="space-y-6">
-                              {sortedAccommodations.map((option, index) => (
-                                <AccommodationCard key={`${city}-${index}`} option={option} />
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </section>
-                )}
               </>
             ) : (
               <p>Roteiro não encontrado.</p>

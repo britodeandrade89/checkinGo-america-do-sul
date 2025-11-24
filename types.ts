@@ -172,18 +172,49 @@ export interface Destination {
   // END: Added properties.
 }
 
-// START: Added interfaces for detailed day-by-day itineraries
+// START: Updated interfaces for detailed, rich day-by-day itineraries
+export interface Activity {
+  period: 'Manhã' | 'Tarde' | 'Noite' | 'Dia Inteiro' | 'Transporte';
+  description: string;
+  type: 'Passeio' | 'Transporte' | 'Alimentação' | 'Compras' | 'Hospedagem' | 'Dica';
+  cost_level: 'Grátis' | 'Baixo' | 'Médio' | 'Alto' | 'Incluso';
+  tip?: string;
+  icon: React.ReactElement;
+}
+
 export interface DayPlan {
   day: number;
-  date?: string;
+  date: string;
   title: string;
-  activities: string[];
+  activities: Activity[];
+}
+
+export interface BudgetTipOption {
+    type: string;
+    cost: string;
+    details: string;
+}
+
+export interface BudgetTips {
+    transport: {
+        title: string;
+        options: BudgetTipOption[];
+    };
+    food: {
+        title: string;
+        options: BudgetTipOption[];
+    };
+    general?: {
+        title: string;
+        tips: string[];
+    }
 }
 
 export interface CityItinerary {
   city: string;
   duration: string;
   days: DayPlan[];
+  budgetTips: BudgetTips;
 }
 
 export interface AccommodationOption {
@@ -204,9 +235,10 @@ export interface DetailedRoute {
   id: number;
   title: string;
   itinerary: CityItinerary[];
+  // FIX: Added optional 'accommodations' property to align the type with its usage in components and the data structure in detailedRotes.ts.
   accommodations?: AccommodationOption[];
 }
-// END: Added interfaces for detailed day-by-day itineraries
+// END: Updated interfaces
 
 // FIX: Added missing interfaces for trip combinations and grouped trips to resolve import errors and provide a single source of truth for these types.
 export interface TripOption {

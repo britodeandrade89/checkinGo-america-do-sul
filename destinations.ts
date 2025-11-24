@@ -1,12 +1,9 @@
-
 import React from 'react';
 import type { Destination, AccommodationOption } from './types';
 import { 
     SparklesIcon,
-    ParkingIcon,
-    RouteIcon,
-    MapPinIcon,
-    PlaneTakeoffIcon
+    ParaguayFlagIcon,
+    TripleFrontierIcon
 } from './components/icons';
 
 
@@ -18,7 +15,7 @@ export const destinations: Destination[] = [
         places: ['Rio', 'Foz', 'Assunção', 'Buenos Aires'],
         description: 'Roteiro completo passando pelo Paraguai na ida.',
         themeColor: '#0ea5e9', // Sky Blue
-        icon: React.createElement(RouteIcon),
+        icon: React.createElement(ParaguayFlagIcon),
         carTrips: [],
         accommodations: [],
         additionalCosts: [
@@ -34,7 +31,7 @@ export const destinations: Destination[] = [
         places: ['Rio', 'Foz', 'Puerto Iguazú', 'Buenos Aires'],
         description: 'Roteiro focado em Argentina via Puerto Iguazú.',
         themeColor: '#eab308', // Yellow
-        icon: React.createElement(PlaneTakeoffIcon),
+        icon: React.createElement(TripleFrontierIcon),
         carTrips: [],
         accommodations: [],
         additionalCosts: [
