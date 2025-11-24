@@ -56,6 +56,16 @@ const MyTrips: React.FC<MyTripsProps> = ({ onSelectItinerary }) => {
         alert("Erro com a Chave de API. Por favor, verifique se sua chave está configurada corretamente e atualize a página.");
     };
 
+    const handleToggleFavorite = (destinationId: number) => {
+        const updatedDestinations = destinations.map(dest => {
+            if (dest.id === destinationId) {
+                return { ...dest, isFavorite: !dest.isFavorite };
+            }
+            return dest;
+        });
+        updateUserData({ ...userData, destinations: updatedDestinations });
+    };
+
     const groupedTrips: { [key: string]: GroupedTrip } = {};
 
     // 1. Initialize groups from all destinations.
@@ -121,15 +131,21 @@ const MyTrips: React.FC<MyTripsProps> = ({ onSelectItinerary }) => {
                 onApiKeyError={handleApiKeyError}
             />
             <div className="space-y-4">
-                {finalTrips.map((trip, index) => (
-                    <DestinationTripCard 
-                        key={index}
-                        trip={trip}
-                        onSelectItinerary={onSelectItinerary}
-                        isExpanded={expandedIndex === index}
-                        onToggle={() => setExpandedIndex(expandedIndex === index ? null : index)}
-                    />
-                ))}
+                {finalTrips.map((trip, index) => {
+                    // Determine ID if it's a known destination type
+                    const destId = 'id' in trip.destination ? trip.destination.id : undefined;
+                    
+                    return (
+                        <DestinationTripCard 
+                            key={index}
+                            trip={trip}
+                            onSelectItinerary={onSelectItinerary}
+                            isExpanded={expandedIndex === index}
+                            onToggle={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                            onToggleFavorite={destId ? () => handleToggleFavorite(destId) : undefined}
+                        />
+                    );
+                })}
             </div>
         </div>
     );

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { DetailedRoute, CityItinerary, DayPlan, Activity, BudgetTips } from '../types';
 import { detailedRoutes } from '../detailedRotes';
@@ -91,6 +92,14 @@ const DetailedItineraryView: React.FC<{
   const { id: destinationId } = selection;
   const routeData = detailedRoutes[destinationId];
 
+  // Scroll to top when route changes
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (scrollRef.current) {
+        scrollRef.current.scrollTop = 0;
+    }
+  }, [destinationId]);
+
   return (
     <>
       {/* Backdrop */}
@@ -104,22 +113,23 @@ const DetailedItineraryView: React.FC<{
         <div className="flex flex-col h-full">
           {/* Header */}
           <header className="flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm border-b border-slate-200 flex-shrink-0 sticky top-0 z-20">
-            <h2 className="text-xl font-bold text-slate-800">{routeData?.title || 'Carregando...'}</h2>
-            <div className="flex items-center space-x-2">
-               <button onClick={() => onNavigate('prev')} className="p-2 rounded-full hover:bg-slate-200 text-slate-600 transition-colors">
+            <h2 className="text-xl font-bold text-slate-800 truncate pr-4">{routeData?.title || 'Carregando...'}</h2>
+            <div className="flex items-center space-x-1">
+               <button onClick={() => onNavigate('prev')} className="p-2 rounded-full hover:bg-slate-200 text-slate-600 transition-colors" title="Anterior">
                  <ChevronLeftIcon className="h-6 w-6" />
                </button>
-               <button onClick={() => onNavigate('next')} className="p-2 rounded-full hover:bg-slate-200 text-slate-600 transition-colors">
+               <button onClick={() => onNavigate('next')} className="p-2 rounded-full hover:bg-slate-200 text-slate-600 transition-colors" title="Próximo">
                  <ChevronRightIcon className="h-6 w-6" />
                </button>
-               <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-200 text-slate-600 transition-colors">
+               <div className="w-px h-6 bg-slate-300 mx-2"></div>
+               <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-200 text-slate-600 transition-colors" title="Fechar">
                  <CloseIcon className="h-6 w-6" />
                </button>
             </div>
           </header>
 
           {/* Content */}
-          <div className="relative z-0 flex-grow overflow-y-auto p-6 space-y-8">
+          <div ref={scrollRef} className="relative z-0 flex-grow overflow-y-auto p-6 space-y-8">
             {routeData ? (
               <>
                 {routeData.itinerary.map((cityPlan, cityIndex) => (
@@ -136,6 +146,24 @@ const DetailedItineraryView: React.FC<{
                     <BudgetTipsCard tips={cityPlan.budgetTips} />
                   </section>
                 ))}
+
+                {/* Footer Navigation */}
+                <div className="pt-8 mt-8 border-t border-slate-200 flex justify-between items-center pb-4">
+                    <button 
+                        onClick={() => onNavigate('prev')} 
+                        className="flex items-center px-4 py-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-colors"
+                    >
+                        <ChevronLeftIcon className="h-5 w-5 mr-2" />
+                        Anterior
+                    </button>
+                    <button 
+                        onClick={() => onNavigate('next')} 
+                        className="flex items-center px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md hover:shadow-lg transition-all"
+                    >
+                        Próximo Roteiro
+                        <ChevronRightIcon className="h-5 w-5 ml-2" />
+                    </button>
+                </div>
               </>
             ) : (
               <p>Roteiro não encontrado.</p>

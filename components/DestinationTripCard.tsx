@@ -1,3 +1,4 @@
+
 import React from 'react';
 // FIX: Removed local GroupedTrip interface and imported it from types.ts to resolve 'unknown' type inference errors.
 import type { Itinerary, Destination, CarTripLeg, AccommodationOption, AdditionalCost, GroupedTrip } from '../types';
@@ -26,6 +27,7 @@ interface DestinationTripCardProps {
     isExpanded: boolean;
     onToggle: () => void;
     onSelectItinerary: (itinerary: Itinerary) => void;
+    onToggleFavorite?: () => void;
 }
 
 const ItineraryRow: React.FC<{ itinerary: Itinerary, onClick: () => void }> = ({ itinerary, onClick }) => {
@@ -170,9 +172,10 @@ const AccommodationOptionCard: React.FC<{ option: AccommodationOption }> = ({ op
     </div>
 );
 
-const DestinationTripCard: React.FC<DestinationTripCardProps> = ({ trip, isExpanded, onToggle, onSelectItinerary }) => {
+const DestinationTripCard: React.FC<DestinationTripCardProps> = ({ trip, isExpanded, onToggle, onSelectItinerary, onToggleFavorite }) => {
     const { destination, carTrips, itineraries } = trip;
     const themeColor = 'themeColor' in destination ? destination.themeColor : '#64748b';
+    const isFavorite = 'isFavorite' in destination ? destination.isFavorite : false;
 
     // FIX: The `destination` object is a union type. Explicitly typing these constants ensures that TypeScript correctly infers them as arrays, resolving the 'unknown' type errors in subsequent method calls.
     const accommodations: AccommodationOption[] = 'id' in destination ? (destination.accommodations ?? []) : [];
@@ -213,7 +216,25 @@ const DestinationTripCard: React.FC<DestinationTripCardProps> = ({ trip, isExpan
                     <h3 className="text-lg font-bold drop-shadow-sm">{destination.title}</h3>
                     {summary && <p className="text-sm text-white/80 mt-1">{summary}</p>}
                 </div>
-                <ChevronDownIcon className={`h-6 w-6 text-white/90 relative z-10 transform transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+                
+                <div className="flex items-center space-x-4 relative z-10">
+                    {onToggleFavorite && (
+                        <button 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onToggleFavorite();
+                            }}
+                            className="p-1 rounded-full hover:bg-white/20 transition-colors"
+                            title={isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+                        >
+                            <StarIcon 
+                                className={`h-6 w-6 transition-colors ${isFavorite ? 'text-yellow-400' : 'text-white/60 hover:text-white'}`} 
+                                fill={isFavorite ? "currentColor" : "none"}
+                            />
+                        </button>
+                    )}
+                    <ChevronDownIcon className={`h-6 w-6 text-white/90 transform transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+                </div>
 
             </div>
             

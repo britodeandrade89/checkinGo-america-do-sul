@@ -1,3 +1,4 @@
+
 // FIX: Imported the `React` namespace to resolve the "Cannot find namespace 'React'" error for the `React.ReactElement` type.
 import React, { ReactNode } from 'react';
 
@@ -167,6 +168,7 @@ export interface Destination {
   themeColor: string;
   icon: React.ReactElement;
   imageUrl?: string; // Added for Netflix-style cards
+  isFavorite?: boolean; // Added for Favorite feature
   carTrips?: CarTripLeg[];
   // START: Added properties to support detailed trip planning within MyTrips.
   accommodations?: AccommodationOption[];

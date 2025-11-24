@@ -129,8 +129,8 @@ const LoginScreen: React.FC = () => {
             </div>
 
             <div className="w-full max-w-3xl text-center z-10 animate-fade-in-up mt-12">
-                {/* Título com cor sutilmente diferente (Slate-200) e sombra personalizada */}
-                <h1 className="text-4xl md:text-5xl font-bold text-slate-200 mb-16 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
+                {/* Título com cor Champagne/Pérola (#EAE0C8) e sombra forte para destaque */}
+                <h1 className="text-4xl md:text-5xl font-bold text-[#EAE0C8] mb-16 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] tracking-wide">
                     {stage === 'password' ? `Olá, ${selectedUser?.name}.` : 'Quem está viajando hoje?'}
                 </h1>
 
