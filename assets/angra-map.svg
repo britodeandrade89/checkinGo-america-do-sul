@@ -1,0 +1,45 @@
+<svg width="100%" height="auto" viewBox="0 0 350 150" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .road { fill: none; stroke: #a5b4fc; stroke-width: 3; stroke-dasharray: 6, 4; }
+      .city-label { font-family: sans-serif; font-size: 12px; font-weight: bold; fill: #1e293b; }
+      .start-dot { fill: #3b82f6; }
+      .end-dot { fill: #ef4444; }
+      .toll-dot { fill: #f59e0b; }
+      .toll-p-label { font-family: sans-serif; font-size: 5px; font-weight: bold; fill: white; text-anchor: middle; dominant-baseline: central; }
+    </style>
+    <linearGradient id="background-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#eff6ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e7ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="350" height="150" rx="12" fill="url(#background-gradient)" />
+
+  <!-- Road path -->
+  <path class="road" d="M 40 110 C 100 120, 150 40, 240 50 S 300 80, 310 70" />
+
+  <!-- Cities -->
+  <g>
+    <circle cx="40" cy="110" r="5" class="start-dot" />
+    <text x="30" y="130" class="city-label">Rio de Janeiro</text>
+  </g>
+  <g>
+    <circle cx="310" cy="70" r="5" class="end-dot" />
+    <text x="285" y="55" class="city-label">Angra dos Reis</text>
+  </g>
+
+  <!-- Tolls -->
+  <g>
+    <circle cx="120" cy="98" r="5" class="toll-dot" />
+    <text x="120" y="98" class="toll-p-label">P</text>
+  </g>
+  <g>
+    <circle cx="205" cy="45" r="5" class="toll-dot" />
+    <text x="205" y="45" class="toll-p-label">P</text>
+  </g>
+    <g>
+    <circle cx="275" cy="68" r="5" class="toll-dot" />
+    <text x="275" y="68" class="toll-p-label">P</text>
+  </g>
+</svg>

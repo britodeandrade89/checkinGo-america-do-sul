@@ -1,0 +1,37 @@
+<svg width="100%" height="auto" viewBox="0 0 350 150" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .road { fill: none; stroke: #a5b4fc; stroke-width: 3; stroke-dasharray: 6, 4; }
+      .city-label { font-family: sans-serif; font-size: 12px; font-weight: bold; fill: #1e293b; }
+      .start-dot { fill: #3b82f6; }
+      .end-dot { fill: #ef4444; }
+      .toll-dot { fill: #f59e0b; }
+      .toll-p-label { font-family: sans-serif; font-size: 5px; font-weight: bold; fill: white; text-anchor: middle; dominant-baseline: central; }
+    </style>
+    <linearGradient id="background-gradient-paraty" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#eff6ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dcfce7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="350" height="150" rx="12" fill="url(#background-gradient-paraty)" />
+
+  <!-- Road path -->
+  <path class="road" d="M 40 70 C 120 120, 200 40, 310 50" />
+
+  <!-- Cities -->
+  <g>
+    <circle cx="40" cy="70" r="5" class="start-dot" />
+    <text x="25" y="90" class="city-label">Mangaratiba</text>
+  </g>
+  <g>
+    <circle cx="310" cy="50" r="5" class="end-dot" />
+    <text x="295" y="35" class="city-label">Paraty</text>
+  </g>
+
+  <!-- Toll -->
+  <g>
+    <circle cx="180" cy="85" r="5" class="toll-dot" />
+    <text x="180" y="85" class="toll-p-label">P</text>
+  </g>
+</svg>

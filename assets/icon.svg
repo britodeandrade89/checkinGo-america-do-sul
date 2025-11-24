@@ -1,0 +1,44 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <radialGradient id="earth-grad" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+            <stop offset="0%" stop-color="#87CEEB" />
+            <stop offset="100%" stop-color="#005f9e" />
+        </radialGradient>
+        <clipPath id="earth-clip">
+            <ellipse cx="100" cy="100" rx="70" ry="40" />
+        </clipPath>
+    </defs>
+
+    <rect width="200" height="200" fill="#e0f2fe" />
+
+    <g>
+        <ellipse cx="100" cy="100" rx="70" ry="40" fill="url(#earth-grad)" />
+        <g clip-path="url(#earth-clip)">
+            <g>
+                <animateTransform attributeName="transform" type="translate" values="-80 0; 80 0; -80 0" begin="0s" dur="6s" repeatCount="indefinite" />
+                <path d="M100 80 C 80 85, 90 110, 100 120 S 130 115, 140 100 S 120 70, 100 80 Z" fill="#22c55e" opacity="0.6" />
+                <path d="M150 90 C 145 100, 155 110, 160 105 S 165 85, 150 90 Z" fill="#16a34a" opacity="0.6" />
+                <path d="M50 95 C 60 90, 70 100, 65 110 S 45 115, 50 95 Z" fill="#16a34a" opacity="0.6" />
+            </g>
+        </g>
+    </g>
+
+    <path id="pin-path" d="M 100, 60 A 70,40 0 0 1 100, 140 A 70,40 0 0 1 100, 60" fill="none" />
+    
+    <path id="plane-path" d="M 10,100 a 90,50 0 1,0 180,0 a 90,50 0 1,0 -180,0" fill="none" />
+
+    <g>
+        <path d="M-6 -18 C -6 -24, 6 -24, 6 -18 C 6 -12, 0 0, 0 0 C 0 0, -6 -12, -6 -18 Z" fill="#ef4444"/>
+        <circle cx="0" cy="-15" r="3" fill="white"/>
+        <animateMotion dur="6s" repeatCount="indefinite">
+            <mpath href="#pin-path"/>
+        </animateMotion>
+    </g>
+    
+    <g fill="#f8fafc" stroke="#64748b" stroke-width="1.5">
+        <path d="M-15 0 L 15 0 M-5 -6 L 0 0 L -5 6 M5 -10 L 15 0 L 5 10" />
+        <animateMotion dur="4s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#plane-path"/>
+        </animateMotion>
+    </g>
+</svg>
