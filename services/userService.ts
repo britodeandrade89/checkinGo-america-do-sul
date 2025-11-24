@@ -22,9 +22,9 @@ export const getUsers = (): User[] => {
     return USERS;
 };
 
-// Changed key to v12 to force a reset and clear old items
+// Changed key to v15 to force a reset and clear old items
 export const getUserData = (userId: number): UserData | null => {
-    const data = localStorage.getItem(`userData_v12_${userId}`);
+    const data = localStorage.getItem(`userData_v15_${userId}`);
     if (!data) return null;
     
     try {
@@ -37,7 +37,7 @@ export const getUserData = (userId: number): UserData | null => {
 
 export const saveUserData = (userId: number, data: UserData): void => {
     try {
-        localStorage.setItem(`userData_v12_${userId}`, JSON.stringify(data));
+        localStorage.setItem(`userData_v15_${userId}`, JSON.stringify(data));
     } catch (error) {
         console.error(`Erro ao salvar dados do usuário ${userId}:`, error);
     }

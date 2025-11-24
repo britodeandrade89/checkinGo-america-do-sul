@@ -76,7 +76,13 @@ const MyTrips: React.FC<MyTripsProps> = ({ onSelectItinerary }) => {
         let key = "Outros"; // Default group
         
         // Logic to assign itineraries to groups based on keywords
-        if (itinerary.subtitle?.includes('Mochilão') || itinerary.title.includes('Assunção') || itinerary.title.includes('Buenos Aires')) {
+        if (
+            itinerary.subtitle?.includes('Mochilão') || 
+            itinerary.title.includes('Assunção') || 
+            itinerary.title.includes('Buenos Aires') ||
+            itinerary.title.includes('Foz do Iguaçu') ||
+            itinerary.title.includes('Rio → Foz')
+        ) {
             key = 'Mochilão América do Sul';
         }
         
