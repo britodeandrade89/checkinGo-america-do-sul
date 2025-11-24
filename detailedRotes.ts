@@ -2,39 +2,48 @@
 import type { DetailedRoute } from './types';
 
 export const detailedRoutes: Record<number, DetailedRoute> = {
-    40: {
-        id: 40,
-        title: 'Mochilão América do Sul',
+    41: {
+        id: 41,
+        title: 'Opção 1: Rota via Assunção',
         itinerary: [
              {
-                city: 'Rio → São Paulo → Foz',
-                duration: "Trechos Iniciais",
+                city: 'Foz do Iguaçu & Assunção',
+                duration: "Início",
                 days: [
-                    { day: 1, title: "Início da Jornada", activities: ["Saída do Rio de Janeiro.", "Conexão em São Paulo."] },
+                    { day: 1, title: "Saída do Rio", activities: ["Ônibus para Foz do Iguaçu."] },
+                    { day: 3, title: "Ida ao Paraguai", activities: ["Ônibus CDE para Assunção.", "Check-in Villa Morra."] },
                 ]
              },
              {
-                city: 'Assunção & Buenos Aires',
-                duration: "Internacional",
+                city: 'Buenos Aires',
+                duration: "Principal",
                 days: [
-                    { day: 1, title: "Chegada em Assunção", activities: ["Explorar o centro histórico.", "Ida para Buenos Aires."] },
+                    { day: 1, title: "Chegada na Argentina", activities: ["Voo Assunção -> Buenos Aires."] },
                 ]
              }
         ],
-        accommodations: [
+        accommodations: []
+    },
+    42: {
+        id: 42,
+        title: 'Opção 2: Rota Direta (Iguazú)',
+        itinerary: [
              {
-                name: "Villa Morra Condo piscina Wi-Fi (#107)",
-                city: "Assunção & Buenos Aires",
-                rating: 5.0,
-                pricePerNight: 170.25, // Derived from 681 / 4
-                totalPrice: 681,
-                nights: 4,
-                amenities: ["Piscina", "Wi-Fi", "Ar-condicionado", "Cozinha"],
-                pros: ["Excelente localização (Villa Morra)", "Superhost (Glen)", "Avaliação 5.0"],
-                cons: ["Espaço compacto (Estúdio)"],
-                distanceToCenter: "Bairro Villa Morra",
-                bookingUrl: "https://www.airbnb.com.br/rooms/1481095006482438019"
+                city: 'Foz do Iguaçu',
+                duration: "Conexão",
+                days: [
+                    { day: 1, title: "Saída do Rio", activities: ["Ônibus para Foz do Iguaçu."] },
+                    { day: 2, title: "Travessia", activities: ["Ida para Puerto Iguazú.", "Voo para Buenos Aires."] },
+                ]
+             },
+             {
+                city: 'Buenos Aires',
+                duration: "Principal",
+                days: [
+                    { day: 1, title: "Estadia", activities: ["Explorar a capital portenha."] },
+                ]
              }
-        ]
+        ],
+        accommodations: []
     }
   };

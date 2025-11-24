@@ -60,11 +60,10 @@ const MyTrips: React.FC<MyTripsProps> = ({ onSelectItinerary }) => {
 
     // 1. Initialize groups from all destinations.
     destinations.forEach(dest => {
-        // Simplified key generation
-        const key = dest.title.split(':')[0].trim(); 
+        const key = dest.title; // Use full title as key for precise matching
         if (!groupedTrips[key]) {
             groupedTrips[key] = {
-                destination: { ...dest, title: key }, 
+                destination: dest, 
                 itineraries: [],
                 carTrips: dest.carTrips,
             };
@@ -75,18 +74,14 @@ const MyTrips: React.FC<MyTripsProps> = ({ onSelectItinerary }) => {
     itineraries.forEach(itinerary => {
         let key = "Outros"; // Default group
         
-        // Logic to assign itineraries to groups based on keywords
-        if (
-            itinerary.subtitle?.includes('Mochilão') || 
-            itinerary.title.includes('Assunção') || 
-            itinerary.title.includes('Buenos Aires') ||
-            itinerary.title.includes('Foz do Iguaçu') ||
-            itinerary.title.includes('Rio → Foz')
-        ) {
-            key = 'Mochilão América do Sul';
+        // Logic to assign itineraries based on specific keywords matching the new structure
+        if (itinerary.subtitle?.includes('Opção 1') || itinerary.title.includes('Opção 1')) {
+            key = 'Opção 1: Rota via Assunção';
+        } else if (itinerary.subtitle?.includes('Opção 2') || itinerary.title.includes('Opção 2')) {
+            key = 'Opção 2: Rota Direta (Iguazú)';
         }
         
-        // If the group doesn't exist (maybe user deleted destination but kept trips), create a temp group
+        // If the group doesn't exist (fallback), create a temp group
         if (!groupedTrips[key]) {
             const firstEvent = itinerary.events[0];
             groupedTrips[key] = {
@@ -105,6 +100,14 @@ const MyTrips: React.FC<MyTripsProps> = ({ onSelectItinerary }) => {
       .map(trip => ({
           ...trip, 
           itineraries: trip.itineraries.sort((a, b) => {
+              // Try to sort by title number if present (e.g., "1. Ônibus...")
+              const numA = parseInt(a.title.split('.')[0]);
+              const numB = parseInt(b.title.split('.')[0]);
+              
+              if (!isNaN(numA) && !isNaN(numB)) {
+                  return numA - numB;
+              }
+
               const dateA = parseItineraryDate(a);
               const dateB = parseItineraryDate(b);
               return dateA.getTime() - dateB.getTime();
