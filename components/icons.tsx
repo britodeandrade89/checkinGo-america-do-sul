@@ -41,6 +41,27 @@ export const LogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     </svg>
 );
 
+export const SpinningEarthIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <defs>
+            <radialGradient id="earth-grad-spin" cx="50%" cy="50%" r="50%" fx="25%" fy="25%">
+                <stop offset="0%" stopColor="#4ade80" stopOpacity="0.8" /> 
+                <stop offset="100%" stopColor="#166534" />
+            </radialGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#1d4ed8" /> {/* Oceano Azul Profundo */}
+        <g>
+             {/* Continentes Estilizados para rotação visível */}
+            <path d="M20 30 Q 35 10, 50 30 T 80 40 T 50 70 T 20 60 Z" fill="#22c55e" opacity="0.9" />
+            <path d="M60 10 Q 75 -5, 90 15 T 95 45" fill="#16a34a" opacity="0.8" />
+            <path d="M10 60 Q 25 80, 45 90 T 15 95" fill="#16a34a" opacity="0.8" />
+            <circle cx="70" cy="70" r="8" fill="#4ade80" opacity="0.6" />
+        </g>
+        {/* Sombra/Brilho para dar volume */}
+        <circle cx="50" cy="50" r="48" fill="url(#earth-grad-spin)" opacity="0.2" />
+    </svg>
+);
+
 export const LogoutIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
@@ -477,9 +498,18 @@ export const MuseumIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
 export const ParaguayFlagIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg viewBox="0 0 90 60" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <path d="M0 0 H 90 V 60 H 0 Z" stroke="currentColor" strokeWidth="4" />
-    <path d="M0 20 H 90" stroke="currentColor" strokeWidth="2" />
-    <path d="M0 40 H 90" stroke="currentColor" strokeWidth="2" />
+    <mask id="fade-mask">
+      <linearGradient id="fade-grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stopColor="white" stopOpacity="1" />
+        <stop offset="1" stopColor="white" stopOpacity="0.1" />
+      </linearGradient>
+      <rect width="90" height="60" fill="url(#fade-grad)" />
+    </mask>
+    <g mask="url(#fade-mask)">
+      <path d="M0 0 H 90 V 60 H 0 Z" stroke="currentColor" strokeWidth="4" />
+      <path d="M0 20 H 90" stroke="currentColor" strokeWidth="2" />
+      <path d="M0 40 H 90" stroke="currentColor" strokeWidth="2" />
+    </g>
   </svg>
 );
 

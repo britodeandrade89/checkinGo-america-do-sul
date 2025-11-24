@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { getUsers } from '../services/userService';
-import { LogoIcon, PlaneTakeoffIcon } from './icons';
+import { SpinningEarthIcon, PlaneTakeoffIcon } from './icons';
 import type { User } from '../types';
 
 const LoginScreen: React.FC = () => {
@@ -64,9 +64,15 @@ const LoginScreen: React.FC = () => {
 
     if (stage === 'splash') {
         return (
-            <div className="min-h-screen bg-black flex items-center justify-center overflow-hidden">
-                <div className="animate-pulse">
-                    <LogoIcon className="h-40 w-40 animate-bounce-slow" />
+            <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900 via-[#0f172a] to-black flex items-center justify-center overflow-hidden">
+                <div className="animate-pulse flex items-center justify-center">
+                     <h1 className="font-black text-6xl tracking-tighter flex items-center text-blue-200 drop-shadow-lg">
+                        CHECK-IN, G
+                        <div className="w-16 h-16 mx-1 relative">
+                           <SpinningEarthIcon className="w-full h-full animate-spin-slow" />
+                        </div>
+                        !
+                    </h1>
                 </div>
             </div>
         );
@@ -95,7 +101,9 @@ const LoginScreen: React.FC = () => {
                     </g>
                 </svg>
                 <div className="z-10 text-center animate-fade-in">
-                    <LogoIcon className="h-32 w-32 mx-auto mb-6 animate-spin-slow" />
+                    <div className="w-32 h-32 mx-auto mb-6">
+                        <SpinningEarthIcon className="w-full h-full animate-spin-slow" />
+                    </div>
                     <h2 className="text-3xl font-bold text-white tracking-widest uppercase">Decolando...</h2>
                 </div>
             </div>
@@ -103,53 +111,57 @@ const LoginScreen: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[#141414] flex flex-col items-center justify-center p-4 relative font-sans">
+        <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900 via-[#0f172a] to-black flex flex-col items-center justify-center p-4 relative font-sans">
             {/* Logo Topo Esquerdo (Estilo Netflix) */}
-            <div className="absolute top-4 left-4 md:top-8 md:left-12 opacity-80">
-                 <div className="flex items-center space-x-2">
-                    <LogoIcon className="h-10 w-10" />
-                    <span className="text-xl font-extrabold text-white tracking-tight">Check-in,<span className="text-lime-400">GO!</span></span>
+            <div className="absolute top-8 left-8 md:top-12 md:left-12 opacity-90">
+                 <div className="flex items-center">
+                    <h1 className="font-black text-3xl md:text-4xl tracking-tighter flex items-center text-blue-200 drop-shadow-md">
+                        CHECK-IN, G
+                        <div className="w-8 h-8 md:w-10 md:h-10 mx-0.5 relative">
+                           <SpinningEarthIcon className="w-full h-full animate-spin-slow" />
+                        </div>
+                        !
+                    </h1>
                  </div>
             </div>
 
-            <div className="w-full max-w-3xl text-center z-10 animate-fade-in-up">
-                <h1 className="text-4xl md:text-5xl font-normal text-white mb-12 drop-shadow-md">
-                    {stage === 'password' ? `Olá, ${selectedUser?.name}.` : 'Quem está viajando?'}
+            <div className="w-full max-w-3xl text-center z-10 animate-fade-in-up mt-12">
+                <h1 className="text-4xl md:text-5xl font-bold text-white mb-16 drop-shadow-lg tracking-wide">
+                    {stage === 'password' ? `Olá, ${selectedUser?.name}.` : 'Quem está viajando hoje?'}
                 </h1>
 
                 {stage === 'profiles' && (
-                    <div className="flex flex-wrap justify-center gap-8 md:gap-12">
+                    <div className="flex flex-wrap justify-center gap-8 md:gap-10">
                         {users.map(user => (
                             <div 
                                 key={user.id} 
                                 onClick={() => handleUserSelect(user)} 
                                 className="group flex flex-col items-center cursor-pointer transition-all duration-300"
                             >
-                                <div className="relative w-32 h-32 md:w-40 md:h-40 mb-4 rounded-full overflow-hidden border-4 border-transparent group-hover:border-white transition-all duration-200 transform group-hover:scale-105">
+                                <div className="relative w-32 h-32 md:w-40 md:h-40 mb-4 rounded-full overflow-hidden border-4 border-transparent group-hover:border-white transition-all duration-200 transform group-hover:scale-105 shadow-lg group-hover:shadow-2xl shadow-black/50">
                                     <img 
                                         src={user.avatar} 
                                         alt={user.name} 
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
                                     />
-                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
                                 </div>
-                                <p className="text-gray-400 text-xl group-hover:text-white transition-colors">{user.name}</p>
+                                <p className="text-gray-400 text-xl font-medium group-hover:text-white transition-colors duration-300">{user.name}</p>
                             </div>
                         ))}
                         {/* Botão Adicionar Perfil (Visual) */}
-                        <div className="group flex flex-col items-center cursor-not-allowed opacity-50 hover:opacity-70 transition-opacity">
-                             <div className="w-32 h-32 md:w-40 md:h-40 mb-4 rounded-full flex items-center justify-center bg-[#2b2b2b] border-4 border-transparent group-hover:border-gray-400">
-                                <span className="text-6xl text-gray-400">+</span>
+                        <div className="group flex flex-col items-center cursor-not-allowed opacity-60 hover:opacity-90 transition-opacity">
+                             <div className="w-32 h-32 md:w-40 md:h-40 mb-4 rounded-full flex items-center justify-center bg-[#1e293b] border-4 border-transparent group-hover:border-white hover:bg-[#334155] transition-all duration-200 transform group-hover:scale-105 shadow-lg">
+                                <span className="text-6xl text-gray-400 group-hover:text-white font-light pb-2">+</span>
                              </div>
-                             <p className="text-gray-400 text-xl">Adicionar</p>
+                             <p className="text-gray-400 text-xl font-medium group-hover:text-white">Adicionar</p>
                         </div>
                     </div>
                 )}
 
                 {stage === 'password' && (
-                    <div className="bg-black/80 p-8 rounded-lg max-w-md mx-auto border border-gray-800 shadow-2xl">
-                        <p className="text-gray-400 mb-6 text-sm">Digite sua senha para acessar (1234)</p>
-                        <div className="flex justify-center gap-4 mb-6">
+                    <div className="bg-black/60 backdrop-blur-md p-10 rounded-lg max-w-md mx-auto border border-gray-700/50 shadow-2xl transform transition-all">
+                        <p className="text-gray-300 mb-8 text-base font-medium">Digite sua senha para acessar (1234)</p>
+                        <div className="flex justify-center gap-4 mb-8">
                             {pin.map((digit, idx) => (
                                 <input
                                     key={idx}
@@ -159,15 +171,15 @@ const LoginScreen: React.FC = () => {
                                     value={digit}
                                     onChange={(e) => handlePinChange(idx, e.target.value)}
                                     onKeyDown={(e) => handleKeyDown(idx, e)}
-                                    className="w-12 h-14 bg-[#333] border border-transparent focus:border-white focus:bg-[#444] rounded text-center text-white text-2xl outline-none transition-all"
+                                    className="w-14 h-16 bg-[#0f172a] border border-gray-600 focus:border-white focus:bg-[#1e293b] rounded-md text-center text-white text-3xl outline-none transition-all duration-200 shadow-inner"
                                     autoFocus={idx === 0}
                                 />
                             ))}
                         </div>
-                        {error && <p className="text-red-500 text-sm mb-4 animate-pulse">{error}</p>}
+                        {error && <p className="text-red-400 text-sm mb-6 animate-pulse font-medium">{error}</p>}
                         <button 
                             onClick={() => { setStage('profiles'); setPin(['','','','']); }}
-                            className="text-gray-500 hover:text-white text-sm uppercase tracking-wider border border-gray-600 px-6 py-2 rounded hover:border-white transition-all"
+                            className="text-gray-400 hover:text-white text-sm uppercase tracking-widest border border-gray-600 hover:border-white px-8 py-2.5 rounded transition-all duration-300"
                         >
                             Voltar
                         </button>
