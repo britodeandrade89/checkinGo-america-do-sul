@@ -33,7 +33,7 @@ const parseItineraryDate = (itinerary: Itinerary): Date => {
 
 const MyTrips: React.FC<MyTripsProps> = ({ onSelectItinerary }) => {
     const { userData, updateUserData } = useAuth();
-    const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+    const [expandedIndex, setExpandedIndex] = useState<number | null>(0); // Default to first item expanded
 
     if (!userData) {
         return <div>Carregando...</div>;
@@ -76,9 +76,7 @@ const MyTrips: React.FC<MyTripsProps> = ({ onSelectItinerary }) => {
         let key = "Outros"; // Default group
         
         // Logic to assign itineraries to groups based on keywords
-        if (itinerary.title.includes('Paraty') || itinerary.title.includes('Mangaratiba') || itinerary.title.includes('Sakura Rio Mar')) {
-            key = 'Fim de Semana em Paraty & Cunha';
-        } else if (itinerary.subtitle?.includes('Mochilão') || itinerary.title.includes('Assunção') || itinerary.title.includes('Buenos Aires')) {
+        if (itinerary.subtitle?.includes('Mochilão') || itinerary.title.includes('Assunção') || itinerary.title.includes('Buenos Aires')) {
             key = 'Mochilão América do Sul';
         }
         

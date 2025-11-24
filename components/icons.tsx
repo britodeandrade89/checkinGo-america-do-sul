@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 export const LogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
@@ -114,6 +115,29 @@ export const BookingLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) 
         <path d="M21 14H24.5C27.5 14 30 16.5 30 19.5C30 22.5 27.5 25 24.5 25H21V14ZM21 27H25C28.5 27 31 29.5 31 32.5C31 35.5 28.5 38 25 38H21V27Z" fill="white" stroke="#FFFFFF" strokeWidth="2"/>
     </svg>
 );
+
+export const AirbnbLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <rect width="48" height="48" rx="8" fill="#FF5A5F"/>
+        <path d="M24 8C19.58 8 16 11.58 16 16C16 20.42 24 32 24 32C24 32 32 20.42 32 16C32 11.58 28.42 8 24 8ZM24 19C22.34 19 21 17.66 21 16C21 14.34 22.34 13 24 13C25.66 13 27 14.34 27 16C27 17.66 25.66 19 24 19Z" fill="white"/>
+    </svg>
+);
+
+export const NsaLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <svg width="48" height="48" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <rect width="100" height="50" rx="8" fill="#1e3a8a"/>
+      <text x="50" y="35" fontFamily="Arial, sans-serif" fontSize="24" fill="white" textAnchor="middle" fontWeight="bold">NSA</text>
+    </svg>
+);
+
+export const NordesteLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <svg width="48" height="48" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <rect width="100" height="50" rx="8" fill="#000080"/>
+      <path d="M20 35 L20 15 L50 35 L50 15" stroke="#fbbf24" strokeWidth="4" fill="none"/>
+      <text x="75" y="32" fontFamily="Arial, sans-serif" fontSize="20" fill="#fbbf24" textAnchor="middle" fontWeight="bold">NOR</text>
+    </svg>
+);
+
 
 export const ClickBusLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
@@ -272,7 +296,6 @@ export const ActivityIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => 
   </svg>
 );
 
-{/* FIX: Added all missing icons and fixed the broken SunIcon definition. */}
 export const SunIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v.01M12 21v.01M3.375 12H3m18 0h-.375M5.063 5.063l.007.007M18.93 18.93l-.007-.007m0-13.854l.007-.007M5.063 18.937l-.007-.007M12 18a6 6 0 100-12 6 6 0 000 12z" />

@@ -21,6 +21,20 @@ export const detailedRoutes: Record<number, DetailedRoute> = {
                 ]
              }
         ],
-        accommodations: []
+        accommodations: [
+             {
+                name: "Villa Morra Condo piscina Wi-Fi (#107)",
+                city: "Assunção & Buenos Aires",
+                rating: 5.0,
+                pricePerNight: 170.25, // Derived from 681 / 4
+                totalPrice: 681,
+                nights: 4,
+                amenities: ["Piscina", "Wi-Fi", "Ar-condicionado", "Cozinha"],
+                pros: ["Excelente localização (Villa Morra)", "Superhost (Glen)", "Avaliação 5.0"],
+                cons: ["Espaço compacto (Estúdio)"],
+                distanceToCenter: "Bairro Villa Morra",
+                bookingUrl: "https://www.airbnb.com.br/rooms/1481095006482438019"
+             }
+        ]
     }
   };
