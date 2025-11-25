@@ -128,8 +128,8 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                                 alt="Hero Background" 
                                 className="w-full h-full object-cover"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-transparent to-transparent"></div>
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#141414] to-transparent"></div>
                         </div>
 
                         {/* Conteúdo do Hero */}
@@ -168,8 +168,17 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
 
                     {/* Rails de Conteúdo (Deslocado para cima para sobrepor o gradiente) */}
                     <div className="relative z-10 -mt-20 space-y-12 pb-20 px-4 md:px-12">
-                        {/* Rail 1: Minhas Viagens (Itens Salvos) */}
-                        <section ref={myTripsRef} className="pt-8">
+                        {/* Rail 1: Explorar Roteiros */}
+                        <section className="pt-8">
+                            <h3 className="text-lg md:text-xl font-bold text-gray-100 mb-3 hover:text-white cursor-pointer flex items-center group">
+                                Explorar Roteiros Disponíveis 
+                                <span className="hidden group-hover:inline-block ml-2 text-sm text-cyan-400 opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 group-hover:translate-x-2">Ver tudo &gt;</span>
+                            </h3>
+                            <Destinations />
+                        </section>
+
+                        {/* Rail 2: Minhas Viagens (Itens Salvos) */}
+                        <section ref={myTripsRef}>
                              <h3 className="text-lg md:text-xl font-bold text-gray-100 mb-3 hover:text-white cursor-pointer flex items-center group">
                                 Mochilão América do Sul
                                 <span className="hidden group-hover:inline-block ml-2 text-sm text-cyan-400 opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 group-hover:translate-x-2">Ver tudo &gt;</span>
@@ -178,15 +187,6 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                                 <div className="h-full bg-blue-500 w-2/3 rounded-full"></div>
                             </div>
                             <MyTrips onSelectItinerary={onSelectItinerary} />
-                        </section>
-                        
-                        {/* Rail 2: Explorar Roteiros */}
-                        <section>
-                            <h3 className="text-lg md:text-xl font-bold text-gray-100 mb-3 hover:text-white cursor-pointer flex items-center group">
-                                Explorar Roteiros Disponíveis 
-                                <span className="hidden group-hover:inline-block ml-2 text-sm text-cyan-400 opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 group-hover:translate-x-2">Ver tudo &gt;</span>
-                            </h3>
-                            <Destinations />
                         </section>
                     </div>
                 </>
