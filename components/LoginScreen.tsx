@@ -23,7 +23,6 @@ const LoginScreen: React.FC = () => {
     }, []);
 
     // Fallback de segurança (timeout) para a transição
-    // Movidado para o topo para evitar erro de Hooks condicionais
     useEffect(() => {
         if (stage === 'transition' && selectedUser) {
             const safetyTimer = setTimeout(() => {
