@@ -36,7 +36,7 @@ export const destinations: Destination[] = [
         themeColor: '#eab308', // Yellow
         icon: React.createElement(TripleFrontierIcon),
         // Imagem das Cataratas
-        imageUrl: 'https://images.unsplash.com/photo-1583409608604-d7c37d87ccf2?q=80&w=1920&auto=format&fit=crop',
+        imageUrl: 'https://images.unsplash.com/photo-1534234828563-02511426b798?q=80&w=1920&auto=format&fit=crop',
         carTrips: [],
         accommodations: [],
         additionalCosts: [

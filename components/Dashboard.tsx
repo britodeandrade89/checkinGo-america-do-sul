@@ -1,11 +1,12 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { Itinerary } from '../types';
 import Destinations from './Destinations';
 import ItineraryDetailsModal from './ItineraryDetailsModal';
 import AiAssistant from './AiAssistant';
 import MyTrips from './MyTrips';
-import { CompassIcon, BookOpenIcon, SparklesIcon, DownloadIcon, LogoIcon, LogoutIcon, BellIcon, SearchIcon } from './icons';
+import DetailedItineraryView from './DetailedItineraryView';
+import { DownloadIcon, LogoutIcon, BellIcon, SearchIcon, SpinningEarthIcon } from './icons';
 import { useAuth } from '../contexts/AuthContext';
 
 interface DashboardProps {
@@ -18,6 +19,12 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
     const [activeTab, setActiveTab] = useState<'home' | 'assistant'>('home');
     const [isScrolled, setIsScrolled] = useState(false);
     const [selectedItinerary, setSelectedItinerary] = useState<Itinerary | null>(null);
+    
+    // State for Hero "More Info" modal
+    const [heroDetailSelection, setHeroDetailSelection] = useState<{ id: number } | null>(null);
+
+    // Ref for "Continue Planning" scroll
+    const myTripsRef = useRef<HTMLDivElement>(null);
 
     // Efeito para navbar mudar de cor ao rolar (igual Netflix)
     useEffect(() => {
@@ -28,11 +35,12 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Hero Content dinâmico (simulado)
+    // Hero Content dinâmico (Foz do Iguaçu - ID 42 na lista de roteiros detalhados)
     const heroContent = {
+        id: 42, // ID da Opção 2 (Rota Direta Iguazú) para abrir detalhes
         title: "Foz do Iguaçu",
         subtitle: "Uma das 7 maravilhas naturais do mundo espera por você.",
-        image: "https://images.unsplash.com/photo-1583409608604-d7c37d87ccf2?q=80&w=1920&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1534234828563-02511426b798?q=80&w=1920&auto=format&fit=crop",
         match: "98% de Match"
     };
 
@@ -44,19 +52,43 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
         });
     };
 
+    const handleContinuePlanning = () => {
+        if (myTripsRef.current) {
+            myTripsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
+    const handleMoreInfo = () => {
+        setHeroDetailSelection({ id: heroContent.id });
+    };
+
+    const handleHeroNavigation = (direction: 'next' | 'prev') => {
+        // Simple toggle for demo purposes since we only have 2 main routes in detailedRotes
+        // In a real app, this would iterate through available featured routes
+        setHeroDetailSelection(prev => prev?.id === 42 ? { id: 41 } : { id: 42 });
+    };
+
     return (
         <div className="bg-[#141414] min-h-screen font-sans text-white selection:bg-red-600 selection:text-white">
             {/* Navbar Fixa */}
             <nav className={`fixed top-0 w-full z-50 transition-all duration-500 px-4 md:px-12 py-4 flex items-center justify-between ${isScrolled ? 'bg-[#141414]' : 'bg-gradient-to-b from-black/80 to-transparent'}`}>
                 <div className="flex items-center space-x-8">
-                    <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setActiveTab('home')}>
-                        <LogoIcon className="h-8 w-8" />
-                        <span className="text-xl font-extrabold tracking-tight hidden md:block">Check-in,<span className="text-lime-400">GO!</span></span>
+                    {/* Logo Unificado com LoginScreen */}
+                    <div className="flex items-center cursor-pointer group" onClick={() => setActiveTab('home')}>
+                        <h1 className="font-black text-2xl md:text-3xl tracking-tighter flex items-center drop-shadow-md">
+                            <span className="text-blue-200">CHECK-IN,</span>
+                            <span className="text-blue-200 ml-1">G</span>
+                            <div className="w-6 h-6 md:w-8 md:h-8 mx-0.5 relative">
+                               <SpinningEarthIcon className="w-full h-full animate-spin-slow" />
+                            </div>
+                            <span className="text-blue-200">!</span>
+                        </h1>
                     </div>
-                    <div className="hidden md:flex space-x-6 text-sm font-medium text-gray-300">
-                        <button onClick={() => setActiveTab('home')} className={`hover:text-white transition ${activeTab === 'home' ? 'text-white font-bold' : ''}`}>Início</button>
-                        <button onClick={() => setActiveTab('assistant')} className={`hover:text-white transition ${activeTab === 'assistant' ? 'text-white font-bold' : ''}`}>Assistente IA</button>
-                        <button className="hover:text-white transition">Minha Lista</button>
+                    
+                    <div className="hidden md:flex space-x-5 text-sm font-medium text-gray-300">
+                        <button onClick={() => setActiveTab('home')} className={`hover:text-white transition ${activeTab === 'home' ? 'text-white font-bold' : ''}`}>Explorar</button>
+                        <button onClick={handleContinuePlanning} className="hover:text-white transition">Viagens</button>
+                        <button onClick={() => setActiveTab('assistant')} className={`hover:text-white transition ${activeTab === 'assistant' ? 'text-white font-bold' : ''}`}>Assistente</button>
                     </div>
                 </div>
 
@@ -74,7 +106,7 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                         <img 
                             src={currentUser?.avatar} 
                             alt="Perfil" 
-                            className="h-8 w-8 rounded-md border border-transparent group-hover:border-white transition-all"
+                            className="h-8 w-8 rounded-md border border-transparent group-hover:border-white transition-all object-cover"
                         />
                         <div className="absolute right-0 top-8 w-32 bg-black/90 border border-gray-700 rounded shadow-xl py-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity">
                             <button onClick={logout} className="flex items-center w-full px-4 py-2 text-sm hover:underline text-gray-300 hover:text-white">
@@ -102,7 +134,7 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                         </div>
 
                         {/* Conteúdo do Hero */}
-                        <div className="absolute bottom-0 left-0 w-full p-4 md:p-12 pb-24 md:pb-32 space-y-4 max-w-2xl">
+                        <div className="absolute bottom-0 left-0 w-full p-4 md:p-12 pb-24 md:pb-20 space-y-3 max-w-2xl">
                             <h1 className="text-5xl md:text-7xl font-black text-white drop-shadow-2xl leading-tight">
                                 {heroContent.title}
                             </h1>
@@ -116,12 +148,18 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                                 {heroContent.subtitle} Prepare-se para uma jornada inesquecível pelas cataratas, parques e fronteiras. O roteiro perfeito para começar o ano.
                             </p>
                             
-                            <div className="flex items-center space-x-4 mt-6">
-                                <button className="flex items-center bg-white text-black px-6 md:px-8 py-2 md:py-3 rounded font-bold hover:bg-opacity-80 transition">
+                            <div className="flex items-center space-x-4 mt-5">
+                                <button 
+                                    onClick={handleContinuePlanning}
+                                    className="flex items-center bg-white text-black px-6 md:px-8 py-2 md:py-3 rounded font-bold hover:bg-opacity-80 transition"
+                                >
                                     <svg className="h-6 w-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                                     Continuar Planejamento
                                 </button>
-                                <button className="flex items-center bg-gray-500/70 text-white px-6 md:px-8 py-2 md:py-3 rounded font-bold hover:bg-gray-500/50 transition backdrop-blur-sm">
+                                <button 
+                                    onClick={handleMoreInfo}
+                                    className="flex items-center bg-gray-500/70 text-white px-6 md:px-8 py-2 md:py-3 rounded font-bold hover:bg-gray-500/50 transition backdrop-blur-sm"
+                                >
                                     <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                     Mais Informações
                                 </button>
@@ -130,10 +168,10 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                     </div>
 
                     {/* Rails de Conteúdo (Deslocado para cima para sobrepor o gradiente) */}
-                    <div className="relative z-10 -mt-20 space-y-12 pb-20 px-4 md:px-12">
-                        {/* Rail 1: Explorar Roteiros (Dashboard antigo) */}
+                    <div className="relative z-10 -mt-20 space-y-4 pb-20 px-4 md:px-12">
+                        {/* Rail 1: Explorar Roteiros */}
                         <section>
-                            <h3 className="text-xl md:text-2xl font-semibold text-gray-100 mb-4 hover:text-white cursor-pointer flex items-center group">
+                            <h3 className="text-lg md:text-xl font-semibold text-gray-100 mb-2 hover:text-white cursor-pointer flex items-center group">
                                 Explorar Roteiros Disponíveis 
                                 <span className="hidden group-hover:inline-block ml-2 text-sm text-cyan-400 opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 group-hover:translate-x-2">Ver tudo &gt;</span>
                             </h3>
@@ -141,8 +179,8 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                         </section>
 
                         {/* Rail 2: Minhas Viagens (Itens Salvos) */}
-                        <section>
-                            <h3 className="text-xl md:text-2xl font-semibold text-gray-100 mb-4">Minha Lista de Viagens</h3>
+                        <section ref={myTripsRef}>
+                            <h3 className="text-lg md:text-xl font-semibold text-gray-100 mb-2">Minha Lista de Viagens</h3>
                             <MyTrips onSelectItinerary={setSelectedItinerary} />
                         </section>
                     </div>
@@ -175,6 +213,13 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
             </footer>
 
             <ItineraryDetailsModal itinerary={selectedItinerary} onClose={() => setSelectedItinerary(null)} />
+            
+            {/* Modal de Detalhes do Hero */}
+            <DetailedItineraryView 
+                selection={heroDetailSelection}
+                onClose={() => setHeroDetailSelection(null)}
+                onNavigate={handleHeroNavigation}
+            />
         </div>
     );
 };
