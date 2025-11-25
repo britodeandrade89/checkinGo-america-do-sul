@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { Itinerary } from '../types';
 import Destinations from './Destinations';
-import ItineraryDetailsModal from './ItineraryDetailsModal';
 import AiAssistant from './AiAssistant';
 import MyTrips from './MyTrips';
 import DetailedItineraryView from './DetailedItineraryView';
@@ -12,13 +11,13 @@ import { useAuth } from '../contexts/AuthContext';
 interface DashboardProps {
   installPromptEvent: BeforeInstallPromptEvent | null;
   onInstallSuccess: () => void;
+  onSelectItinerary: (itinerary: Itinerary) => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSuccess }) => {
+const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSuccess, onSelectItinerary }) => {
     const { currentUser, logout } = useAuth();
     const [activeTab, setActiveTab] = useState<'home' | 'assistant'>('home');
     const [isScrolled, setIsScrolled] = useState(false);
-    const [selectedItinerary, setSelectedItinerary] = useState<Itinerary | null>(null);
     
     // State for Hero "More Info" modal
     const [heroDetailSelection, setHeroDetailSelection] = useState<{ id: number } | null>(null);
@@ -148,7 +147,7 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                                 {heroContent.subtitle} Prepare-se para uma jornada inesquecível pelas cataratas, parques e fronteiras. O roteiro perfeito para começar o ano.
                             </p>
                             
-                            <div className="flex items-center space-x-4 mt-5">
+                            <div className="flex items-center space-x-4 pt-4">
                                 <button 
                                     onClick={handleContinuePlanning}
                                     className="flex items-center bg-white text-black px-6 md:px-8 py-2 md:py-3 rounded font-bold hover:bg-opacity-80 transition"
@@ -168,20 +167,26 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                     </div>
 
                     {/* Rails de Conteúdo (Deslocado para cima para sobrepor o gradiente) */}
-                    <div className="relative z-10 -mt-20 space-y-4 pb-20 px-4 md:px-12">
-                        {/* Rail 1: Explorar Roteiros */}
+                    <div className="relative z-10 -mt-20 space-y-12 pb-20 px-4 md:px-12">
+                        {/* Rail 1: Minhas Viagens (Itens Salvos) */}
+                        <section ref={myTripsRef} className="pt-8">
+                             <h3 className="text-lg md:text-xl font-bold text-gray-100 mb-3 hover:text-white cursor-pointer flex items-center group">
+                                Mochilão América do Sul
+                                <span className="hidden group-hover:inline-block ml-2 text-sm text-cyan-400 opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 group-hover:translate-x-2">Ver tudo &gt;</span>
+                            </h3>
+                            <div className="w-full h-1 bg-gray-800 rounded-full mb-4">
+                                <div className="h-full bg-blue-500 w-2/3 rounded-full"></div>
+                            </div>
+                            <MyTrips onSelectItinerary={onSelectItinerary} />
+                        </section>
+                        
+                        {/* Rail 2: Explorar Roteiros */}
                         <section>
-                            <h3 className="text-lg md:text-xl font-semibold text-gray-100 mb-2 hover:text-white cursor-pointer flex items-center group">
+                            <h3 className="text-lg md:text-xl font-bold text-gray-100 mb-3 hover:text-white cursor-pointer flex items-center group">
                                 Explorar Roteiros Disponíveis 
                                 <span className="hidden group-hover:inline-block ml-2 text-sm text-cyan-400 opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 group-hover:translate-x-2">Ver tudo &gt;</span>
                             </h3>
                             <Destinations />
-                        </section>
-
-                        {/* Rail 2: Minhas Viagens (Itens Salvos) */}
-                        <section ref={myTripsRef}>
-                            <h3 className="text-lg md:text-xl font-semibold text-gray-100 mb-2">Minha Lista de Viagens</h3>
-                            <MyTrips onSelectItinerary={setSelectedItinerary} />
                         </section>
                     </div>
                 </>
@@ -195,10 +200,7 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
             {/* Footer estilo Netflix */}
             <footer className="max-w-5xl mx-auto py-12 px-4 text-gray-500 text-sm">
                 <div className="flex items-center space-x-4 mb-6">
-                    <div className="text-2xl text-gray-400"><i className="fab fa-facebook-f"></i></div>
-                    <div className="text-2xl text-gray-400"><i className="fab fa-instagram"></i></div>
-                    <div className="text-2xl text-gray-400"><i className="fab fa-twitter"></i></div>
-                    <div className="text-2xl text-gray-400"><i className="fab fa-youtube"></i></div>
+                    {/* Icons can be added here if you have a library like FontAwesome */}
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <a href="#" className="hover:underline">Sobre o Check-in, GO!</a>
@@ -212,8 +214,6 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                 <p>&copy; 2025 Check-in, GO! Inc. - Desenvolvido por André Brito</p>
             </footer>
 
-            <ItineraryDetailsModal itinerary={selectedItinerary} onClose={() => setSelectedItinerary(null)} />
-            
             {/* Modal de Detalhes do Hero */}
             <DetailedItineraryView 
                 selection={heroDetailSelection}

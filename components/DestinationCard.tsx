@@ -11,58 +11,50 @@ interface DestinationCardProps {
 }
 
 const DestinationCard: React.FC<DestinationCardProps> = ({ destination, totalCost, plannedItemsCount, onClick }) => {
-  const { themeColor, imageUrl } = destination;
+  const { imageUrl } = destination;
 
-  // Fallback image if none provided (embora tenhamos adicionado no ts)
   const bgImage = imageUrl || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=800&auto=format&fit=crop';
 
   return (
     <div 
       onClick={onClick}
-      className="relative group cursor-pointer transition-all duration-300 transform hover:scale-105 hover:z-20"
+      className="group cursor-pointer rounded-lg overflow-hidden bg-[#2f2f2f] transition-all duration-300 transform hover:scale-110 hover:z-20 hover:shadow-2xl hover:shadow-black"
     >
-      {/* Thumbnail Container (Ratio 16:9 like streaming thumbnails) */}
-      <div className="aspect-video w-full rounded overflow-hidden shadow-md relative">
+      {/* Thumbnail Container */}
+      <div className="aspect-video w-full relative">
         <img 
             src={bgImage} 
             alt={destination.title} 
-            className="w-full h-full object-cover transition-opacity group-hover:opacity-80"
+            className="w-full h-full object-cover"
         />
-        
-        {/* Progress Bar Simulation (Netflix style red bar at bottom) */}
+        {/* Progress Bar Simulation */}
         {plannedItemsCount > 0 && (
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-600">
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-600/50">
                 <div className="h-full bg-red-600 w-1/3"></div>
             </div>
         )}
-
-        {/* Overlay Gradient on Hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-             {/* This content appears only on hover/focus in the overlay */}
-        </div>
       </div>
 
-      {/* Metadata Below (Netflix Style) */}
-      <div className="mt-2 px-1 opacity-80 group-hover:opacity-100 transition-opacity">
-        <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-white truncate pr-2">{destination.title}</h3>
-            <div className="flex space-x-2">
-                <div className="border border-gray-500 rounded-full p-1 hover:border-white hover:bg-gray-800">
-                    <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+      {/* Hidden Details revealed on hover */}
+      <div className="opacity-0 group-hover:opacity-100 max-h-0 group-hover:max-h-screen transition-all duration-300">
+        <div className="p-3 space-y-2">
+            <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-white truncate pr-2">{destination.title}</h3>
+                <div className="flex space-x-1">
+                    <button className="border-2 border-gray-400 rounded-full p-1 hover:border-white hover:bg-white/20 transition">
+                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                    </button>
                 </div>
             </div>
-        </div>
-        <div className="flex items-center space-x-2 text-xs text-gray-400 mt-1">
-            <span className="text-green-400 font-semibold">98% Match</span>
-            <span className="border border-gray-500 px-1 rounded text-[10px]">12+</span>
-            <span>{plannedItemsCount} episódios (itens)</span>
-        </div>
-        {totalCost > 0 && (
-             <div className="flex items-center space-x-1 text-xs text-gray-300 mt-1">
-                <PriceTagIcon className="h-3 w-3" />
-                <span>R$ {totalCost.toLocaleString('pt-BR', { minimumFractionDigits: 0 })}</span>
+            <div className="flex items-center space-x-2 text-xs text-gray-400">
+                <span className="text-green-400 font-semibold">98% Match</span>
+                <span>{plannedItemsCount} episódios</span>
+                <span className="border border-gray-500 px-1 rounded text-[10px]">HD</span>
             </div>
-        )}
+            <p className="text-xs text-gray-300 line-clamp-2">
+                {destination.description}
+            </p>
+        </div>
       </div>
     </div>
   );

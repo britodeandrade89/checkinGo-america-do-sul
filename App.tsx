@@ -3,10 +3,13 @@ import React, { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
 import LoginScreen from './components/LoginScreen';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import ItineraryDetailsModal from './components/ItineraryDetailsModal';
+import type { Itinerary } from './types';
 
 const AppContent: React.FC = () => {
   const { currentUser } = useAuth();
   const [installPromptEvent, setInstallPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
+  const [selectedItinerary, setSelectedItinerary] = useState<Itinerary | null>(null);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (event: Event) => {
@@ -64,6 +67,11 @@ const AppContent: React.FC = () => {
       <Dashboard 
         installPromptEvent={installPromptEvent} 
         onInstallSuccess={() => setInstallPromptEvent(null)}
+        onSelectItinerary={setSelectedItinerary}
+      />
+      <ItineraryDetailsModal 
+        itinerary={selectedItinerary} 
+        onClose={() => setSelectedItinerary(null)}
       />
     </div>
   );
