@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { getUsers } from '../services/userService';
-import { SpinningEarthIcon, PlaneTakeoffIcon } from './icons';
+import { SpinningEarthIcon } from './icons';
 import type { User } from '../types';
 
 const LoginScreen: React.FC = () => {
@@ -12,6 +12,7 @@ const LoginScreen: React.FC = () => {
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [pin, setPin] = useState(['', '', '', '']);
     const [error, setError] = useState('');
+    const videoRef = useRef<HTMLVideoElement>(null);
 
     // Estágio 1: Splash Screen (2.5s)
     useEffect(() => {
@@ -20,6 +21,17 @@ const LoginScreen: React.FC = () => {
         }, 2500);
         return () => clearTimeout(timer);
     }, []);
+
+    // Fallback de segurança (timeout) para a transição
+    // Movidado para o topo para evitar erro de Hooks condicionais
+    useEffect(() => {
+        if (stage === 'transition' && selectedUser) {
+            const safetyTimer = setTimeout(() => {
+                login(selectedUser.id);
+            }, 8000); // 8 segundos de segurança
+            return () => clearTimeout(safetyTimer);
+        }
+    }, [stage, selectedUser, login]);
 
     const handleUserSelect = (user: User) => {
         setSelectedUser(user);
@@ -42,10 +54,6 @@ const LoginScreen: React.FC = () => {
             const enteredPin = newPin.join('');
             if (enteredPin === '1234') { // Senha fixa para demo
                 setStage('transition');
-                // Simula a animação de transição antes de logar de fato
-                setTimeout(() => {
-                    if (selectedUser) login(selectedUser.id);
-                }, 3000);
             } else {
                 setError('Senha incorreta. Tente 1234.');
                 setPin(['', '', '', '']);
@@ -82,31 +90,27 @@ const LoginScreen: React.FC = () => {
     if (stage === 'transition') {
         return (
             <div className="min-h-screen bg-black flex items-center justify-center overflow-hidden relative">
-                {/* Animação do avião traçando a rota */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                    <path 
-                        id="flightPath" 
-                        d="M -100, 500 Q 400, 200 800, 500 T 2000, 300" 
-                        fill="none" 
-                        stroke="rgba(34, 197, 94, 0.5)" 
-                        strokeWidth="4"
-                        strokeDasharray="10 10"
-                    >
-                        <animate attributeName="stroke-dashoffset" from="1000" to="0" dur="3s" fill="freeze" />
-                    </path>
-                    <g>
-                        <PlaneTakeoffIcon className="h-16 w-16 text-white rotate-45" />
-                        <animateMotion dur="3s" rotate="auto" fill="freeze">
-                            <mpath href="#flightPath" />
-                        </animateMotion>
-                    </g>
-                </svg>
-                <div className="z-10 text-center animate-fade-in">
-                    <div className="w-32 h-32 mx-auto mb-6">
-                        <SpinningEarthIcon className="w-full h-full animate-spin-slow" />
-                    </div>
-                    <h2 className="text-3xl font-bold text-white tracking-widest uppercase">Decolando...</h2>
-                </div>
+                {/* Video de avião decolando */}
+                <video 
+                    ref={videoRef}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    autoPlay 
+                    muted 
+                    playsInline
+                    onEnded={() => {
+                        if (selectedUser) login(selectedUser.id);
+                    }}
+                    onError={() => {
+                        // Fallback se o vídeo falhar
+                        if (selectedUser) login(selectedUser.id);
+                    }}
+                >
+                    {/* Vídeo de decolagem noturna/pôr do sol */}
+                    <source src="https://videos.pexels.com/video-files/5927913/5927913-uhd_2560_1440_24fps.mp4" type="video/mp4" />
+                </video>
+
+                {/* Overlay com o gradiente da marca */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/60 via-[#0f172a]/60 to-black/80 mix-blend-overlay pointer-events-none"></div>
             </div>
         );
     }

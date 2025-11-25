@@ -74,7 +74,6 @@ export const SearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     </svg>
 );
 
-// ... [Rest of the existing icons remain unchanged] ...
 export const LatamLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path d="M0 0H48V48H0V0Z" fill="white" fillOpacity="0.01"/>
@@ -469,7 +468,6 @@ export const KiwiLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => 
     </svg>
 );
 
-// START: New icons for detailed itineraries and destinations
 export const WalkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5" />
@@ -494,7 +492,6 @@ export const MuseumIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h6M9 12h6m-6 5.25h6M5.25 6h.008v.008H5.25V6Zm.75 0h.008v.008H6V6Zm.75 0h.008v.008H6.75V6Zm.75 0h.008v.008H7.5V6Zm.75 0h.008v.008H8.25V6Zm1.5 6h.008v.008H9.75V12Zm.75 0h.008v.008h-.008V12Zm.75 0h.008v.008h-.008V12Zm.75 0h.008v.008h-.008V12Zm1.5 5.25h.008v.008h-.008v-.008Zm.75 0h.008v.008h-.008v-.008Zm.75 0h.008v.008h-.008v-.008Z" />
     </svg>
 );
-
 
 export const ParaguayFlagIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg viewBox="0 0 90 60" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>

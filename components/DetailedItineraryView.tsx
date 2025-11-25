@@ -7,6 +7,7 @@ import {
     ChevronLeftIcon, 
     ChevronRightIcon, 
     AlertTriangleIcon,
+    WalkIcon
 } from './icons';
 
 const BudgetTipsCard: React.FC<{ tips: BudgetTips }> = ({ tips }) => (
@@ -138,6 +139,25 @@ const DetailedItineraryView: React.FC<{
                        <h3 className="text-2xl font-extrabold text-cyan-700">{cityPlan.city}</h3>
                        <span className="text-sm font-semibold text-slate-600 bg-slate-200 px-2 py-0.5 rounded">{cityPlan.duration}</span>
                     </div>
+                    
+                    {/* Walking Guide Banner */}
+                    <div className="mb-6 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl flex items-center justify-between cursor-pointer hover:shadow-md transition-shadow group">
+                        <div className="flex items-center space-x-3">
+                            <div className="p-2 bg-emerald-100 rounded-full text-emerald-600 group-hover:bg-emerald-200 transition-colors">
+                                <WalkIcon className="h-6 w-6" />
+                            </div>
+                            <div>
+                                <h5 className="font-bold text-emerald-800">Guia de Caminhada: {cityPlan.city} a Pé</h5>
+                                <p className="text-xs text-emerald-600">Descubra atrações gratuitas e bairros charmosos.</p>
+                            </div>
+                        </div>
+                        <div className="text-emerald-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 group-hover:translate-x-1 transition-transform">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </div>
+                    </div>
+
                     <div className="space-y-6 border-l-2 border-slate-200 ml-4 pl-8">
                       {cityPlan.days.map((dayPlan, dayIndex) => (
                         <DayCard key={dayIndex} dayPlan={dayPlan} />
