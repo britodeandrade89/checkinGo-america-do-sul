@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Itinerary } from '../types';
 import { analyzeTravelScreenshot } from '../services/geminiService';
@@ -66,30 +67,30 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onItineraryCreated, onApi
   }, [handlePaste]);
 
   return (
-    <div className="mb-8 p-6 bg-white rounded-xl shadow-md border border-slate-200 text-center">
+    <div className="p-6 bg-gray-900/50 rounded-lg border border-dashed border-gray-600 text-center transition-all hover:border-gray-500 hover:bg-gray-900/70">
       {!isLoading && !pastedImage && (
         <>
-            <h2 className="text-lg font-bold text-slate-700">Adicionar Nova Viagem</h2>
-            <p className="text-slate-500 mt-1">Tire uma captura de tela da sua busca (voo, hotel, ônibus) e cole em qualquer lugar da página (Ctrl+V).</p>
+            <h2 className="text-lg font-bold text-gray-200">Adicionar Reserva por Imagem</h2>
+            <p className="text-gray-400 mt-1">Tire uma captura de tela da sua reserva (voo, hotel) e cole aqui (Ctrl+V).</p>
         </>
       )}
 
       {isLoading && (
-         <div className="flex flex-col items-center justify-center text-blue-600">
+         <div className="flex flex-col items-center justify-center text-cyan-400">
             <ActivityIcon className="h-8 w-8 animate-pulse mb-2" />
             <p className="font-semibold">Analisando sua captura de tela...</p>
-            <p className="text-sm text-slate-500">Aguarde, a inteligência artificial está extraindo os dados da viagem.</p>
+            <p className="text-sm text-gray-400">Aguarde, a IA está extraindo os dados.</p>
          </div>
       )}
 
       {!isLoading && error && (
-         <div className="text-red-600">
+         <div className="text-red-400">
             <AlertTriangleIcon className="h-8 w-8 mx-auto mb-2" />
             <p className="font-semibold">Falha na Análise</p>
             <p className="text-sm">{error}</p>
             <button
               onClick={() => { setPastedImage(null); setError(null); }}
-              className="mt-3 text-sm text-blue-600 hover:underline"
+              className="mt-3 text-sm text-cyan-400 hover:underline"
             >
               Tentar Novamente
             </button>
@@ -98,11 +99,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onItineraryCreated, onApi
 
       {pastedImage && !error && (
          <div className="mt-4">
-             <p className="text-sm font-medium text-slate-600 mb-2">Pré-visualização:</p>
+             <p className="text-sm font-medium text-gray-400 mb-2">Pré-visualização:</p>
              <img 
                 src={pastedImage} 
                 alt="Captura de tela colada"
-                className={`rounded-lg border-4 ${isLoading ? 'border-blue-200 animate-pulse' : error ? 'border-red-300' : 'border-slate-200'} max-h-60 mx-auto`}
+                className={`rounded-lg border-4 ${isLoading ? 'border-cyan-500/30 animate-pulse' : error ? 'border-red-500/30' : 'border-gray-700'} max-h-60 mx-auto`}
              />
          </div>
       )}

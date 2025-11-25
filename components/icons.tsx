@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 // --- UI Icons ---
@@ -495,4 +494,10 @@ export const CCRBarcasLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props
       <path d="M12 24L24 16L36 24L24 32L12 24Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M12 30L24 22L36 30" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
+);
+
+export const WhatsAppIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.31 20.62C8.75 21.41 10.36 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 6.46 17.5 2 12.04 2ZM16.56 15.31C16.31 15.61 15.22 16.19 14.82 16.39C14.42 16.59 13.83 16.74 13.38 16.54C12.93 16.34 12.06 16.02 11.01 15.09C9.72 13.93 9.05 12.59 8.85 12.19C8.65 11.79 8.8 11.61 8.97 11.44C9.12 11.29 9.3 11.09 9.47 10.91C9.62 10.76 9.67 10.64 9.82 10.34C9.97 10.04 9.92 9.86 9.82 9.66C9.72 9.46 9.27 8.36 9.07 7.86C8.87 7.36 8.67 7.44 8.52 7.44H8.17C7.87 7.44 7.5 7.54 7.18 7.84C6.86 8.14 6.16 8.76 6.16 9.96C6.16 11.16 7.21 12.31 7.36 12.51C7.51 12.71 9.27 15.39 11.89 16.54C14.51 17.69 14.93 17.54 15.38 17.49C15.83 17.44 16.81 16.86 17.06 16.26C17.31 15.66 17.31 15.16 17.21 15.01C17.11 14.86 16.81 14.76 16.56 15.31Z"/>
+  </svg>
 );
