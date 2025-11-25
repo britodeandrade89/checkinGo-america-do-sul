@@ -496,5 +496,3 @@ export const CCRBarcasLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props
       <path d="M12 30L24 22L36 30" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
 );
-
-export const GolLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
