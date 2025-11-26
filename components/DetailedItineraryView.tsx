@@ -1,7 +1,6 @@
-
 import React from 'react';
 import type { DetailedRoute, CityItinerary, DayPlan, Activity, BudgetTips } from '../types';
-import { detailedRoutes } from '../detailedRotes';
+import { detailedRoutes } from '../detailedRoutes';
 import { 
     CloseIcon, 
     ChevronLeftIcon, 
