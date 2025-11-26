@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { getUsers } from '../services/userService';
@@ -14,7 +13,6 @@ const LoginScreen: React.FC = () => {
     const [error, setError] = useState('');
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    // Estágio 1: Splash Screen (2.5s)
     useEffect(() => {
         const timer = setTimeout(() => {
             setStage('profiles');
@@ -22,21 +20,25 @@ const LoginScreen: React.FC = () => {
         return () => clearTimeout(timer);
     }, []);
 
-    // Fallback de segurança (timeout) para a transição
     useEffect(() => {
         if (stage === 'transition' && selectedUser) {
             const safetyTimer = setTimeout(() => {
                 login(selectedUser.id);
-            }, 8000); // 8 segundos de segurança
+            }, 8000); 
             return () => clearTimeout(safetyTimer);
         }
     }, [stage, selectedUser, login]);
 
     const handleUserSelect = (user: User) => {
         setSelectedUser(user);
-        setStage('password');
-        setPin(['', '', '', '']);
-        setError('');
+        if (user.pin) {
+            setStage('password');
+            setPin(['', '', '', '']);
+            setError('');
+        } else {
+            // No pin, login directly after transition
+            setStage('transition');
+        }
     };
 
     const handlePinChange = (index: number, value: string) => {
@@ -51,7 +53,7 @@ const LoginScreen: React.FC = () => {
 
         if (index === 3 && value) {
             const enteredPin = newPin.join('');
-            if (enteredPin === '1234') { // Senha fixa para demo
+            if (enteredPin === '1234') { 
                 setStage('transition');
             } else {
                 setError('Senha incorreta. Tente 1234.');
@@ -67,8 +69,6 @@ const LoginScreen: React.FC = () => {
         }
     };
 
-    // RENDERIZAÇÃO CONDICIONAL POR ESTÁGIO
-
     if (stage === 'splash') {
         return (
             <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900 via-[#0f172a] to-black flex items-center justify-center overflow-hidden">
@@ -76,9 +76,7 @@ const LoginScreen: React.FC = () => {
                      <h1 className="font-black text-6xl tracking-tighter flex items-center drop-shadow-lg">
                         <span className="text-blue-200">CHECK-IN,</span>
                         <span className="text-blue-200 ml-3">G</span>
-                        <div className="w-16 h-16 mx-1 relative">
-                           <SpinningEarthIcon className="w-full h-full animate-spin-slow" />
-                        </div>
+                        <div className="w-16 h-16 mx-1 relative"><SpinningEarthIcon className="w-full h-full animate-spin-slow" /></div>
                         <span className="text-blue-200">!</span>
                     </h1>
                 </div>
@@ -89,26 +87,17 @@ const LoginScreen: React.FC = () => {
     if (stage === 'transition') {
         return (
             <div className="min-h-screen bg-black flex items-center justify-center overflow-hidden relative">
-                {/* Video de avião decolando */}
                 <video 
                     ref={videoRef}
                     className="absolute inset-0 w-full h-full object-cover"
                     autoPlay 
                     muted 
                     playsInline
-                    onEnded={() => {
-                        if (selectedUser) login(selectedUser.id);
-                    }}
-                    onError={() => {
-                        // Fallback se o vídeo falhar
-                        if (selectedUser) login(selectedUser.id);
-                    }}
+                    onEnded={() => { if (selectedUser) login(selectedUser.id); }}
+                    onError={() => { if (selectedUser) login(selectedUser.id); }}
                 >
-                    {/* Vídeo de decolagem noturna/pôr do sol */}
                     <source src="https://videos.pexels.com/video-files/5927913/5927913-uhd_2560_1440_24fps.mp4" type="video/mp4" />
                 </video>
-
-                {/* Overlay com o gradiente da marca */}
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/60 via-[#0f172a]/60 to-black/80 mix-blend-overlay pointer-events-none"></div>
             </div>
         );
@@ -116,23 +105,18 @@ const LoginScreen: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900 via-[#0f172a] to-black flex flex-col items-center justify-center p-4 relative font-sans">
-            {/* Logo Topo Esquerdo (Estilo Netflix) */}
             <div className="absolute top-8 left-8 md:top-12 md:left-12 opacity-90">
                  <div className="flex items-center">
-                    {/* Logo com cor Azul Clarinho (Blue-200) para contrastar com o título branco */}
                     <h1 className="font-black text-3xl md:text-4xl tracking-tighter flex items-center drop-shadow-md">
                         <span className="text-blue-200">CHECK-IN,</span>
                         <span className="text-blue-200 ml-2">G</span>
-                        <div className="w-8 h-8 md:w-10 md:h-10 mx-0.5 relative">
-                           <SpinningEarthIcon className="w-full h-full animate-spin-slow" />
-                        </div>
+                        <div className="w-8 h-8 md:w-10 md:h-10 mx-0.5 relative"><SpinningEarthIcon className="w-full h-full animate-spin-slow" /></div>
                         <span className="text-blue-200">!</span>
                     </h1>
                  </div>
             </div>
 
             <div className="w-full max-w-3xl text-center z-10 animate-fade-in-up mt-12">
-                {/* Título com cor Champagne/Pérola (#EAE0C8) e sombra forte para destaque */}
                 <h1 className="text-4xl md:text-5xl font-bold text-[#EAE0C8] mb-16 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] tracking-wide">
                     {stage === 'password' ? `Olá, ${selectedUser?.name}.` : 'Quem está viajando hoje?'}
                 </h1>
@@ -146,28 +130,17 @@ const LoginScreen: React.FC = () => {
                                 className="group flex flex-col items-center cursor-pointer transition-all duration-300"
                             >
                                 <div className="relative w-32 h-32 md:w-40 md:h-40 mb-4 rounded-full overflow-hidden border-4 border-transparent group-hover:border-white transition-all duration-200 transform group-hover:scale-105 shadow-lg group-hover:shadow-2xl shadow-black/50">
-                                    <img 
-                                        src={user.avatar} 
-                                        alt={user.name} 
-                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                                    />
+                                    <img src={user.avatar} alt={user.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
                                 </div>
                                 <p className="text-gray-400 text-xl font-medium group-hover:text-white transition-colors duration-300">{user.name}</p>
                             </div>
                         ))}
-                        {/* Botão Adicionar Perfil (Visual) */}
-                        <div className="group flex flex-col items-center cursor-not-allowed opacity-60 hover:opacity-90 transition-opacity">
-                             <div className="w-32 h-32 md:w-40 md:h-40 mb-4 rounded-full flex items-center justify-center bg-[#1e293b] border-4 border-transparent group-hover:border-white hover:bg-[#334155] transition-all duration-200 transform group-hover:scale-105 shadow-lg">
-                                <span className="text-6xl text-gray-400 group-hover:text-white font-light pb-2">+</span>
-                             </div>
-                             <p className="text-gray-400 text-xl font-medium group-hover:text-white">Adicionar</p>
-                        </div>
                     </div>
                 )}
 
-                {stage === 'password' && (
+                {stage === 'password' && selectedUser && (
                     <div className="bg-black/60 backdrop-blur-md p-10 rounded-lg max-w-md mx-auto border border-gray-700/50 shadow-2xl transform transition-all">
-                        <p className="text-gray-300 mb-8 text-base font-medium">Digite sua senha para acessar (1234)</p>
+                        <p className="text-gray-300 mb-8 text-base font-medium">Digite sua senha para acessar ({selectedUser.pin})</p>
                         <div className="flex justify-center gap-4 mb-8">
                             {pin.map((digit, idx) => (
                                 <input
@@ -184,12 +157,7 @@ const LoginScreen: React.FC = () => {
                             ))}
                         </div>
                         {error && <p className="text-red-400 text-sm mb-6 animate-pulse font-medium">{error}</p>}
-                        <button 
-                            onClick={() => { setStage('profiles'); setPin(['','','','']); }}
-                            className="text-gray-400 hover:text-white text-sm uppercase tracking-widest border border-gray-600 hover:border-white px-8 py-2.5 rounded transition-all duration-300"
-                        >
-                            Voltar
-                        </button>
+                        <button onClick={() => { setStage('profiles'); setPin(['','','','']); }} className="text-gray-400 hover:text-white text-sm uppercase tracking-widest border border-gray-600 hover:border-white px-8 py-2.5 rounded transition-all duration-300">Voltar</button>
                     </div>
                 )}
             </div>
