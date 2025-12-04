@@ -210,7 +210,6 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                     </div>
                     <div className="relative z-10 -mt-20 space-y-12 pb-20 px-4 md:px-12">
                         <section className="pt-8">
-                            <h3 className="text-lg md:text-xl font-bold text-gray-100 mb-3 hover:text-white cursor-pointer flex items-center group">Explorar Roteiros Disponíveis <span className="hidden group-hover:inline-block ml-2 text-sm text-cyan-400 opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 group-hover:translate-x-2">Ver tudo &gt;</span></h3>
                             <Destinations onShowInfo={handleShowInfo} />
                         </section>
                         <section ref={myTripsRef}>

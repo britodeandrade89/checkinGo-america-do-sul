@@ -24,7 +24,10 @@ const ItineraryEpisode: React.FC<{ itinerary: Itinerary, index: number, onSelect
                 <p className="text-white font-semibold text-sm truncate">{itinerary.title}</p>
                 <p className="text-gray-400 text-xs">{firstEvent.startLocation} → {firstEvent.endLocation}</p>
             </div>
-            <span className="text-gray-400 text-xs">{firstEvent.duration}</span>
+            <div className="text-right">
+                 <p className="text-white font-bold text-sm">R$ {itinerary.totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 0 })}</p>
+                 <span className="text-gray-400 text-xs">{firstEvent.duration}</span>
+            </div>
         </div>
     )
 }
@@ -51,9 +54,10 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
 
     const destination: Destination | undefined = allDestinations.find(d => d.id === selectionId);
     const destinationItineraries: Itinerary[] = userData?.itineraries.filter(it => {
-        if (selectionId === 1) return it.id.toString().startsWith('1');
-        if (selectionId === 41) return it.id.toString().startsWith('2');
-        if (selectionId === 42) return it.id.toString().startsWith('3');
+        // Destination 1 (Assessoria Essencial) contains both Azul (101) and LATAM (102)
+        if (selectionId === 1) return it.id === 101 || it.id === 102;
+        // Destination 2 is empty for now
+        if (selectionId === 2) return false;
         return false;
     }) || [];
 
@@ -101,7 +105,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
                                 <span className="text-gray-300">2026</span>
                                 <span className="border border-gray-500 px-1 rounded text-xs text-gray-300">HD</span>
                             </div>
-                            <p className="text-gray-300 text-sm leading-relaxed">{destination.description}</p>
+                            <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{destination.description}</p>
                         </div>
                         <div className="text-sm text-gray-400 w-1/3">
                             <p><span className="text-gray-500">Locais: </span>{destination.places.join(', ')}</p>
@@ -110,11 +114,15 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
                     </div>
 
                     <div className="mt-6">
-                        <h3 className="text-xl font-bold text-white mb-2">Episódios</h3>
+                        <h3 className="text-xl font-bold text-white mb-2">Opções Disponíveis</h3>
                         <div className="space-y-2">
-                            {destinationItineraries.map((it, index) => (
-                                <ItineraryEpisode key={it.id} itinerary={it} index={index} onSelect={() => onSelectItinerary(it)} />
-                            ))}
+                            {destinationItineraries.length > 0 ? (
+                                destinationItineraries.map((it, index) => (
+                                    <ItineraryEpisode key={it.id} itinerary={it} index={index} onSelect={() => onSelectItinerary(it)} />
+                                ))
+                            ) : (
+                                <p className="text-gray-500 text-sm italic">Nenhuma opção disponível no momento.</p>
+                            )}
                         </div>
                     </div>
                 </div>
