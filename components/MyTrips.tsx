@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { Itinerary, GroupedTrip } from '../types';
 import DestinationTripCard from './DestinationTripCard';
@@ -42,10 +43,16 @@ const MyTrips: React.FC<MyTripsProps> = ({ onSelectItinerary, onShowInfo }) => {
     
     itineraries.forEach(itinerary => {
         let key = "Outros";
-        if (itinerary.subtitle?.includes('Opção 1') || itinerary.title.includes('Opção 1')) {
-            key = 'Opção 1: Rota via Assunção';
-        } else if (itinerary.subtitle?.includes('Opção 2') || itinerary.title.includes('Opção 2')) {
-            key = 'Opção 2: Rota Direta (Iguazú)';
+        
+        if (itinerary.id === 101 || itinerary.id === 102) {
+            const dest1 = destinations.find(d => d.id === 1);
+            if (dest1) key = dest1.title;
+        } else if (itinerary.id === 201) {
+            const dest2 = destinations.find(d => d.id === 2);
+            if (dest2) key = dest2.title;
+        } else if (itinerary.id === 301) {
+            const dest3 = destinations.find(d => d.id === 3);
+            if (dest3) key = dest3.title;
         }
         
         if (groupedTrips[key] && !groupedTrips[key].itineraries.some(it => it.id === itinerary.id)) {
@@ -57,17 +64,18 @@ const MyTrips: React.FC<MyTripsProps> = ({ onSelectItinerary, onShowInfo }) => {
       .filter(trip => (trip.itineraries && trip.itineraries.length > 0) || (trip.carTrips && trip.carTrips.length > 0));
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
+        <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide snap-x pr-4">
             {finalTrips.map((trip, index) => {
                 const destId = 'id' in trip.destination ? trip.destination.id : undefined;
                 
                 return (
-                    <DestinationTripCard 
-                        key={index}
-                        trip={trip}
-                        onShowInfo={destId ? () => onShowInfo(destId) : () => {}}
-                        onToggleFavorite={destId ? () => handleToggleFavorite(destId) : undefined}
-                    />
+                    <div key={index} className="snap-start flex-shrink-0">
+                        <DestinationTripCard 
+                            trip={trip}
+                            onShowInfo={destId ? () => onShowInfo(destId) : () => {}}
+                            onToggleFavorite={destId ? () => handleToggleFavorite(destId) : undefined}
+                        />
+                    </div>
                 );
             })}
         </div>

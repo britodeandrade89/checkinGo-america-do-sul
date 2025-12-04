@@ -17,10 +17,10 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, totalCos
   return (
     <div 
       onClick={onShowInfo}
-      className="group cursor-pointer rounded-lg overflow-hidden bg-[#2f2f2f] transition-all duration-300 transform hover:scale-110 hover:z-20 hover:shadow-2xl hover:shadow-black"
+      className="group cursor-pointer rounded md:rounded-lg overflow-hidden bg-[#2f2f2f] transition-all duration-300 transform md:hover:scale-105 md:hover:z-20 md:hover:shadow-xl relative w-[160px] md:w-[280px]"
     >
       {/* Thumbnail Container */}
-      <div className="aspect-video w-full relative">
+      <div className="aspect-[16/9] w-full relative">
         <img 
             src={bgImage} 
             alt={destination.title} 
@@ -32,31 +32,33 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, totalCos
                 <div className="h-full bg-red-600 w-1/3"></div>
             </div>
         )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden"></div>
+         <h3 className="absolute bottom-2 left-2 right-2 text-xs font-bold text-white truncate drop-shadow-md md:hidden">{destination.title}</h3>
       </div>
 
-      {/* Hidden Details revealed on hover */}
-      <div className="opacity-0 group-hover:opacity-100 max-h-0 group-hover:max-h-screen transition-all duration-300">
-        <div className="p-3 space-y-2 bg-[#181818]">
+      {/* Hidden Details revealed on hover (Desktop only) */}
+      <div className="hidden md:block opacity-0 group-hover:opacity-100 max-h-0 group-hover:max-h-screen transition-all duration-300 absolute inset-x-0 top-full bg-[#181818] z-30 shadow-2xl rounded-b-lg">
+        <div className="p-3 space-y-2">
             <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold text-white truncate pr-2">{destination.title}</h3>
                 <div className="flex space-x-1">
-                    <button className="border-2 border-gray-400 rounded-full p-1 hover:border-white hover:bg-white/20 transition">
-                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                    <button className="border border-gray-400 rounded-full p-1 hover:border-white hover:bg-white/20 transition">
+                         <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                     </button>
                     <button 
                         onClick={(e) => { e.stopPropagation(); onShowInfo(); }}
-                        className="border-2 border-gray-400 rounded-full p-1 hover:border-white hover:bg-white/20 transition"
+                        className="border border-gray-400 rounded-full p-1 hover:border-white hover:bg-white/20 transition"
                     >
-                         <ChevronDownIcon className="w-4 h-4 text-white" />
+                         <ChevronDownIcon className="w-3 h-3 text-white" />
                     </button>
                 </div>
             </div>
-            <div className="flex items-center space-x-2 text-xs text-gray-400">
+            <div className="flex items-center space-x-2 text-[10px] text-gray-400">
                 <span className="text-green-400 font-semibold">98% Match</span>
                 <span>{plannedItemsCount} episódios</span>
-                <span className="border border-gray-500 px-1 rounded text-[10px]">HD</span>
+                <span className="border border-gray-500 px-1 rounded">HD</span>
             </div>
-            <p className="text-xs text-gray-300 line-clamp-2">
+            <p className="text-[10px] text-gray-300 line-clamp-2">
                 {destination.description}
             </p>
         </div>

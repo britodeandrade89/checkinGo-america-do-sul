@@ -178,7 +178,7 @@ export interface Destination {
 
 // START: Updated interfaces for detailed, rich day-by-day itineraries
 export interface Activity {
-  period: 'Manhã' | 'Tarde' | 'Noite' | 'Dia Inteiro' | 'Transporte';
+  period: string; // Relaxed from union to string to allow specific times like "08:00"
   description: string;
   type: 'Passeio' | 'Transporte' | 'Alimentação' | 'Compras' | 'Hospedagem' | 'Dica';
   cost_level: 'Grátis' | 'Baixo' | 'Médio' | 'Alto' | 'Incluso';
@@ -258,11 +258,10 @@ export interface BestTripCombination {
   totalCost: number;
   departureFlight: Itinerary;
   returnFlight: Itinerary;
-  accommodation: AccommodationOption;
 }
 
 export interface GroupedTrip {
-    destination: Destination | { title: string; themeColor?: string, icon?: React.ReactElement, imageUrl?: string };
+    destination: Destination;
     itineraries: Itinerary[];
     carTrips?: CarTripLeg[];
 }

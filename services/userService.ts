@@ -28,32 +28,62 @@ export const getUsers = (): User[] => {
     return USERS;
 };
 
-// Changed key to v18 for new user data structure
+// We use a hydration strategy here. 
+// React Elements (Icons) cannot be serialized to JSON/LocalStorage.
+// So we always load the "static" data (initialItineraries and destinations) from the code imports
+// and only merge stateful flags (like isFavorite) from LocalStorage.
 export const getUserData = (userId: number): UserData | null => {
-    const data = localStorage.getItem(`userData_v18_${userId}`);
-    if (!data) return null;
+    const storageKey = `userData_v21_${userId}`; // Incrementing version to force refresh
+    const storedDataString = localStorage.getItem(storageKey);
     
-    try {
-        return JSON.parse(data);
-    } catch (error) {
-        console.error(`Erro ao carregar dados do usuário ${userId}:`, error);
-        return null;
+    // Start with fresh data from code to ensure Icons are valid React Elements
+    const activeData: UserData = {
+        itineraries: [...initialItineraries],
+        destinations: [...destinations]
+    };
+
+    if (storedDataString) {
+        try {
+            const storedData = JSON.parse(storedDataString) as UserData;
+            
+            // 1. Merge Favorites from stored destinations into the fresh code destinations
+            activeData.destinations = activeData.destinations.map(dest => {
+                const storedDest = storedData.destinations.find(d => d.id === dest.id);
+                return storedDest ? { ...dest, isFavorite: storedDest.isFavorite } : dest;
+            });
+
+            // 2. Identify and append any NEW itineraries the user created (e.g. via Image Upload)
+            // These IDs won't exist in the initialItineraries list.
+            const initialIds = new Set(initialItineraries.map(i => i.id));
+            const userAddedItineraries = storedData.itineraries.filter(i => !initialIds.has(i.id));
+            
+            // Note: User added itineraries might still have broken icons if they relied on React Elements in state,
+            // but this fixes the core app crash for the main demo data.
+            activeData.itineraries = [...activeData.itineraries, ...userAddedItineraries];
+
+        } catch (error) {
+            console.error(`Erro ao carregar/mesclar dados do usuário ${userId}:`, error);
+            // If parse fails, we fall back to activeData (fresh code data)
+        }
+    } else {
+        // First run for this version, save the default state
+        saveUserData(userId, activeData);
     }
+
+    return activeData;
 };
 
 export const saveUserData = (userId: number, data: UserData): void => {
     try {
-        localStorage.setItem(`userData_v18_${userId}`, JSON.stringify(data));
+        const storageKey = `userData_v21_${userId}`;
+        localStorage.setItem(storageKey, JSON.stringify(data));
     } catch (error) {
         console.error(`Erro ao salvar dados do usuário ${userId}:`, error);
     }
 };
 
 export const initializeUserData = (userId: number): UserData => {
-    const defaultData: UserData = {
-        itineraries: initialItineraries,
-        destinations: destinations,
-    };
-    saveUserData(userId, defaultData);
-    return defaultData;
+    // This is primarily used by the AuthContext login if no data exists, 
+    // but logic is now handled in getUserData
+    return getUserData(userId)!;
 };

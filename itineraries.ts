@@ -3,7 +3,8 @@ import React from 'react';
 import type { Itinerary } from './types';
 import { 
     AzulLogoIcon,
-    LatamLogoIcon
+    LatamLogoIcon,
+    BookingLogoIcon
 } from './components/icons';
 
 export const initialItineraries: Itinerary[] = [
@@ -91,5 +92,115 @@ export const initialItineraries: Itinerary[] = [
         checked: { status: 'Taxa Adicional', details: 'Cobrada à parte' }
     },
     monitoring: { enabled: true }
+  },
+  // --- OPÇÃO 2: Assessoria Completa ---
+  {
+    id: 201,
+    title: 'Pacote Completo: Voo Azul + Hospedagem',
+    subtitle: 'Inclui análise de hotéis Econômico ou Cultural',
+    savedDate: '2025-02-19 11:00',
+    totalPrice: 435.00, // Preço base do voo
+    sourceUrl: '',
+    events: [
+        {
+            type: 'flight',
+            startTime: '05:05',
+            endTime: '06:35',
+            startDate: '10/01/2026',
+            endDate: '10/01/2026',
+            startLocation: 'GIG',
+            endLocation: 'CWB',
+            duration: '1h 30m',
+            details: 'Direto · Chegada Cedo',
+            company: { name: 'Azul', logo: React.createElement(AzulLogoIcon) },
+            warning: 'Ida'
+        },
+        {
+            type: 'flight',
+            startTime: '23:20',
+            endTime: '00:45',
+            startDate: '17/01/2026',
+            endDate: '18/01/2026',
+            startLocation: 'CWB',
+            endLocation: 'GIG',
+            duration: '1h 25m',
+            details: 'Direto · Retorno Tarde',
+            company: { name: 'Azul', logo: React.createElement(AzulLogoIcon) },
+            warning: 'Volta (+1)'
+        }
+    ],
+    baggage: {
+        personal: { status: 'Inclusa', details: 'Mochila/Bolsa' },
+        carryOn: { status: 'Inclusa', details: '10kg de Mão' },
+        checked: { status: 'Taxa Adicional', details: 'Cobrada à parte' }
+    },
+    bookingOptions: [
+        {
+            provider: 'Rede Andrade São Francisco',
+            price: 780.00,
+            url: 'https://www.hoteis.com/ho3214786528',
+            logo: React.createElement(BookingLogoIcon),
+            tag: 'Econômico'
+        },
+        {
+            provider: 'Hotel Elo Curitiba',
+            price: 950.00,
+            url: 'https://www.hoteis.com/ho456543',
+            logo: React.createElement(BookingLogoIcon),
+            tag: 'Cultural'
+        }
+    ]
+  },
+  // --- OPÇÃO 3: Assessoria Premium ---
+  {
+    id: 301,
+    title: 'Experiência Premium 8 Dias',
+    subtitle: 'Voo Azul/LATAM + Hotéis + Roteiro Exclusivo',
+    savedDate: '2025-02-19 12:00',
+    totalPrice: 2785.00, // Estimativa Voo + Hotel Médio + Passeios Principais
+    sourceUrl: '',
+    events: [
+        {
+            type: 'flight',
+            startTime: '05:05',
+            endTime: '06:35',
+            startDate: '10/01/2026',
+            endDate: '10/01/2026',
+            startLocation: 'GIG',
+            endLocation: 'CWB',
+            duration: '1h 30m',
+            details: 'Voo Sugerido (Azul)',
+            company: { name: 'Azul', logo: React.createElement(AzulLogoIcon) },
+            warning: 'Opção Recomendada'
+        },
+        {
+            type: 'accommodation',
+            startTime: 'Check-in',
+            endTime: 'Check-out',
+            startDate: '10/01/2026',
+            endDate: '17/01/2026',
+            startLocation: 'Curitiba',
+            endLocation: 'Hotel Selecionado',
+            duration: '7 noites',
+            details: 'Rede Andrade ou Elo',
+            company: { name: 'Booking.com', logo: React.createElement(BookingLogoIcon) }
+        }
+    ],
+    bookingOptions: [
+        {
+            provider: 'Rede Andrade São Francisco',
+            price: 780.00,
+            url: 'https://www.hoteis.com/ho3214786528',
+            logo: React.createElement(BookingLogoIcon),
+            tag: 'Econômico'
+        },
+        {
+            provider: 'Hotel Elo Curitiba',
+            price: 950.00,
+            url: 'https://www.hoteis.com/ho456543',
+            logo: React.createElement(BookingLogoIcon),
+            tag: 'Cultural'
+        }
+    ]
   }
 ];
