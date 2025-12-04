@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { DetailedRoute, BudgetTips } from '../types';
 import { detailedRoutes } from '../detailedRoutes';
@@ -117,7 +118,7 @@ const DetailedItineraryView: React.FC<{
                           <div className="mt-3 space-y-4">
                             {dayPlan.activities.map((activity, actIndex) => (
                                <div className="flex items-start space-x-3" key={actIndex}>
-                                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center border border-gray-700 text-gray-400">{React.cloneElement(activity.icon, { className: 'h-5 w-5' })}</div>
+                                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center border border-gray-700 text-gray-400">{React.cloneElement(activity.icon as React.ReactElement<{ className?: string }>, { className: 'h-5 w-5' })}</div>
                                   <div className="flex-1">
                                       <p className="text-sm text-gray-300"><span className="font-semibold text-gray-500">{activity.period}:</span> {activity.description}
                                       {activity.cost_level === 'Grátis' && (<span className="ml-2 text-xs font-bold text-green-400 bg-green-900/50 px-2 py-0.5 rounded-full">Grátis</span>)}</p>

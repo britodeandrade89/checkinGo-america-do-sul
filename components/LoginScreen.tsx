@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { getUsers } from '../services/userService';
@@ -74,10 +75,10 @@ const LoginScreen: React.FC = () => {
             <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900 via-[#0f172a] to-black flex items-center justify-center overflow-hidden">
                 <div className="animate-pulse flex items-center justify-center">
                      <h1 className="font-black text-6xl tracking-tighter flex items-center drop-shadow-lg">
-                        <span className="text-blue-200">CHECK-IN,</span>
-                        <span className="text-blue-200 ml-3">G</span>
+                        <span className="text-blue-400">CHECK-IN,</span>
+                        <span className="text-green-400 ml-3">G</span>
                         <div className="w-16 h-16 mx-1 relative"><SpinningEarthIcon className="w-full h-full animate-spin-slow" /></div>
-                        <span className="text-blue-200">!</span>
+                        <span className="text-green-400">!</span>
                     </h1>
                 </div>
             </div>
@@ -108,10 +109,10 @@ const LoginScreen: React.FC = () => {
             <div className="absolute top-8 left-8 md:top-12 md:left-12 opacity-90">
                  <div className="flex items-center">
                     <h1 className="font-black text-3xl md:text-4xl tracking-tighter flex items-center drop-shadow-md">
-                        <span className="text-blue-200">CHECK-IN,</span>
-                        <span className="text-blue-200 ml-2">G</span>
+                        <span className="text-blue-400">CHECK-IN,</span>
+                        <span className="text-green-400 ml-2">G</span>
                         <div className="w-8 h-8 md:w-10 md:h-10 mx-0.5 relative"><SpinningEarthIcon className="w-full h-full animate-spin-slow" /></div>
-                        <span className="text-blue-200">!</span>
+                        <span className="text-green-400">!</span>
                     </h1>
                  </div>
             </div>

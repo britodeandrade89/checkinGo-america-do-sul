@@ -1,3 +1,4 @@
+
 import type { User, UserData } from '../types';
 import { initialItineraries } from '../itineraries';
 import { destinations } from '../destinations';
@@ -17,7 +18,7 @@ const USERS: User[] = [
     },
     {
         id: 3,
-        name: 'Visitante',
+        name: 'Demonstrativo',
         avatar: 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=200&auto=format&fit=crop',
         // No PIN for public access
     }

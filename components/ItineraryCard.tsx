@@ -39,7 +39,7 @@ const ItineraryCard: React.FC<{ itinerary: Itinerary; onSelect: (itinerary: Itin
                 <div className="mt-auto pt-4 border-t border-slate-100/80">
                      <div className="flex items-center text-sm text-slate-700">
                         <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-white/70 mr-3">
-                            {React.cloneElement(firstEvent.company.logo as React.ReactElement, { className: "h-5 w-auto" })}
+                            {React.cloneElement(firstEvent.company.logo as React.ReactElement<{ className?: string }>, { className: "h-5 w-auto" })}
                         </div>
                         <div className="flex-1">
                             <p className="font-semibold">{firstEvent.startLocation} → {firstEvent.endLocation}</p>

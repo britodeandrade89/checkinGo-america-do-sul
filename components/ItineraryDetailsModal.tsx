@@ -1,10 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import type { Itinerary, TripEvent, BookingOption, PriceHistoryItem } from '../types';
 import { 
     CloseIcon, 
     BaggageIcon, 
     BackpackIcon, 
-    SuitcaseIcon,
+    SuitcaseIcon, 
     BellIcon,
     TrendingUpIcon,
     TrendingDownIcon,
@@ -15,7 +16,7 @@ const EventRow: React.FC<{ event: TripEvent }> = ({ event }) => (
     <div className="bg-white/80 p-4 rounded-xl border border-slate-200">
         <div className="flex items-center space-x-4">
             <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg bg-slate-100">
-                {React.cloneElement(event.company.logo as React.ReactElement, { className: "h-8 w-auto" })}
+                {React.cloneElement(event.company.logo as React.ReactElement<{ className?: string }>, { className: "h-8 w-auto" })}
             </div>
             <div className="flex-1 grid grid-cols-3 items-center gap-4">
                 <div className="font-semibold text-slate-700">

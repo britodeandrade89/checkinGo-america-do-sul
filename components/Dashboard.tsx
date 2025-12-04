@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import type { Itinerary, Destination } from '../types';
 import Destinations from './Destinations';
@@ -155,9 +156,9 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                 <div className="flex items-center space-x-8">
                     <div className="flex items-center cursor-pointer group" onClick={() => setActiveTab('home')}>
                         <h1 className="font-black text-2xl md:text-3xl tracking-tighter flex items-center drop-shadow-md">
-                            <span className="text-blue-200">CHECK-IN,</span><span className="text-blue-200 ml-1">G</span>
+                            <span className="text-blue-400">CHECK-IN,</span><span className="text-green-400 ml-1">G</span>
                             <div className="w-6 h-6 md:w-8 md:h-8 mx-0.5 relative"><SpinningEarthIcon className="w-full h-full animate-spin-slow" /></div>
-                            <span className="text-blue-200">!</span>
+                            <span className="text-green-400">!</span>
                         </h1>
                     </div>
                     <div className="hidden md:flex space-x-5 text-sm font-medium text-gray-300">

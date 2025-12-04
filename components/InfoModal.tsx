@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { destinations as allDestinations } from '../destinations';
@@ -17,7 +18,7 @@ const ItineraryEpisode: React.FC<{ itinerary: Itinerary, index: number, onSelect
         <div onClick={onSelect} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-700/60 cursor-pointer transition-colors duration-200">
             <span className="text-xl font-bold text-gray-400">{index + 1}</span>
             <div className="w-24 h-14 bg-gray-700 rounded-md flex-shrink-0 flex items-center justify-center">
-                 {React.cloneElement(firstEvent.company.logo as React.ReactElement, { className: "h-8 w-auto" })}
+                 {React.cloneElement(firstEvent.company.logo as React.ReactElement<{ className?: string }>, { className: "h-8 w-auto" })}
             </div>
             <div className="flex-1 min-w-0">
                 <p className="text-white font-semibold text-sm truncate">{itinerary.title}</p>
@@ -50,6 +51,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
 
     const destination: Destination | undefined = allDestinations.find(d => d.id === selectionId);
     const destinationItineraries: Itinerary[] = userData?.itineraries.filter(it => {
+        if (selectionId === 1) return it.id.toString().startsWith('1');
         if (selectionId === 41) return it.id.toString().startsWith('2');
         if (selectionId === 42) return it.id.toString().startsWith('3');
         return false;
@@ -103,7 +105,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
                         </div>
                         <div className="text-sm text-gray-400 w-1/3">
                             <p><span className="text-gray-500">Locais: </span>{destination.places.join(', ')}</p>
-                             <p><span className="text-gray-500">Gênero: </span>Aventura, Natureza, Mochilão</p>
+                             <p><span className="text-gray-500">Gênero: </span>Serviços Demonstrativos</p>
                         </div>
                     </div>
 
