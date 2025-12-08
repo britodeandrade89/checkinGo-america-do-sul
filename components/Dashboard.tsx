@@ -12,18 +12,95 @@ import {
     BoaLogoIcon, BookingLogoIcon, AirbnbLogoIcon, DecolarLogoIcon, MaxMilhasLogoIcon,
     NordesteLogoIcon, NsaLogoIcon, ClickBusLogoIcon, CCRBarcasLogoIcon, PlaneTakeoffIcon,
     ChevronLeftIcon, ChevronRightIcon, WhatsAppIcon, HomeIcon, BackpackIcon, SparklesIcon,
-    InfoIcon
+    InfoIcon, StarIcon
 } from './icons';
 import { useAuth } from '../contexts/AuthContext';
 import ImageUploader from './ImageUploader';
 import CarTripCard from './CarTripCard';
 import { destinations as allDestinations } from '../destinations'; 
+import { getAgentClientsData } from '../services/userService';
 
 interface DashboardProps {
   installPromptEvent: BeforeInstallPromptEvent | null;
   onInstallSuccess: () => void;
   onSelectItinerary: (itinerary: Itinerary) => void;
 }
+
+const AgentDashboard: React.FC = () => {
+    const { logout } = useAuth();
+    const clientsData = getAgentClientsData();
+
+    return (
+        <div className="pt-24 px-4 md:px-12 pb-12 min-h-screen">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                    <h2 className="text-3xl font-bold text-white mb-1">Painel do Agente</h2>
+                    <p className="text-gray-400">Monitoramento de clientes e favoritos.</p>
+                </div>
+                <button 
+                    onClick={logout}
+                    className="flex items-center bg-[#E50914] hover:bg-[#b81d24] text-white px-6 py-2 rounded font-bold transition-colors shadow-lg text-sm uppercase tracking-wider"
+                >
+                    <LogoutIcon className="h-5 w-5 mr-2" />
+                    Sair do Painel
+                </button>
+            </div>
+
+            <div className="space-y-8">
+                {clientsData.map((client) => (
+                    <div key={client.userId} className="bg-[#1f1f1f] rounded-lg p-6 border border-gray-700">
+                        <div className="flex items-center space-x-4 mb-6">
+                            <img src={client.userAvatar} alt={client.userName} className="w-16 h-16 rounded-full border-2 border-gray-600 object-cover" />
+                            <div>
+                                <h3 className="text-xl font-bold text-white">Perfil: {client.userName}</h3>
+                                <p className="text-sm text-gray-400">ID Cliente: #{client.userId}</p>
+                            </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center">
+                                    <StarIcon className="w-4 h-4 mr-2 text-yellow-500" fill="currentColor" />
+                                    Destinos Favoritos
+                                </h4>
+                                {client.favorites.length > 0 ? (
+                                    <div className="space-y-3">
+                                        {client.favorites.map((dest: any) => (
+                                            <div key={dest.id} className="flex items-center space-x-3 bg-black/30 p-2 rounded">
+                                                <img src={dest.imageUrl} className="w-12 h-8 object-cover rounded" alt="thumb" />
+                                                <span className="text-sm text-white font-medium">{dest.title}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : <p className="text-gray-500 text-sm">Nenhum favorito.</p>}
+                            </div>
+
+                            <div>
+                                <h4 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center">
+                                    <BellIcon className="w-4 h-4 mr-2 text-cyan-500" />
+                                    Alertas / Seleções Recentes
+                                </h4>
+                                 {client.selectedItineraries.length > 0 ? (
+                                    <div className="space-y-3">
+                                        {client.selectedItineraries.map((it: any) => (
+                                            <div key={it.id} className="bg-black/30 p-3 rounded flex justify-between items-center">
+                                                <div>
+                                                    <p className="text-sm text-white font-bold">{it.title}</p>
+                                                    <p className="text-xs text-gray-400">Salvo: {it.savedDate}</p>
+                                                </div>
+                                                <span className="text-green-400 font-bold text-sm">R$ {it.totalPrice}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : <p className="text-gray-500 text-sm">Nenhuma seleção recente.</p>}
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSuccess, onSelectItinerary }) => {
     const { currentUser, logout, userData, updateUserData } = useAuth();
@@ -41,6 +118,9 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
     const [apiKeyError, setApiKeyError] = useState(false);
     const myTripsRef = useRef<HTMLDivElement>(null);
     
+    // Check for Agent
+    const isAgent = currentUser?.id === 99;
+
     useEffect(() => {
         const checkApiKey = async () => {
             if (window.aistudio && !(await window.aistudio.hasSelectedApiKey())) {
@@ -177,11 +257,13 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                         </h1>
                     </div>
                     {/* Desktop Menu Links */}
-                    <div className="hidden md:flex space-x-5 text-sm font-medium text-gray-300">
-                        <button onClick={() => setActiveTab('home')} className={`hover:text-white transition ${activeTab === 'home' ? 'text-white font-bold' : ''}`}>Início</button>
-                        <button onClick={() => setActiveTab('trips')} className={`hover:text-white transition ${activeTab === 'trips' ? 'text-white font-bold' : ''}`}>Minhas Viagens</button>
-                        <button onClick={() => setActiveTab('assistant')} className={`hover:text-white transition ${activeTab === 'assistant' ? 'text-white font-bold' : ''}`}>Assistente</button>
-                    </div>
+                    {!isAgent && (
+                        <div className="hidden md:flex space-x-5 text-sm font-medium text-gray-300">
+                            <button onClick={() => setActiveTab('home')} className={`hover:text-white transition ${activeTab === 'home' ? 'text-white font-bold' : ''}`}>Início</button>
+                            <button onClick={() => setActiveTab('trips')} className={`hover:text-white transition ${activeTab === 'trips' ? 'text-white font-bold' : ''}`}>Minhas Viagens</button>
+                            <button onClick={() => setActiveTab('assistant')} className={`hover:text-white transition ${activeTab === 'assistant' ? 'text-white font-bold' : ''}`}>Assistente</button>
+                        </div>
+                    )}
                 </div>
                 <div className="flex items-center space-x-4 md:space-x-6 text-gray-300">
                     <button className="hover:text-white"><SearchIcon className="h-6 w-6" /></button>
@@ -196,8 +278,10 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                 </div>
             </nav>
 
-            {/* Mobile View Content */}
-            {activeTab === 'home' ? (
+            {/* Content Logic */}
+            {isAgent ? (
+                <AgentDashboard />
+            ) : activeTab === 'home' ? (
                 <>
                     {/* Hero Section - Netflix Style */}
                     <div className="relative h-[85vh] md:h-[95vh] w-full group">
@@ -241,14 +325,14 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                             </div>
 
                             {/* Actions Buttons */}
-                            <div className="flex flex-row items-center justify-center md:justify-start space-x-4 w-full md:w-auto">
-                                <button onClick={handleContinuePlanning} className="flex items-center justify-center bg-white text-black px-6 py-2.5 rounded-[4px] font-bold hover:bg-white/90 transition min-w-[120px] md:min-w-[150px]">
-                                    <svg className="h-7 w-7 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                                    <span className="text-lg">Assistir</span>
+                            <div className="flex flex-row items-center justify-center w-full gap-4 px-8 md:px-0 md:justify-start md:w-auto">
+                                <button onClick={handleContinuePlanning} className="flex-1 md:flex-none flex items-center justify-center bg-white text-black py-2 md:px-6 md:py-2.5 rounded font-bold hover:bg-white/90 transition md:min-w-[140px]">
+                                    <svg className="h-6 w-6 md:h-8 md:w-8 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    <span className="text-base md:text-xl">Visualizar</span>
                                 </button>
-                                <button onClick={() => handleShowInfo(currentHeroId)} className="flex items-center justify-center bg-[rgba(109,109,110,0.7)] text-white px-6 py-2.5 rounded-[4px] font-bold hover:bg-[rgba(109,109,110,0.4)] transition min-w-[120px] md:min-w-[150px]">
-                                    <InfoIcon className="h-7 w-7 mr-2" />
-                                    <span className="text-lg">Mais informações</span>
+                                <button onClick={() => handleShowInfo(currentHeroId)} className="flex-1 md:flex-none flex items-center justify-center bg-[rgba(109,109,110,0.7)] text-white py-2 md:px-6 md:py-2.5 rounded font-bold hover:bg-[rgba(109,109,110,0.4)] transition md:min-w-[140px]">
+                                    <InfoIcon className="h-6 w-6 md:h-8 md:w-8 mr-2" />
+                                    <span className="text-base md:text-xl">Mais informações</span>
                                 </button>
                             </div>
                         </div>
@@ -266,7 +350,7 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                                 Minha Lista
                             </h3>
                              <div className="pr-4 md:pr-12 mb-4">
-                                {apiKeyError && currentUser?.id !== 3 ? (
+                                {apiKeyError && currentUser?.id !== 3 && currentUser?.id !== 99 ? (
                                     <div className="bg-red-900/50 border border-red-700 p-6 rounded-lg text-center animate-fade-in mx-4 md:mx-0">
                                         <h3 className="text-lg font-semibold text-white">Chave de API Necessária</h3>
                                         <button onClick={handleSelectKey} className="bg-white text-black font-bold px-6 py-2 rounded hover:bg-opacity-80 transition mt-2">Selecionar Chave</button>

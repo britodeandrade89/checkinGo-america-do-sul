@@ -136,6 +136,7 @@ export interface Itinerary {
     enabled: boolean;
   };
   priceHistory?: PriceHistoryItem[];
+  isFavorite?: boolean; // Added for favoriting itineraries
 }
 
 export interface CarTripInfo {

@@ -1,5 +1,5 @@
 
-import type { User, UserData } from '../types';
+import type { User, UserData, Itinerary } from '../types';
 import { initialItineraries } from '../itineraries';
 import { destinations } from '../destinations';
 
@@ -21,6 +21,12 @@ const USERS: User[] = [
         name: 'Demonstrativo',
         avatar: 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=200&auto=format&fit=crop',
         // No PIN for public access
+    },
+    {
+        id: 99,
+        name: 'Sou Agente',
+        avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop',
+        pin: '1008' // Senha solicitada
     }
 ];
 
@@ -28,12 +34,41 @@ export const getUsers = (): User[] => {
     return USERS;
 };
 
+// Mock data for the Agent view since we can't access other browser's local storage in this demo
+export const getAgentClientsData = () => {
+    return [
+        {
+            userId: 1,
+            userName: 'André',
+            userAvatar: USERS[0].avatar,
+            favorites: [
+                { ...destinations[0], isFavorite: true }, // Curitiba
+                { ...destinations[2], isFavorite: true }  // Premium
+            ],
+            selectedItineraries: [
+                { ...initialItineraries[0], savedDate: 'Hoje, 10:30' } // Azul Voo
+            ]
+        },
+        {
+            userId: 2,
+            userName: 'Marcelly',
+            userAvatar: USERS[1].avatar,
+            favorites: [
+                { ...destinations[1], isFavorite: true } // Completa
+            ],
+            selectedItineraries: [
+                { ...initialItineraries[2], savedDate: 'Ontem, 18:45' } // Pacote Completo
+            ]
+        }
+    ];
+};
+
 // We use a hydration strategy here. 
 // React Elements (Icons) cannot be serialized to JSON/LocalStorage.
 // So we always load the "static" data (initialItineraries and destinations) from the code imports
 // and only merge stateful flags (like isFavorite) from LocalStorage.
 export const getUserData = (userId: number): UserData | null => {
-    const storageKey = `userData_v36_${userId}`; // Incrementing version to force refresh
+    const storageKey = `userData_v40_${userId}`; // Incrementing version to force refresh
     const storedDataString = localStorage.getItem(storageKey);
     
     // Start with fresh data from code to ensure Icons are valid React Elements
@@ -50,6 +85,12 @@ export const getUserData = (userId: number): UserData | null => {
             activeData.destinations = activeData.destinations.map(dest => {
                 const storedDest = storedData.destinations.find(d => d.id === dest.id);
                 return storedDest ? { ...dest, isFavorite: storedDest.isFavorite } : dest;
+            });
+
+            // Merge itinerary favorites
+            activeData.itineraries = activeData.itineraries.map(it => {
+                const storedIt = storedData.itineraries.find(i => i.id === it.id);
+                return storedIt ? { ...it, isFavorite: storedIt.isFavorite, monitoring: storedIt.monitoring } : it;
             });
 
             // 2. Identify and append any NEW itineraries the user created (e.g. via Image Upload)
@@ -75,7 +116,7 @@ export const getUserData = (userId: number): UserData | null => {
 
 export const saveUserData = (userId: number, data: UserData): void => {
     try {
-        const storageKey = `userData_v36_${userId}`;
+        const storageKey = `userData_v40_${userId}`;
         localStorage.setItem(storageKey, JSON.stringify(data));
     } catch (error) {
         console.error(`Erro ao salvar dados do usuário ${userId}:`, error);

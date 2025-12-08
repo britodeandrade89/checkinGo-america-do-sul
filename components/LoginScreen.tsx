@@ -54,10 +54,12 @@ const LoginScreen: React.FC = () => {
 
         if (index === 3 && value) {
             const enteredPin = newPin.join('');
-            if (enteredPin === '1234') { 
+            const targetPin = selectedUser?.pin || '1234';
+
+            if (enteredPin === targetPin) { 
                 setStage('transition');
             } else {
-                setError('Senha incorreta. Tente 1234.');
+                setError('Senha incorreta.');
                 setPin(['', '', '', '']);
                 document.getElementById('pin-0')?.focus();
             }
