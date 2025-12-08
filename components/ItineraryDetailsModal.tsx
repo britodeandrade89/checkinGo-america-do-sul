@@ -41,9 +41,9 @@ const FlightLeg: React.FC<{ duration: string; details: string }> = ({ duration, 
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-600 rounded-full"></div>
                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-600 rounded-full"></div>
                 
-                {/* Airplane Animation - Rotating in place */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-cyan-400 z-10">
-                    <PlaneTakeoffIcon className="w-5 h-5 animate-spin" />
+                {/* Airplane Animation - Linear Fly */}
+                <div className="absolute top-1/2 -translate-y-1/2 -ml-2 text-cyan-400 z-10 animate-fly">
+                    <PlaneTakeoffIcon className="w-5 h-5 rotate-90" />
                 </div>
             </div>
         </div>

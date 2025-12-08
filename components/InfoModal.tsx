@@ -19,15 +19,28 @@ const EpisodeRow: React.FC<{
     duration: string; 
     description: string; 
     imageUrl?: string;
+    logo?: React.ReactNode;
     onClick: () => void 
-}> = ({ index, title, duration, description, imageUrl, onClick }) => {
+}> = ({ index, title, duration, description, imageUrl, logo, onClick }) => {
     return (
         <div onClick={onClick} className="flex items-center gap-4 py-4 border-b border-gray-800 cursor-pointer hover:bg-[#1f1f1f] px-2 rounded-md transition-colors group">
             <span className="text-gray-400 font-medium text-lg w-4">{index + 1}</span>
-            <div className="relative w-32 h-18 flex-shrink-0 bg-[#333] rounded overflow-hidden">
-                <img src={imageUrl || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=200&fit=crop"} alt="Thumb" className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" />
+            <div className="relative w-32 h-20 flex-shrink-0 bg-[#222] rounded overflow-hidden flex items-center justify-center">
+                {logo ? (
+                     <div className="p-4 w-full h-full flex items-center justify-center">
+                         {/* Renderiza o logo se disponível */}
+                         {React.isValidElement(logo) 
+                            ? React.cloneElement(logo as React.ReactElement, { className: "w-full h-full object-contain" } as any)
+                            : logo
+                         }
+                     </div>
+                ) : (
+                    <img src={imageUrl || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=200&fit=crop"} alt="Thumb" className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" />
+                )}
+                
+                {/* Overlay de Play (apenas decorativo se for imagem, ou sobreposto sutilmente se for logo) */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="bg-black/50 rounded-full p-1 border border-white">
+                    <div className="bg-black/50 rounded-full p-1 border border-white opacity-0 group-hover:opacity-100 transition-opacity">
                         <PlayIcon className="h-4 w-4 text-white fill-current" />
                     </div>
                 </div>
@@ -112,8 +125,8 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
                     </div>
                 </div>
 
-                {/* Body */}
-                <div className="flex-1 overflow-y-auto p-4 md:p-8">
+                {/* Body - Adicionada classe scrollbar-hide */}
+                <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-hide">
                     <div className="flex flex-col md:flex-row gap-8 mb-8">
                         <div className="flex-1">
                             <p className="text-white text-sm md:text-base leading-relaxed mb-4 whitespace-pre-line">{destination.description}</p>
@@ -140,7 +153,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
                                     title={`Episódio ${day.day}: ${day.title}`}
                                     duration="Dia Inteiro"
                                     description={day.activities.map((a:any) => a.description).join('. ')}
-                                    imageUrl={destination.imageUrl} // Could vary per day if data available
+                                    imageUrl={destination.imageUrl} 
                                     onClick={() => {}} 
                                 />
                             ))
@@ -154,7 +167,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
                                         title={it.title}
                                         duration={flight.duration}
                                         description={`Voo ${flight.company.name} de ${flight.startLocation} para ${flight.endLocation}. ${it.subtitle || ''}`}
-                                        imageUrl={destination.imageUrl}
+                                        logo={flight.company.logo} // Passando o logo da empresa aérea
                                         onClick={() => onSelectItinerary(it)}
                                     />
                                 );
