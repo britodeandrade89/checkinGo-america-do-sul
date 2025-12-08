@@ -1,7 +1,6 @@
 
 import React from 'react';
 import type { DetailedRoute } from './types';
-// FIX: Removed unused 'AlertIcon' which is not an exported member of './components/icons'.
 import { PlaneTakeoffIcon, BusIcon, HomeIcon, SparklesIcon, WalkIcon, EatIcon, ShopIcon, MuseumIcon, ShipIcon, CarIcon, ThumbsUpIcon } from './components/icons';
 
 export const detailedRoutes: Record<number, DetailedRoute> = {

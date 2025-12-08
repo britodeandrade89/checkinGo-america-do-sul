@@ -5,7 +5,7 @@ import {
     SparklesIcon,
     SearchIcon,
     CheckShieldIcon,
-    StarIcon
+ StarIcon
 } from './components/icons';
 
 export const destinations: Destination[] = [
@@ -29,7 +29,7 @@ Selecionamos as melhores oportunidades de voos diretos para você:
 *Condições exclusivas para compra direta nos sites das companhias.*`,
         themeColor: '#0ea5e9', // Sky Blue
         icon: React.createElement(SearchIcon),
-        imageUrl: 'https://images.unsplash.com/photo-1568284478358-154941655060?q=80&w=1920&auto=format&fit=crop', // Jardim Botanico High Contrast/Vibrant
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Jardim_Botanico_Curitiba_Sunset.jpg/1280px-Jardim_Botanico_Curitiba_Sunset.jpg', // High Availability Source
         carTrips: [],
         accommodations: [],
         additionalCosts: [
@@ -67,7 +67,7 @@ Nota Custo-Benefício: 7.5/10 ⭐
 ✅ Pontos Fortes: Localização "cult", perto de ótima gastronomia e área verde.`,
         themeColor: '#E60026', // Latam Redish
         icon: React.createElement(CheckShieldIcon),
-        imageUrl: 'https://images.unsplash.com/photo-1596476174624-9b883023240e?q=80&w=1920&auto=format&fit=crop', // Opera de Arame style
+        imageUrl: 'https://images.unsplash.com/photo-1596476174624-9b883023240e?q=80&w=1920&auto=format&fit=crop', // Opera de Arame Ultra Realistic
         carTrips: [],
         accommodations: [],
         additionalCosts: [
@@ -101,7 +101,7 @@ Dia 8: Compras e Despedida
 Inclui estimativas de gastos diários ("A Dolorosa") e dicas de ouro.`,
         themeColor: '#FFD700', // Gold
         icon: React.createElement(StarIcon),
-        imageUrl: 'https://images.unsplash.com/photo-1574585970267-3a137b019623?q=80&w=1920&auto=format&fit=crop', // Unilivre or High end photo
+        imageUrl: 'https://images.unsplash.com/photo-1582236166164-77897d264f35?q=80&w=1920&auto=format&fit=crop', // Museu Oscar Niemeyer Ultra Modern
         carTrips: [],
         accommodations: [],
         additionalCosts: [

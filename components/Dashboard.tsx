@@ -31,7 +31,8 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
     const [isScrolled, setIsScrolled] = useState(false);
     
     // State for Hero Carousel
-    const [currentHeroId, setCurrentHeroId] = useState(1); // Start with Rio > Curitiba (Opção 1)
+    const [currentHeroId, setCurrentHeroId] = useState(1);
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
     // States for Modals (Level 1: Info, Level 2: Details)
     const [infoModalSelection, setInfoModalSelection] = useState<number | null>(null);
@@ -57,13 +58,23 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Auto-rotate Hero Carousel
+    useEffect(() => {
+        const interval = setInterval(() => {
+            handleHeroNavigation('next');
+        }, 7000); // Rotate every 7 seconds
+        return () => clearInterval(interval);
+    }, [currentHeroId]);
+
     const currentHeroDestination = allDestinations.find(d => d.id === currentHeroId);
+    
     const heroDisplayContent = {
         id: currentHeroDestination?.id || 1,
         title: currentHeroDestination?.title.replace(/Opção \d: /g, '').replace(/\(Iguazú\)/g, '').replace('Rota Direta', '').trim() || "Curitiba",
         subtitle: currentHeroDestination?.description || "Aproveite o melhor de Curitiba com nossos roteiros exclusivos.",
         image: currentHeroDestination?.imageUrl || "https://images.unsplash.com/photo-1627483262268-9c96d8e367c8?q=80&w=1920&auto=format&fit=crop",
-        match: "98% Relevante"
+        match: "98% Relevante",
+        tags: currentHeroDestination?.id === 3 ? "Exclusivo • Completo • 8 Dias" : "Urbano • Natureza • Verão"
     };
 
     const handleInstallClick = () => {
@@ -91,10 +102,14 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
     };
 
     const handleHeroNavigation = (direction: 'next' | 'prev') => {
-        const featuredIds = [1, 2, 3];
-        const currentIndex = featuredIds.indexOf(currentHeroId);
-        let nextIndex = (direction === 'next') ? (currentIndex + 1) % featuredIds.length : (currentIndex - 1 + featuredIds.length) % featuredIds.length;
-        setCurrentHeroId(featuredIds[nextIndex]);
+        setIsTransitioning(true);
+        setTimeout(() => {
+            const featuredIds = [1, 2, 3];
+            const currentIndex = featuredIds.indexOf(currentHeroId);
+            let nextIndex = (direction === 'next') ? (currentIndex + 1) % featuredIds.length : (currentIndex - 1 + featuredIds.length) % featuredIds.length;
+            setCurrentHeroId(featuredIds[nextIndex]);
+            setIsTransitioning(false);
+        }, 300); // Wait for fade out
     };
 
     const handleModalNavigation = (direction: 'next' | 'prev') => {
@@ -185,8 +200,8 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
             {activeTab === 'home' ? (
                 <>
                     {/* Hero Section - Netflix Style */}
-                    <div className="relative h-[85vh] md:h-[95vh] w-full">
-                        <div className="absolute inset-0">
+                    <div className="relative h-[85vh] md:h-[95vh] w-full group">
+                        <div className={`absolute inset-0 transition-opacity duration-700 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
                             <img src={heroDisplayContent.image} alt="Hero Background" className="w-full h-full object-cover" />
                             {/* Top Gradient */}
                             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black/80 to-transparent"></div>
@@ -195,38 +210,38 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
                         </div>
                         
                         {/* Hero Navigation Arrows */}
-                        <button onClick={() => handleHeroNavigation('prev')} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-2 text-white/50 hover:text-white transition-opacity hidden md:block" aria-label="Destino Anterior"><ChevronLeftIcon className="h-10 w-10" /></button>
-                        <button onClick={() => handleHeroNavigation('next')} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-2 text-white/50 hover:text-white transition-opacity hidden md:block" aria-label="Próximo Destino"><ChevronRightIcon className="h-10 w-10" /></button>
+                        <button onClick={() => handleHeroNavigation('prev')} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-2 text-white/50 hover:text-white transition-opacity hidden md:group-hover:block" aria-label="Destino Anterior"><ChevronLeftIcon className="h-10 w-10" /></button>
+                        <button onClick={() => handleHeroNavigation('next')} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-2 text-white/50 hover:text-white transition-opacity hidden md:group-hover:block" aria-label="Próximo Destino"><ChevronRightIcon className="h-10 w-10" /></button>
 
-                        <div className="absolute bottom-0 left-0 w-full px-4 pb-8 md:pb-24 flex flex-col items-center md:items-start text-center md:text-left mx-auto">
+                        <div className={`absolute bottom-0 left-0 w-full px-4 pb-8 md:pb-24 flex flex-col items-center md:items-start text-center md:text-left mx-auto transition-opacity duration-700 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
                             
                             {/* N Series / Top 10 Badge */}
-                            <div className="flex flex-col items-center md:items-start mb-4 animate-fade-in-up">
+                            <div className="flex flex-col items-center md:items-start mb-4">
                                 <div className="flex items-center space-x-2 mb-2">
                                      <span className="text-[#E50914] font-black text-2xl tracking-tighter">N</span>
                                      <span className="text-gray-300 font-bold tracking-widest text-xs uppercase">SÉRIES</span>
                                 </div>
                                 <div className="flex items-center space-x-2 border border-white/30 bg-white/10 backdrop-blur-sm rounded px-2 py-1">
                                     <span className="font-bold text-white text-xs">TOP 10</span>
-                                    <span className="text-white text-xs font-semibold">N.º 1 em viagens hoje</span>
+                                    <span className="text-white text-xs font-semibold">N.º {currentHeroId} em viagens hoje</span>
                                 </div>
                             </div>
 
                             {/* Main Title */}
-                            <h1 className="text-5xl md:text-8xl font-black text-white drop-shadow-2xl leading-none mb-4 animate-fade-in-up tracking-tighter uppercase max-w-[90%] md:max-w-3xl">
+                            <h1 className="text-5xl md:text-8xl font-black text-white drop-shadow-2xl leading-none mb-4 tracking-tighter uppercase max-w-[90%] md:max-w-3xl">
                                 {heroDisplayContent.title}
                             </h1>
                             
                             {/* Metadata */}
-                            <div className="flex items-center justify-center md:justify-start space-x-3 text-sm font-medium animate-fade-in-up mb-6 text-shadow" style={{ animationDelay: '150ms' }}>
+                            <div className="flex items-center justify-center md:justify-start space-x-3 text-sm font-medium mb-6 text-shadow">
                                 <span className="text-[#46d369] font-bold">{heroDisplayContent.match}</span>
                                 <span className="text-gray-300">2026</span>
                                 <span className="bg-[#4d4d4d] px-1.5 rounded-[2px] text-[10px] text-white border border-gray-500">HD</span>
-                                <span className="text-gray-300">Urbano • Natureza • Verão</span>
+                                <span className="text-gray-300">{heroDisplayContent.tags}</span>
                             </div>
 
                             {/* Actions Buttons */}
-                            <div className="flex flex-row items-center justify-center md:justify-start space-x-4 w-full md:w-auto animate-fade-in-up" style={{ animationDelay: '450ms' }}>
+                            <div className="flex flex-row items-center justify-center md:justify-start space-x-4 w-full md:w-auto">
                                 <button onClick={handleContinuePlanning} className="flex items-center justify-center bg-white text-black px-6 py-2.5 rounded-[4px] font-bold hover:bg-white/90 transition min-w-[120px] md:min-w-[150px]">
                                     <svg className="h-7 w-7 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                                     <span className="text-lg">Assistir</span>

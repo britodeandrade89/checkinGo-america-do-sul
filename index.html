@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Check-in, GO!</title>
-    <link rel="manifest" href="./manifest.json" />
-    <meta name="theme-color" content="#000000" />
+    <title>Check-in, GO! - Netflix Style</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -36,34 +34,25 @@
       }
     </script>
     <style>
-      /* Hide scrollbar for Chrome, Safari and Opera */
-      .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-      }
-      /* Hide scrollbar for IE, Edge and Firefox */
-      .scrollbar-hide {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-      }
-      
-      body {
-        background-color: #000;
-        overscroll-behavior-y: none; /* Prevent pull-to-refresh on mobile */
-      }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      body { background-color: #141414; overscroll-behavior-y: none; }
+      .text-shadow { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
     </style>
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.25.0"
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0"
   }
 }
 </script>
 </head>
-  <body class="bg-black text-white antialiased">
+<body class="bg-[#141414] text-white antialiased">
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
-  </body>
+</body>
 </html>
