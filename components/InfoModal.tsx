@@ -14,20 +14,36 @@ interface InfoModalProps {
 }
 
 const ItineraryEpisode: React.FC<{ itinerary: Itinerary, index: number, onSelect: () => void }> = ({ itinerary, index, onSelect }) => {
-    const firstEvent = itinerary.events[0];
+    const outbound = itinerary.events[0];
+    const inbound = itinerary.events[1];
+    
+    // Fallback if name is missing
+    const airlineName = outbound.company.name || "Voo";
+
     return (
-        <div onClick={onSelect} className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-800 cursor-pointer transition-colors duration-200 border-b border-gray-800 last:border-0">
-            <span className="text-lg font-bold text-gray-400 w-6">{index + 1}</span>
-            <div className="w-24 h-14 bg-gray-700 rounded overflow-hidden flex-shrink-0 relative">
-                 <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                    {React.cloneElement(firstEvent.company.logo as React.ReactElement<{ className?: string }>, { className: "h-6 w-auto" })}
+        <div onClick={onSelect} className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-800 cursor-pointer transition-colors duration-200 border-b border-gray-800 last:border-0 group">
+            <span className="text-lg font-bold text-gray-500 w-6 flex-shrink-0">{index + 1}</span>
+            <div className="w-28 h-16 bg-black/40 rounded overflow-hidden flex-shrink-0 relative border border-gray-700 group-hover:border-gray-500 transition-colors">
+                 <div className="absolute inset-0 flex items-center justify-center">
+                    {React.cloneElement(outbound.company.logo as React.ReactElement<{ className?: string }>, { className: "h-8 w-auto" })}
                  </div>
             </div>
-            <div className="flex-1 min-w-0">
-                <p className="text-white font-semibold text-sm truncate leading-tight">{itinerary.title}</p>
-                <p className="text-gray-500 text-xs mt-0.5">{firstEvent.duration}</p>
+            <div className="flex-1 min-w-0 flex flex-col justify-center">
+                <p className="text-white font-bold text-sm leading-tight mb-1">{airlineName}</p>
+                <div className="text-gray-400 text-xs leading-snug space-y-0.5">
+                    <div className="flex items-center gap-1.5">
+                        <span className="text-gray-500 font-bold text-[10px] uppercase tracking-wider w-8">Ida</span>
+                        <span>{outbound.startTime} - {outbound.endTime}</span>
+                    </div>
+                    {inbound && inbound.type === 'flight' && (
+                        <div className="flex items-center gap-1.5">
+                             <span className="text-gray-500 font-bold text-[10px] uppercase tracking-wider w-8">Volta</span>
+                             <span>{inbound.startTime} - {inbound.endTime}</span>
+                        </div>
+                    )}
+                </div>
             </div>
-            <div className="text-right">
+            <div className="text-right pl-2">
                  <p className="text-white font-bold text-sm">R$ {itinerary.totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 0 })}</p>
             </div>
         </div>

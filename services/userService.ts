@@ -33,7 +33,7 @@ export const getUsers = (): User[] => {
 // So we always load the "static" data (initialItineraries and destinations) from the code imports
 // and only merge stateful flags (like isFavorite) from LocalStorage.
 export const getUserData = (userId: number): UserData | null => {
-    const storageKey = `userData_v32_${userId}`; // Incrementing version to force refresh
+    const storageKey = `userData_v36_${userId}`; // Incrementing version to force refresh
     const storedDataString = localStorage.getItem(storageKey);
     
     // Start with fresh data from code to ensure Icons are valid React Elements
@@ -75,7 +75,7 @@ export const getUserData = (userId: number): UserData | null => {
 
 export const saveUserData = (userId: number, data: UserData): void => {
     try {
-        const storageKey = `userData_v32_${userId}`;
+        const storageKey = `userData_v36_${userId}`;
         localStorage.setItem(storageKey, JSON.stringify(data));
     } catch (error) {
         console.error(`Erro ao salvar dados do usuário ${userId}:`, error);
