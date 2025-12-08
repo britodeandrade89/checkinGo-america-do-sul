@@ -41,26 +41,11 @@ const FlightLeg: React.FC<{ duration: string; details: string }> = ({ duration, 
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-600 rounded-full"></div>
                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-600 rounded-full"></div>
                 
-                {/* Airplane Animation */}
-                <div className="absolute top-1/2 -translate-y-1/2 text-cyan-400 z-10" 
-                     style={{ 
-                         animation: 'flyAcross 3s linear infinite',
-                         transformOrigin: 'center'
-                     }}>
-                    {/* Rotacionando 45deg pois o icone original aponta para cima/direita */}
-                    <PlaneTakeoffIcon className="w-5 h-5 rotate-45" />
+                {/* Airplane Animation - Rotating in place */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-cyan-400 z-10">
+                    <PlaneTakeoffIcon className="w-5 h-5 animate-spin" />
                 </div>
             </div>
-            <style>
-                {`
-                @keyframes flyAcross {
-                    0% { left: 0; opacity: 0; }
-                    10% { opacity: 1; }
-                    90% { opacity: 1; }
-                    100% { left: 100%; opacity: 0; }
-                }
-                `}
-            </style>
         </div>
     );
 };

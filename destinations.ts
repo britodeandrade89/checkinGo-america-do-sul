@@ -14,16 +14,12 @@ export const destinations: Destination[] = [
         title: "Curitiba",
         category: "Assessoria Essencial",
         places: ['Rio de Janeiro', 'Curitiba'],
-        description: `🌿 A Europa Brasileira te espera!
-
-Curitiba é o equilíbrio perfeito entre sofisticação urbana e natureza exuberante. Conhecida como a capital ecológica, ela convida você a caminhar pelos jardins geométricos do Jardim Botânico, se encantar com a arquitetura única da Ópera de Arame e viver a gastronomia italiana de Santa Felicidade.
-
-É o destino ideal para quem busca organização, segurança e dias de clima ameno.
+        description: `🌿 A Europa Brasileira te espera! Curitiba é o equilíbrio perfeito entre sofisticação urbana e natureza exuberante. Conhecida como a capital ecológica, ela convida você a caminhar pelos jardins geométricos do Jardim Botânico, se encantar com a arquitetura única da Ópera de Arame e viver a gastronomia italiana de Santa Felicidade. É o destino ideal para quem busca organização, segurança e dias de clima ameno.
 
 ✈️ DETALHES DOS PARCELAMENTOS DE PASSAGENS AÉREAS:
-Selecionamos as melhores oportunidades de voos diretos para você:
 
 • AZUL: Parcelamento em até 10x (Geral) ou 12x (Cartão Azul Itaú).
+
 • LATAM: Opções em até 4x ou 10x (Cartão LATAM Pass).
 
 *Condições exclusivas para compra direta nos sites das companhias.*`,
