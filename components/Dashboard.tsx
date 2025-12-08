@@ -11,7 +11,8 @@ import {
     LatamLogoIcon, AzulLogoIcon, FlybondiLogoIcon, JetSmartLogoIcon, SkyLogoIcon,
     BoaLogoIcon, BookingLogoIcon, AirbnbLogoIcon, DecolarLogoIcon, MaxMilhasLogoIcon,
     NordesteLogoIcon, NsaLogoIcon, ClickBusLogoIcon, CCRBarcasLogoIcon, PlaneTakeoffIcon,
-    ChevronLeftIcon, ChevronRightIcon, WhatsAppIcon, HomeIcon, BackpackIcon, SparklesIcon
+    ChevronLeftIcon, ChevronRightIcon, WhatsAppIcon, HomeIcon, BackpackIcon, SparklesIcon,
+    InfoIcon
 } from './icons';
 import { useAuth } from '../contexts/AuthContext';
 import ImageUploader from './ImageUploader';
@@ -59,10 +60,10 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
     const currentHeroDestination = allDestinations.find(d => d.id === currentHeroId);
     const heroDisplayContent = {
         id: currentHeroDestination?.id || 1,
-        title: currentHeroDestination?.title.replace(/Opção \d: /g, '').replace(/\(Iguazú\)/g, '').replace('Rota Direta', '').trim() || "Rio > Curitiba",
+        title: currentHeroDestination?.title.replace(/Opção \d: /g, '').replace(/\(Iguazú\)/g, '').replace('Rota Direta', '').trim() || "Curitiba",
         subtitle: currentHeroDestination?.description || "Aproveite o melhor de Curitiba com nossos roteiros exclusivos.",
-        image: currentHeroDestination?.imageUrl || "https://images.unsplash.com/photo-1688656627068-19379659b876?q=80&w=1920&auto=format&fit=crop",
-        match: "98% de Match"
+        image: currentHeroDestination?.imageUrl || "https://images.unsplash.com/photo-1627483262268-9c96d8e367c8?q=80&w=1920&auto=format&fit=crop",
+        match: "98% Relevante"
     };
 
     const handleInstallClick = () => {
@@ -151,15 +152,13 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
     const carTripDestinations = allDestinations.filter(dest => dest.carTrips && dest.carTrips.length > 0);
 
     return (
-        <div className="bg-[#000000] min-h-screen font-sans text-white pb-20 md:pb-0">
+        <div className="bg-[#141414] min-h-screen font-sans text-white pb-20 md:pb-0">
             {/* Desktop Navigation */}
-            <nav className={`fixed top-0 w-full z-50 transition-all duration-500 px-4 md:px-12 py-3 md:py-4 flex items-center justify-between ${isScrolled ? 'bg-[#000000] shadow-md' : 'bg-gradient-to-b from-black/80 to-transparent'}`}>
+            <nav className={`fixed top-0 w-full z-50 transition-all duration-500 px-4 md:px-12 py-3 md:py-4 flex items-center justify-between ${isScrolled ? 'bg-[#141414] shadow-md' : 'bg-gradient-to-b from-black/80 to-transparent'}`}>
                 <div className="flex items-center space-x-8">
                     <div className="flex items-center cursor-pointer group" onClick={() => setActiveTab('home')}>
-                        <h1 className="font-black text-xl md:text-3xl tracking-tighter flex items-center drop-shadow-md">
-                            <span className="text-blue-400">CHECK-IN,</span><span className="text-green-400 ml-1">G</span>
-                            <div className="w-5 h-5 md:w-8 md:h-8 mx-0.5 relative"><SpinningEarthIcon className="w-full h-full animate-spin-slow" /></div>
-                            <span className="text-green-400">!</span>
+                        <h1 className="font-black text-xl md:text-3xl tracking-tighter flex items-center drop-shadow-md text-[#E50914]">
+                            CHECK-IN, GO!
                         </h1>
                     </div>
                     {/* Desktop Menu Links */}
@@ -185,64 +184,77 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
             {/* Mobile View Content */}
             {activeTab === 'home' ? (
                 <>
-                    {/* Hero Section */}
-                    <div className="relative h-[80vh] md:h-[95vh] w-full">
+                    {/* Hero Section - Netflix Style */}
+                    <div className="relative h-[85vh] md:h-[95vh] w-full">
                         <div className="absolute inset-0">
                             <img src={heroDisplayContent.image} alt="Hero Background" className="w-full h-full object-cover" />
-                            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent"></div>
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-[#000000]/20 to-transparent"></div>
+                            {/* Top Gradient */}
+                            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black/80 to-transparent"></div>
+                            {/* Bottom Gradient (Vignette) */}
+                            <div className="absolute bottom-0 left-0 w-full h-[50vh] bg-gradient-to-t from-[#141414] via-[#141414]/60 to-transparent"></div>
                         </div>
                         
                         {/* Hero Navigation Arrows */}
                         <button onClick={() => handleHeroNavigation('prev')} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-2 text-white/50 hover:text-white transition-opacity hidden md:block" aria-label="Destino Anterior"><ChevronLeftIcon className="h-10 w-10" /></button>
                         <button onClick={() => handleHeroNavigation('next')} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-2 text-white/50 hover:text-white transition-opacity hidden md:block" aria-label="Próximo Destino"><ChevronRightIcon className="h-10 w-10" /></button>
 
-                        <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 pb-16 md:pb-24 flex flex-col items-center md:items-start text-center md:text-left space-y-4 max-w-4xl mx-auto md:mx-0">
-                            {/* Tags/Categories */}
-                            <div className="flex items-center justify-center md:justify-start space-x-2 text-xs md:text-sm font-semibold uppercase tracking-wider mb-2 animate-fade-in-up">
-                                <span className="text-white bg-black/40 backdrop-blur-sm px-2 py-1 rounded border-l-2 border-red-600">N.º 1 no Brasil hoje</span>
+                        <div className="absolute bottom-0 left-0 w-full px-4 pb-8 md:pb-24 flex flex-col items-center md:items-start text-center md:text-left mx-auto">
+                            
+                            {/* N Series / Top 10 Badge */}
+                            <div className="flex flex-col items-center md:items-start mb-4 animate-fade-in-up">
+                                <div className="flex items-center space-x-2 mb-2">
+                                     <span className="text-[#E50914] font-black text-2xl tracking-tighter">N</span>
+                                     <span className="text-gray-300 font-bold tracking-widest text-xs uppercase">SÉRIES</span>
+                                </div>
+                                <div className="flex items-center space-x-2 border border-white/30 bg-white/10 backdrop-blur-sm rounded px-2 py-1">
+                                    <span className="font-bold text-white text-xs">TOP 10</span>
+                                    <span className="text-white text-xs font-semibold">N.º 1 em viagens hoje</span>
+                                </div>
                             </div>
 
-                            <h1 className="text-5xl md:text-7xl font-black text-white drop-shadow-2xl leading-tight animate-fade-in-up md:max-w-2xl">{heroDisplayContent.title}</h1>
+                            {/* Main Title */}
+                            <h1 className="text-5xl md:text-8xl font-black text-white drop-shadow-2xl leading-none mb-4 animate-fade-in-up tracking-tighter uppercase max-w-[90%] md:max-w-3xl">
+                                {heroDisplayContent.title}
+                            </h1>
                             
-                            <div className="flex items-center justify-center md:justify-start space-x-3 text-sm md:text-base font-semibold animate-fade-in-up text-shadow" style={{ animationDelay: '150ms' }}>
-                                <span className="text-green-400 font-bold">{heroDisplayContent.match}</span>
+                            {/* Metadata */}
+                            <div className="flex items-center justify-center md:justify-start space-x-3 text-sm font-medium animate-fade-in-up mb-6 text-shadow" style={{ animationDelay: '150ms' }}>
+                                <span className="text-[#46d369] font-bold">{heroDisplayContent.match}</span>
                                 <span className="text-gray-300">2026</span>
-                                <span className="bg-gray-600/80 px-1.5 py-0.5 rounded text-[10px] text-white">HD</span>
-                                <span className="text-gray-300">Urbano • Cultural • Verão</span>
+                                <span className="bg-[#4d4d4d] px-1.5 rounded-[2px] text-[10px] text-white border border-gray-500">HD</span>
+                                <span className="text-gray-300">Urbano • Natureza • Verão</span>
                             </div>
 
-                            <p className="text-gray-200 text-sm md:text-lg drop-shadow-md line-clamp-3 md:max-w-lg animate-fade-in-up" style={{ animationDelay: '300ms' }}>{heroDisplayContent.subtitle}</p>
-                            
-                            <div className="flex flex-row items-center justify-center md:justify-start space-x-3 pt-4 w-full md:w-auto animate-fade-in-up" style={{ animationDelay: '450ms' }}>
-                                <button onClick={handleContinuePlanning} className="flex-1 md:flex-none flex items-center justify-center bg-white text-black px-4 md:px-8 py-2 md:py-3 rounded font-bold hover:bg-gray-200 transition min-w-[140px]">
-                                    <svg className="h-6 w-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Planejar
+                            {/* Actions Buttons */}
+                            <div className="flex flex-row items-center justify-center md:justify-start space-x-4 w-full md:w-auto animate-fade-in-up" style={{ animationDelay: '450ms' }}>
+                                <button onClick={handleContinuePlanning} className="flex items-center justify-center bg-white text-black px-6 py-2.5 rounded-[4px] font-bold hover:bg-white/90 transition min-w-[120px] md:min-w-[150px]">
+                                    <svg className="h-7 w-7 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    <span className="text-lg">Assistir</span>
                                 </button>
-                                <button onClick={() => handleShowInfo(currentHeroId)} className="flex-1 md:flex-none flex items-center justify-center bg-gray-500/70 text-white px-4 md:px-8 py-2 md:py-3 rounded font-bold hover:bg-gray-500/50 transition backdrop-blur-sm min-w-[140px]">
-                                    <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Info
+                                <button onClick={() => handleShowInfo(currentHeroId)} className="flex items-center justify-center bg-[rgba(109,109,110,0.7)] text-white px-6 py-2.5 rounded-[4px] font-bold hover:bg-[rgba(109,109,110,0.4)] transition min-w-[120px] md:min-w-[150px]">
+                                    <InfoIcon className="h-7 w-7 mr-2" />
+                                    <span className="text-lg">Mais informações</span>
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    {/* Content Lists (Negative margin to pull up over hero gradient) */}
-                    <div className="relative z-10 space-y-8 md:space-y-12 pb-24 -mt-10 md:-mt-20 px-0">
-                        <section className="pl-4 md:pl-12">
+                    {/* Content Lists */}
+                    <div className="relative z-10 space-y-6 md:space-y-12 pb-24 px-0 bg-[#141414]">
+                        <section className="pl-4 md:pl-12 -mt-10 md:-mt-24 relative z-20">
+                            <h3 className="text-lg md:text-xl font-bold text-[#e5e5e5] mb-2 md:mb-4">Populares na Check-in, GO!</h3>
                             <Destinations onShowInfo={handleShowInfo} />
                         </section>
                         
                         <section className="pl-4 md:pl-12" ref={myTripsRef}>
-                             <h3 className="text-lg md:text-xl font-bold text-gray-100 mb-2 hover:text-white cursor-pointer flex items-center group">
-                                Minha Lista de Viagens
-                                <span className="hidden group-hover:inline-block ml-2 text-sm text-cyan-400 opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 group-hover:translate-x-2">Ver tudo &gt;</span>
+                             <h3 className="text-lg md:text-xl font-bold text-[#e5e5e5] mb-2 md:mb-4 hover:text-white cursor-pointer flex items-center group">
+                                Minha Lista
                             </h3>
-                             <div className="pr-4 md:pr-12 mb-8">
+                             <div className="pr-4 md:pr-12 mb-4">
                                 {apiKeyError && currentUser?.id !== 3 ? (
                                     <div className="bg-red-900/50 border border-red-700 p-6 rounded-lg text-center animate-fade-in mx-4 md:mx-0">
                                         <h3 className="text-lg font-semibold text-white">Chave de API Necessária</h3>
-                                        <p className="text-red-200 mt-2 mb-4">Para analisar capturas de tela com IA, você precisa selecionar uma chave de API de um projeto com faturamento ativado.</p>
-                                        <button onClick={handleSelectKey} className="bg-white text-black font-bold px-6 py-2 rounded hover:bg-opacity-80 transition">Selecionar Chave de API</button>
-                                        <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noopener noreferrer" className="block text-xs text-red-300 hover:underline mt-3">Saiba mais sobre faturamento</a>
+                                        <button onClick={handleSelectKey} className="bg-white text-black font-bold px-6 py-2 rounded hover:bg-opacity-80 transition mt-2">Selecionar Chave</button>
                                     </div>
                                 ) : (
                                     <div className="mx-4 md:mx-0">
@@ -255,9 +267,8 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
 
                         {carTripDestinations.length > 0 && (
                              <section className="pl-4 md:pl-12">
-                                <h3 className="text-lg md:text-xl font-bold text-gray-100 mb-2 hover:text-white cursor-pointer flex items-center group">
+                                <h3 className="text-lg md:text-xl font-bold text-[#e5e5e5] mb-2 md:mb-4">
                                     Rotas de Carro Sugeridas
-                                    <span className="hidden group-hover:inline-block ml-2 text-sm text-cyan-400 opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 group-hover:translate-x-2">Ver tudo &gt;</span>
                                 </h3>
                                 <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide snap-x">
                                     {carTripDestinations.flatMap(dest => dest.carTrips?.map(trip => (
@@ -284,36 +295,40 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
             )}
             
             {/* Footer */}
-            <footer className="max-w-5xl mx-auto py-12 px-4 text-gray-500 text-sm text-center md:text-left mb-16 md:mb-0">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <a href="#" className="hover:underline">Sobre</a><a href="#" className="hover:underline">Ajuda</a>
-                    <a href="#" className="hover:underline">Termos</a><a href="#" className="hover:underline">Privacidade</a>
+            <footer className="max-w-5xl mx-auto py-8 px-4 text-gray-500 text-xs text-center md:text-left mb-16 md:mb-0 bg-[#141414]">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                    <a href="#" className="hover:underline">Perguntas frequentes</a>
+                    <a href="#" className="hover:underline">Central de Ajuda</a>
+                    <a href="#" className="hover:underline">Termos de Uso</a>
+                    <a href="#" className="hover:underline">Privacidade</a>
                 </div>
-                <button className="border border-gray-500 px-4 py-1 text-gray-400 hover:text-white mb-4 text-xs">Código do Serviço</button>
-                <p>&copy; 2025 Check-in, GO! Inc. - Desenvolvido por André Brito</p>
+                <button className="border border-gray-500 px-2 py-1 text-gray-400 hover:text-white mb-4 text-[10px]">Código do Serviço</button>
+                <p>&copy; 2025 Check-in, GO! Inc.</p>
             </footer>
             
-            {/* Mobile Bottom Navigation */}
-            <div className="md:hidden fixed bottom-0 left-0 w-full bg-[#121212] border-t border-gray-800 flex justify-around items-center py-3 z-50 text-[10px] text-gray-400">
+            {/* Mobile Bottom Navigation - Netflix Style */}
+            <div className="md:hidden fixed bottom-0 left-0 w-full bg-[#121212] border-t border-[#333] flex justify-around items-center py-2 z-50 text-[10px] text-[#808080] pb-safe">
                 <button onClick={() => setActiveTab('home')} className={`flex flex-col items-center space-y-1 ${activeTab === 'home' ? 'text-white' : ''}`}>
                     <HomeIcon className="h-6 w-6" />
-                    <span>Início</span>
+                    <span className="font-medium">Início</span>
                 </button>
                  <button className="flex flex-col items-center space-y-1">
-                    <SearchIcon className="h-6 w-6" />
-                    <span>Buscar</span>
+                    <div className="relative">
+                        <SearchIcon className="h-6 w-6" />
+                    </div>
+                    <span className="font-medium">Bombando</span>
                 </button>
                 <button onClick={() => setActiveTab('trips')} className={`flex flex-col items-center space-y-1 ${activeTab === 'trips' ? 'text-white' : ''}`}>
                     <BackpackIcon className="h-6 w-6" />
-                    <span>Viagens</span>
+                    <span className="font-medium">Minha Lista</span>
                 </button>
                 <button onClick={() => setActiveTab('assistant')} className={`flex flex-col items-center space-y-1 ${activeTab === 'assistant' ? 'text-white' : ''}`}>
                     <SparklesIcon className="h-6 w-6" />
-                    <span>IA</span>
+                    <span className="font-medium">IA</span>
                 </button>
                  <button onClick={logout} className="flex flex-col items-center space-y-1">
-                     <img src={currentUser?.avatar} alt="Perfil" className="h-6 w-6 rounded opacity-80" />
-                    <span>Perfil</span>
+                     <img src={currentUser?.avatar} alt="Perfil" className="h-6 w-6 rounded opacity-100" />
+                    <span className="font-medium">Perfil</span>
                 </button>
             </div>
 

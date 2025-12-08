@@ -11,13 +11,13 @@ import {
 export const destinations: Destination[] = [
     {
         id: 1,
-        title: "Rio > Curitiba (10 a 17/Jan)",
+        title: "Curitiba",
         category: "Assessoria Essencial",
         places: ['Rio de Janeiro', 'Curitiba'],
         description: 'Opções de voos diretos para o período selecionado.\n\nAZUL:\n- Geral: 10x sem juros.\n- Azul Itaú: Até 12x sem juros.\n\nLATAM:\n- Geral: Até 4x sem juros.\n- LATAM Pass Itaú: Até 10x sem juros (Min R$ 70).\n\n*Valores e condições para compra direta no site das cias aéreas.*',
         themeColor: '#0ea5e9', // Sky Blue
         icon: React.createElement(SearchIcon),
-        imageUrl: 'https://images.unsplash.com/photo-1568469894569-484d852cb7b3?q=80&w=1920&auto=format&fit=crop', // Stylized/Vibrant Curitiba
+        imageUrl: 'https://images.unsplash.com/photo-1627483262268-9c96d8e367c8?q=80&w=1920&auto=format&fit=crop', // Jardim Botanico - Image 4 Reference style
         carTrips: [],
         accommodations: [],
         additionalCosts: [
