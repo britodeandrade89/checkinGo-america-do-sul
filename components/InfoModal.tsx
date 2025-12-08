@@ -144,7 +144,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
                                 <span className="bg-gray-600/60 px-1 rounded text-xs text-white">HD</span>
                                 <span className="text-gray-300 text-xs border border-gray-600 px-1">AD</span>
                             </div>
-                            <p className="text-white text-sm md:text-base leading-relaxed">{destination.description}</p>
+                            <div className="text-white text-sm md:text-base leading-relaxed whitespace-pre-line">{destination.description}</div>
                         </div>
                         <div className="text-xs text-gray-400 md:w-1/3 space-y-1">
                             <p><span className="text-gray-500 font-semibold">Locais: </span>{destination.places.join(', ')}</p>

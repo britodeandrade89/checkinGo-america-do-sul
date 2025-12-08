@@ -14,10 +14,22 @@ export const destinations: Destination[] = [
         title: "Curitiba",
         category: "Assessoria Essencial",
         places: ['Rio de Janeiro', 'Curitiba'],
-        description: 'Opções de voos diretos para o período selecionado.\n\nAZUL:\n- Geral: 10x sem juros.\n- Azul Itaú: Até 12x sem juros.\n\nLATAM:\n- Geral: Até 4x sem juros.\n- LATAM Pass Itaú: Até 10x sem juros (Min R$ 70).\n\n*Valores e condições para compra direta no site das cias aéreas.*',
+        description: `🌿 A Europa Brasileira te espera!
+
+Curitiba é o equilíbrio perfeito entre sofisticação urbana e natureza exuberante. Conhecida como a capital ecológica, ela convida você a caminhar pelos jardins geométricos do Jardim Botânico, se encantar com a arquitetura única da Ópera de Arame e viver a gastronomia italiana de Santa Felicidade.
+
+É o destino ideal para quem busca organização, segurança e dias de clima ameno.
+
+✈️ DETALHES DO PACOTE AÉREO:
+Selecionamos as melhores oportunidades de voos diretos para você:
+
+• AZUL: Parcelamento em até 10x (Geral) ou 12x (Cartão Azul Itaú).
+• LATAM: Opções em até 4x ou 10x (Cartão LATAM Pass).
+
+*Condições exclusivas para compra direta nos sites das companhias.*`,
         themeColor: '#0ea5e9', // Sky Blue
         icon: React.createElement(SearchIcon),
-        imageUrl: 'https://images.unsplash.com/photo-1627483262268-9c96d8e367c8?q=80&w=1920&auto=format&fit=crop', // Jardim Botanico - Image 4 Reference style
+        imageUrl: 'https://images.unsplash.com/photo-1568284478358-154941655060?q=80&w=1920&auto=format&fit=crop', // Jardim Botanico High Contrast/Vibrant
         carTrips: [],
         accommodations: [],
         additionalCosts: [
