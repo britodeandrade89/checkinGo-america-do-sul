@@ -23,9 +23,9 @@ export const destinations: Destination[] = [
 • LATAM: Opções em até 4x ou 10x (Cartão LATAM Pass).
 
 *Condições exclusivas para compra direta nos sites das companhias.*`,
-        themeColor: '#0ea5e9', // Sky Blue
+        themeColor: '#22c55e', // Verde Ecológico
         icon: React.createElement(SearchIcon),
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Jardim_Botanico_Curitiba_Sunset.jpg/1280px-Jardim_Botanico_Curitiba_Sunset.jpg', // High Availability Source
+        imageUrl: 'https://images.unsplash.com/photo-1598967993077-033107005f24?q=80&w=1920&auto=format&fit=crop', 
         carTrips: [],
         accommodations: [],
         additionalCosts: [

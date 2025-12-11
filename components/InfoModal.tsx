@@ -3,7 +3,7 @@ import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { destinations as allDestinations } from '../destinations';
 import type { Itinerary, Destination } from '../types';
-import { CloseIcon, StarIcon, PlayIcon, DownloadIcon } from './icons';
+import { CloseIcon, StarIcon, PlayIcon, InfoIcon } from './icons';
 import { detailedRoutes } from '../detailedRoutes';
 
 interface InfoModalProps {
@@ -97,39 +97,43 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
                 {/* Header */}
                 <div className="relative h-64 md:h-96 flex-shrink-0">
                     <img src={destination.imageUrl} alt={title} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-transparent"></div>
-                    <button onClick={onClose} className="absolute top-4 right-4 bg-[#181818] rounded-full p-1.5 text-white z-20">
+                    {/* Dark gradients to ensure text legibility on bright backgrounds */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#181818] via-[#181818]/60 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent h-32"></div>
+
+                    <button onClick={onClose} className="absolute top-4 right-4 bg-[#181818]/80 backdrop-blur-sm rounded-full p-2 text-white z-20 hover:bg-[#333] transition">
                         <CloseIcon className="h-6 w-6" />
                     </button>
 
-                    <div className="absolute bottom-0 left-0 p-4 md:p-8 w-full">
-                        <h2 className="text-3xl md:text-5xl font-black text-white mb-2 uppercase tracking-tight">{title}</h2>
+                    <div className="absolute bottom-0 left-0 p-4 md:p-8 w-full z-10">
+                        {/* Title as very bold text to mimic logo */}
+                        <h2 className="text-5xl md:text-7xl font-black text-white mb-2 uppercase tracking-tighter drop-shadow-xl font-sans" style={{ textShadow: '2px 4px 8px rgba(0,0,0,0.8)' }}>{title}</h2>
                         
-                        <div className="flex items-center space-x-2 text-sm md:text-base font-bold mb-4">
+                        <div className="flex items-center space-x-2 text-sm md:text-base font-bold mb-6 drop-shadow-md">
                             <span className="text-[#46d369]">98% relevante</span>
-                            <span className="text-gray-400">2026</span>
-                            <span className="bg-[#333] px-1.5 text-xs text-white rounded-sm">16+</span>
+                            <span className="text-gray-300">2026</span>
+                            <span className="bg-[#333]/80 border border-gray-500 px-1.5 text-xs text-white rounded-sm">16+</span>
                             <span className="text-white">8 Episódios</span>
                         </div>
 
                         <div className="flex space-x-3">
-                            <button className="flex-1 md:flex-none bg-white text-black px-6 py-2 rounded font-bold flex items-center justify-center hover:bg-gray-200 transition">
-                                <PlayIcon className="h-6 w-6 mr-2 fill-current" />
+                            <button className="flex-1 md:flex-none bg-white text-black px-8 py-2.5 rounded font-bold flex items-center justify-center hover:bg-gray-200 transition text-lg">
+                                <PlayIcon className="h-7 w-7 mr-2 fill-current" />
                                 Assistir
                             </button>
-                             <button className="flex-1 md:flex-none bg-[#333] text-white px-6 py-2 rounded font-bold flex items-center justify-center hover:bg-[#444] transition">
-                                <DownloadIcon className="h-6 w-6 mr-2" />
-                                Baixar
+                             <button className="flex-1 md:flex-none bg-[#333]/90 text-white border border-gray-500/50 px-8 py-2.5 rounded font-bold flex items-center justify-center hover:bg-[#444] transition text-lg backdrop-blur-sm">
+                                <InfoIcon className="h-7 w-7 mr-2" />
+                                Mais Informações
                             </button>
                         </div>
                     </div>
                 </div>
 
-                {/* Body - Adicionada classe scrollbar-hide */}
-                <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-hide">
+                {/* Body */}
+                <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-hide bg-[#181818]">
                     <div className="flex flex-col md:flex-row gap-8 mb-8">
                         <div className="flex-1">
-                            <p className="text-white text-sm md:text-base leading-relaxed mb-4 whitespace-pre-line">{destination.description}</p>
+                            <p className="text-white text-sm md:text-base leading-relaxed mb-4 whitespace-pre-line font-medium text-gray-300">{destination.description}</p>
                         </div>
                         <div className="w-full md:w-1/3 text-xs text-gray-400 space-y-2">
                              <p><span className="text-gray-500">Elenco:</span> André Brito, Marcelly Bispo</p>
