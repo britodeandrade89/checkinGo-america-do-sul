@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { getUsers } from '../services/userService';
 import type { User } from '../types';
+import { BrandLogo } from './icons';
 
 const LoginScreen: React.FC = () => {
     const { login } = useAuth();
@@ -76,11 +77,7 @@ const LoginScreen: React.FC = () => {
         return (
             <div className="min-h-screen bg-black flex items-center justify-center overflow-hidden">
                 <div className="animate-zoom-in flex items-center justify-center transform origin-center w-full px-4">
-                     <img 
-                        src="assets/logo.svg" 
-                        alt="CHECK-IN, GO!" 
-                        className="w-full max-w-[600px] h-auto object-contain drop-shadow-2xl"
-                     />
+                     <BrandLogo className="w-full max-w-[600px] h-auto drop-shadow-2xl" />
                 </div>
             </div>
         );
@@ -90,11 +87,7 @@ const LoginScreen: React.FC = () => {
         <div className="min-h-screen bg-[#141414] flex flex-col items-center justify-center p-4 font-sans animate-fade-in relative">
             {/* Top Logo Small */}
             <div className="absolute top-4 left-4 md:top-6 md:left-12">
-                 <img 
-                    src="assets/logo.svg" 
-                    alt="CHECK-IN, GO!" 
-                    className="h-8 md:h-12 w-auto object-contain"
-                 />
+                 <BrandLogo className="h-8 md:h-12 w-auto" />
             </div>
 
             {/* Edit Button Top Right */}

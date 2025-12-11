@@ -36,6 +36,51 @@ export const SpinningEarthIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props
     </svg>
 );
 
+export const BrandLogo: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg viewBox="0 0 320 60" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <defs>
+      <linearGradient id="blueGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor="#0077b6" />
+        <stop offset="100%" stopColor="#023e8a" />
+      </linearGradient>
+      <linearGradient id="greenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor="#70e000" />
+        <stop offset="100%" stopColor="#38b000" />
+      </linearGradient>
+      <radialGradient id="globeGrad" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+        <stop offset="0%" stopColor="#4cc9f0" />
+        <stop offset="100%" stopColor="#4361ee" />
+      </radialGradient>
+      <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="1.5"/>
+        <feOffset dx="1" dy="1" result="offsetblur"/>
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="0.5"/>
+        </feComponentTransfer>
+        <feMerge> 
+          <feMergeNode/>
+          <feMergeNode in="SourceGraphic"/> 
+        </feMerge>
+      </filter>
+    </defs>
+
+    <g filter="url(#dropShadow)">
+      <text x="5" y="45" fontFamily="'Arial Black', 'Helvetica Neue', sans-serif" fontWeight="900" fontSize="34" fill="url(#blueGrad)" letterSpacing="-1">CHECK-IN,</text>
+      
+      <text x="210" y="45" fontFamily="'Arial Black', 'Helvetica Neue', sans-serif" fontWeight="900" fontSize="34" fill="url(#greenGrad)">G</text>
+      
+      <g transform="translate(240, 17)">
+        <circle cx="14" cy="14" r="14" fill="url(#globeGrad)" />
+        <path d="M8,10 Q14,4 20,10 T22,22 T10,24 T8,10 Z" fill="#38b000" opacity="0.9" />
+        <path d="M18,6 Q22,4 24,8 T22,12 T18,6 Z" fill="#38b000" opacity="0.9" />
+        <circle cx="10" cy="10" r="4" fill="white" opacity="0.3" filter="blur(2px)" />
+      </g>
+
+      <text x="272" y="45" fontFamily="'Arial Black', 'Helvetica Neue', sans-serif" fontWeight="900" fontSize="34" fill="url(#greenGrad)">!</text>
+    </g>
+  </svg>
+);
+
 export const ParaguayFlagIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg viewBox="0 0 90 60" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <mask id="fade-mask-py">
@@ -125,7 +170,7 @@ export const StarIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
 export const CogIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.43.992a6.759 6.759 0 0 1 0 1.905c-.008.379.137.752.43.992l1.004.827a1.125 1.125 0 0 1 .26 1.43-1.125 1.125 0 0 1-1.37.49l-1.217-.456a1.125 1.125 0 0 1 1.075-.124c-.072.044-.146.087-.22.128-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.063-.374-.313-.686-.645-.87-.074-.04-.147-.083-.22-.127-.325-.196-.72-.257-1.075-.124l-1.217.456a1.125 1.125 0 0 1 1.37-.49l-1.296-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.759 6.759 0 0 1 0-1.905c.008-.379-.137-.752-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43 1.125 1.125 0 0 1 1.37-.49l1.217.456a1.125 1.125 0 0 1 1.075-.124c.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.213-1.28Z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.43.992a6.759 6.759 0 0 1 0 1.905c-.008.379.137.752.43.992l1.004.827a1.125 1.125 0 0 1 .26 1.43-1.125 1.125 0 0 1-1.37.49l-1.217-.456a1.125 1.125 0 0 1 1.075-.124c-.072.044-.146.087.22.128.332-.183.582-.495.644-.869l.213-1.28Z" />
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
     </svg>
 );
@@ -500,6 +545,26 @@ export const CCRBarcasLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props
       <rect width="48" height="48" rx="8" fill="#00AEEF"/>
       <path d="M12 24L24 16L36 24L24 32L12 24Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M12 30L24 22L36 30" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+export const SidePlaneIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" {...props}>
+        <g>
+           {/* Fuselage */}
+           <path d="M10 36 C 8 38, 2 36, 4 32 L 14 28 C 18 26, 26 26, 30 28 L 56 30 C 60 31, 62 33, 60 36 C 58 39, 50 38, 46 38 H 10 Z" fill="white" stroke="#1e293b" strokeWidth="2"/>
+           
+           {/* Tail (Blue) */}
+           <path d="M50 30 L 56 16 L 60 16 L 58 30 Z" fill="#00529B" stroke="#1e293b" strokeWidth="1"/>
+           
+           {/* Wing */}
+           <path d="M24 30 L 32 44 L 40 44 L 36 30 Z" fill="#cfd8dc" stroke="#1e293b" strokeWidth="1"/>
+           
+           {/* Windows */}
+           <circle cx="16" cy="32" r="1.5" fill="#1e293b"/>
+           <circle cx="20" cy="32" r="1.5" fill="#1e293b"/>
+           <circle cx="24" cy="32" r="1.5" fill="#1e293b"/>
+        </g>
     </svg>
 );
 

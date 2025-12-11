@@ -1,8 +1,42 @@
-<svg width="400" height="80" viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg">
+<svg width="320" height="60" viewBox="0 0 320 60" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;display=swap');
-    </style>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0077b6" />
+      <stop offset="100%" stop-color="#023e8a" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#70e000" />
+      <stop offset="100%" stop-color="#38b000" />
+    </linearGradient>
+    <radialGradient id="globeGrad" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+      <stop offset="0%" stop-color="#4cc9f0" />
+      <stop offset="100%" stop-color="#4361ee" />
+    </radialGradient>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.5"/>
+      <feOffset dx="1" dy="1" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feMerge> 
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
   </defs>
-  <text x="50%" y="65" font-family="'Arial Black', 'Helvetica Neue', sans-serif" font-weight="900" font-size="50" fill="#E50914" text-anchor="middle" letter-spacing="-2px" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">CHECK-IN, GO!</text>
+
+  <g filter="url(#dropShadow)">
+    <text x="5" y="45" font-family="'Arial Black', 'Helvetica Neue', sans-serif" font-weight="900" font-size="34" fill="url(#blueGrad)" letter-spacing="-1">CHECK-IN,</text>
+    
+    <text x="210" y="45" font-family="'Arial Black', 'Helvetica Neue', sans-serif" font-weight="900" font-size="34" fill="url(#greenGrad)">G</text>
+    
+    <g transform="translate(240, 17)">
+      <circle cx="14" cy="14" r="14" fill="url(#globeGrad)" />
+      <path d="M8,10 Q14,4 20,10 T22,22 T10,24 T8,10 Z" fill="#38b000" opacity="0.9" />
+      <path d="M18,6 Q22,4 24,8 T22,12 T18,6 Z" fill="#38b000" opacity="0.9" />
+      <circle cx="10" cy="10" r="4" fill="white" opacity="0.3" filter="blur(2px)" />
+    </g>
+
+    <text x="272" y="45" font-family="'Arial Black', 'Helvetica Neue', sans-serif" font-weight="900" font-size="34" fill="url(#greenGrad)">!</text>
+  </g>
 </svg>

@@ -9,7 +9,7 @@ import InfoModal from './InfoModal';
 import { 
     DownloadIcon, LogoutIcon, BellIcon, SearchIcon, PlayIcon,
     InfoIcon, StarIcon, HomeIcon, BackpackIcon, SparklesIcon,
-    ChevronDownIcon
+    ChevronDownIcon, BrandLogo
 } from './icons';
 import { useAuth } from '../contexts/AuthContext';
 import ImageUploader from './ImageUploader';
@@ -92,11 +92,7 @@ const Dashboard: React.FC<DashboardProps> = ({ installPromptEvent, onInstallSucc
             <nav className={`fixed top-0 w-full z-50 transition-all duration-500 px-4 md:px-12 py-3 flex items-center justify-between ${isScrolled ? 'bg-[#141414] shadow-md' : 'bg-gradient-to-b from-black/80 to-transparent'}`}>
                 <div className="flex items-center space-x-8">
                     <div className="flex items-center cursor-pointer" onClick={() => setActiveTab('home')}>
-                         <img 
-                            src="assets/logo.svg" 
-                            alt="CHECK-IN, GO!" 
-                            className="h-6 md:h-8 w-auto object-contain drop-shadow-md"
-                         />
+                         <BrandLogo className="h-8 md:h-10 w-auto drop-shadow-md" />
                     </div>
                     {!isAgent && (
                         <div className="hidden md:flex space-x-5 text-sm font-medium text-gray-300">
