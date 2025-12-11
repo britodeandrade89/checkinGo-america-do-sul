@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { destinations as allDestinations } from '../destinations';
 import type { Itinerary, Destination } from '../types';
@@ -58,12 +58,18 @@ const EpisodeRow: React.FC<{
 
 const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetails, onSelectItinerary }) => {
     const { userData } = useAuth();
-    const [isVisible, setIsVisible] = React.useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    // State to handle image load errors and fallback
+    const [imgSrc, setImgSrc] = useState<string>('');
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (selectionId !== null) {
             setIsVisible(true);
             document.body.style.overflow = 'hidden';
+            const dest = allDestinations.find(d => d.id === selectionId);
+            if (dest) {
+                setImgSrc(dest.imageUrl || '');
+            }
         } else {
             setIsVisible(false);
             document.body.style.overflow = '';
@@ -85,8 +91,12 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
 
     const isPremium = selectionId === 3;
     const detailedDays = isPremium && detailedRoutes[3] ? detailedRoutes[3].itinerary[0].days : [];
-
     const title = destination.title.split(':')[0]; // Short title
+
+    const handleImgError = () => {
+        // Fallback to a generic travel image if the specific one fails
+        setImgSrc('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1920&auto=format&fit=crop');
+    };
 
     return (
         <div className={`fixed inset-0 z-[60] flex items-end md:items-center justify-center transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
@@ -94,9 +104,15 @@ const InfoModal: React.FC<InfoModalProps> = ({ selectionId, onClose, onShowDetai
 
             <div className={`relative bg-[#181818] w-full md:max-w-4xl md:rounded-lg shadow-2xl transform transition-transform duration-300 ${isVisible ? 'translate-y-0' : 'translate-y-full md:translate-y-10'} h-[90vh] md:h-auto md:max-h-[90vh] flex flex-col overflow-hidden`}>
                 
-                {/* Header */}
-                <div className="relative h-64 md:h-96 flex-shrink-0">
-                    <img src={destination.imageUrl} alt={title} className="w-full h-full object-cover" />
+                {/* Header with "Video-like" animation */}
+                <div className="relative h-64 md:h-96 flex-shrink-0 overflow-hidden">
+                    <img 
+                        src={imgSrc} 
+                        alt={title} 
+                        className="w-full h-full object-cover animate-pan-image" 
+                        onError={handleImgError}
+                    />
+                    
                     {/* Dark gradients to ensure text legibility on bright backgrounds */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#181818] via-[#181818]/60 to-transparent"></div>
                     <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent h-32"></div>

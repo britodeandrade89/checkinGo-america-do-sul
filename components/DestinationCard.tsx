@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { Destination } from '../types';
 
 interface DestinationCardProps {
@@ -12,8 +12,13 @@ interface DestinationCardProps {
 const DestinationCard: React.FC<DestinationCardProps> = ({ destination, onShowInfo }) => {
   const { imageUrl } = destination;
   
-  // Force vertical crop styling
-  const bgImage = imageUrl || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=800&auto=format&fit=crop';
+  // Default fallback if initial URL is missing
+  const defaultImage = 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=800&auto=format&fit=crop';
+  const [imgSrc, setImgSrc] = useState(imageUrl || defaultImage);
+
+  const handleError = () => {
+    setImgSrc(defaultImage);
+  };
 
   return (
     <div 
@@ -21,9 +26,10 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, onShowIn
       className="group cursor-pointer relative w-[110px] md:w-[180px] aspect-[2/3] rounded-sm overflow-hidden transition-transform duration-300 md:hover:scale-110 md:hover:z-50"
     >
       <img 
-        src={bgImage} 
+        src={imgSrc} 
         alt={destination.title} 
         className="w-full h-full object-cover"
+        onError={handleError}
       />
       
       {/* Netflix N Logo Overlay on top left */}

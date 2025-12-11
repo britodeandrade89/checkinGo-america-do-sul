@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -24,6 +25,7 @@
               'zoom-in': 'zoomIn 0.8s ease-out forwards',
               'pop-up': 'popUp 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
               'fly': 'fly 3s linear infinite',
+              'pan-image': 'panImage 20s ease-in-out infinite alternate',
             },
             keyframes: {
               fadeIn: {
@@ -44,6 +46,10 @@
                 '10%': { opacity: '1' },
                 '90%': { opacity: '1' },
                 '100%': { left: '100%', opacity: '0' },
+              },
+              panImage: {
+                '0%': { transform: 'scale(1)' },
+                '100%': { transform: 'scale(1.15)' },
               }
             }
           }
