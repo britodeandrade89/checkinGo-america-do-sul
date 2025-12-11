@@ -25,7 +25,8 @@ export const destinations: Destination[] = [
 *Condições exclusivas para compra direta nos sites das companhias.*`,
         themeColor: '#22c55e', // Verde Ecológico
         icon: React.createElement(SearchIcon),
-        imageUrl: 'https://images.unsplash.com/photo-1598967993077-033107005f24?q=80&w=1920&auto=format&fit=crop', // Jardim Botânico
+        // Imagem corrigida: Jardim Botânico (Estufa) - Link direto e confiável
+        imageUrl: 'https://images.unsplash.com/photo-1558223690-337482813589?q=80&w=1920&auto=format&fit=crop', 
         carTrips: [],
         accommodations: [],
         additionalCosts: [
@@ -63,7 +64,8 @@ Nota Custo-Benefício: 7.5/10 ⭐
 ✅ Pontos Fortes: Localização "cult", perto de ótima gastronomia e área verde.`,
         themeColor: '#E60026', // Latam Redish
         icon: React.createElement(CheckShieldIcon),
-        imageUrl: 'https://images.unsplash.com/photo-1596476174624-9b883023240e?q=80&w=1920&auto=format&fit=crop', // Opera de Arame
+        // Imagem corrigida: Ópera de Arame
+        imageUrl: 'https://images.unsplash.com/photo-1574880290547-414872955513?q=80&w=1920&auto=format&fit=crop', 
         carTrips: [],
         accommodations: [],
         additionalCosts: [
@@ -97,7 +99,8 @@ Dia 8: Compras e Despedida
 Inclui estimativas de gastos diários ("A Dolorosa") e dicas de ouro.`,
         themeColor: '#FFD700', // Gold
         icon: React.createElement(StarIcon),
-        imageUrl: 'https://images.unsplash.com/photo-1582236166164-77897d264f35?q=80&w=1920&auto=format&fit=crop', // Museu Oscar Niemeyer
+        // Imagem corrigida: Museu Oscar Niemeyer (O Olho)
+        imageUrl: 'https://images.unsplash.com/photo-1582236166164-77897d264f35?q=80&w=1920&auto=format&fit=crop', 
         carTrips: [],
         accommodations: [],
         additionalCosts: [
